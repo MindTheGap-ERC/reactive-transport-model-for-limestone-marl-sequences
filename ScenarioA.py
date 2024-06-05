@@ -181,7 +181,7 @@ store_folder = "../Results/" + datetime.now().strftime("%d_%m_%Y_%H_%M_%S" + "/"
 os.makedirs(store_folder)
 stored_results = store_folder + "LMAHeureuxPorosityDiff.npy"
 # Reshape the results into a more handy format
-np.save(stored_results, np.array([(sol.y)[slices_for_all_fields[0], :] for i in range(5)]))
+np.save(stored_results, np.array([(sol.y)[slices_for_all_fields[i], :] for i in range(5)]))
 plt.tight_layout()
 plt.savefig("../Results/Final_compositions_and_concentrations_" + datetime.now().\
                       strftime("%d_%m_%Y_%H_%M_%S") + ".png")
