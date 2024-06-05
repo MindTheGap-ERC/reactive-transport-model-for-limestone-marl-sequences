@@ -6,8 +6,7 @@ from scipy.sparse import csr_matrix, find
 from Compute_jacobian import Jacobian
 from pde.grids.operators.cartesian import _make_derivative
 
-class LMAHeureuxPorosityDiff(PDEBase):
-    """SIR-model with diffusive mobility"""
+class LMAHeureuxPorosityDiff():
 
     def __init__(self, Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30, Phi0, 
                 sedimentationrate, Xstar, Tstar, k1, k2, k3, k4, m1, m2, n1, n2, 
@@ -117,9 +116,6 @@ class LMAHeureuxPorosityDiff(PDEBase):
         return FieldCollection([AragoniteSurface, CalciteSurface, CaSurface, 
                                 CO3Surface, PorSurface])
 
-    def evolution_rate(self, state: FieldBase, t: float = 0) -> FieldBase:
-        return super().evolution_rate(state, t)        
-     
     @staticmethod
     @njit
     def calculate_sigma(Peclet, W_data, Peclet_min, Peclet_max):
@@ -303,6 +299,7 @@ class LMAHeureuxPorosityDiff(PDEBase):
 
         return rhs
 
+    @staticmethod
     @njit
     def pde_rhs(CA, CC, cCa, \
             cCO3, Phi, KRat, \
