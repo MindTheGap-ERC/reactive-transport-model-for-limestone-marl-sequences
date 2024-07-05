@@ -88,7 +88,7 @@ eq = LMAHeureuxPorosityDiff(Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30
                             muA, D0Ca, PhiNR, PhiInfty, DCa, DCO3, 
                             not_too_shallow, not_too_deep)     
 
-timeMult = 2.5e5 / Tstar
+timeMult = 1e3 / Tstar
 end_time = timeMult * Tstar/Tstar
 # Number of times to evaluate, for storage.
 no_t_eval = 1000

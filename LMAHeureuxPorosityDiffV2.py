@@ -1,4 +1,5 @@
 import numpy as np
+import line_profiler
 from pde import FieldCollection, PDEBase, ScalarField, FieldBase
 from numba import njit
 np.seterr(divide="raise", over="raise", under="warn", invalid="raise")
@@ -133,6 +134,7 @@ class LMAHeureuxPorosityDiff():
                     1/Peclet[i]
         return sigma                       
 
+    @line_profiler.profile
     def fun(self, t, y, progress_proxy, progress_dt, t0):
         """ For tqdm to monitor progress. """
         """ From 
@@ -249,6 +251,7 @@ class LMAHeureuxPorosityDiff():
 
         return FieldCollection([dCA_dt, dCC_dt, dcCa_dt, dcCO3_dt, dPhi_dt]).data.ravel()
 
+    @line_profiler.profile
     def fun_numba(self, t, y, progress_proxy, progress_dt, t0):
         """ For tqdm to monitor progress. """
         """ From 
