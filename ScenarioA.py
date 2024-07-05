@@ -22,8 +22,8 @@ cCa0 = 0.326e-3/np.sqrt(KC)
 cCaIni = cCa0
 cCO30 = 0.326e-3/np.sqrt(KC)
 cCO3Ini = cCO30
-Phi0 = 0.6
-PhiIni = 0.5
+Phi0 = 0.8
+PhiIni = 0.8
 
 ShallowLimit = 50
 
@@ -88,10 +88,10 @@ eq = LMAHeureuxPorosityDiff(Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30
                             muA, D0Ca, PhiNR, PhiInfty, DCa, DCO3, 
                             not_too_shallow, not_too_deep)     
 
-timeMult = 1
+timeMult = 2.5e5 / Tstar
 end_time = timeMult * Tstar/Tstar
 # Number of times to evaluate, for storage.
-no_t_eval = 100
+no_t_eval = 1000
 t_eval = np.linspace(0, end_time, num = no_t_eval)
 
 state = eq.get_state(AragoniteSurface, CalciteSurface, CaSurface, 
@@ -100,16 +100,17 @@ state = eq.get_state(AragoniteSurface, CalciteSurface, CaSurface,
 y0 = state.data.ravel()   
 
 number_of_progress_updates = 100000
+t0 = 0
 
 start_computing = time.time()
-with tqdm(total=number_of_progress_updates, unit="‰") as pbar:
-    sol = solve_ivp(fun = eq.fun_numba, t_span = (0, end_time), y0 = y0, \
+with tqdm(total=number_of_progress_updates) as pbar:
+    sol = solve_ivp(fun = eq.fun_numba, t_span = (t0, end_time), y0 = y0, \
                 atol = 1e-3, rtol = 1e-3, t_eval= t_eval, \
                 events = [eq.zeros, eq.zeros_CA, eq.zeros_CC, \
                 eq.ones_CA_plus_CC, eq.ones_Phi, eq.zeros_U, eq.zeros_W],  \
                 method="RK23", dense_output= True,\
                 first_step = end_time/1e6, jac = eq.jac, \
-                args=[pbar, [0, 1/number_of_progress_updates]])
+                args=[pbar, (end_time - t0)/number_of_progress_updates, t0])
 end_computing = time.time()
 
 print()

@@ -93,6 +93,8 @@ class LMAHeureuxPorosityDiff():
         self.Peclet_min = 1e-2
         self.Peclet_max = 1/self.Peclet_min
 
+        self.last_t = 0.  # Helper variable for progress bar.
+
         # Make sure integration stops when we field values become less than zero
         # or more than one, in some cases. Or just register that this is happening
         # and continue integration, which corresponds to "False".
@@ -131,16 +133,17 @@ class LMAHeureuxPorosityDiff():
                     1/Peclet[i]
         return sigma                       
 
-    def fun(self, t, y, pbar, state):
+    def fun(self, t, y, progress_proxy, progress_dt, t0):
         """ For tqdm to monitor progress. """
         """ From 
-        https://stackoverflow.com/questions/59047892/how-to-monitor-the-process-of-scipy-odeint """
-        last_t, dt = state
-        n = int((t - last_t)/dt)
-        pbar.update(n)
-        # this we need to take into account that n is a rounded number.
-        state[0] = last_t + dt * n
-
+        https://stackoverflow.com/questions/59047892/
+        how-to-monitor-the-process-of-scipy-odeint """
+        if self.last_t == 0.:
+            self.last_t = t0        
+        n = int((t - self.last_t) / progress_dt)
+        progress_proxy.update(n)
+        self.last_t += n * progress_dt        
+        
         CA = ScalarField(self.Depths, y[self.slices_for_all_fields[0]])
         CC = ScalarField(self.Depths, y[self.slices_for_all_fields[1]])
         cCa = ScalarField(self.Depths, y[self.slices_for_all_fields[2]])
@@ -246,15 +249,16 @@ class LMAHeureuxPorosityDiff():
 
         return FieldCollection([dCA_dt, dCC_dt, dcCa_dt, dcCO3_dt, dPhi_dt]).data.ravel()
 
-    def fun_numba(self, t, y, pbar, state):
+    def fun_numba(self, t, y, progress_proxy, progress_dt, t0):
         """ For tqdm to monitor progress. """
         """ From 
-        https://stackoverflow.com/questions/59047892/how-to-monitor-the-process-of-scipy-odeint """
-        last_t, dt = state
-        n = int((t - last_t)/dt)
-        pbar.update(n)
-        # this we need to take into account that n is a rounded number.
-        state[0] = last_t + dt * n
+        https://stackoverflow.com/questions/59047892/
+        how-to-monitor-the-process-of-scipy-odeint """
+        if self.last_t == 0.:
+            self.last_t = t0        
+        n = int((t - self.last_t) / progress_dt)
+        progress_proxy.update(n)
+        self.last_t += n * progress_dt        
 
         """ the numba-accelerated evolution equation """     
         CA = ScalarField(self.Depths, y[self.slices_for_all_fields[0]])
@@ -458,7 +462,7 @@ class LMAHeureuxPorosityDiff():
 
         return jacob_csr
 
-    def zeros(self, t, y, pbar, state):
+    def zeros(self, t, y, progress_proxy, progress_dt, t0):
         """ solve_ivp demands that I add these two extra aguments, i.e.
         pbar and state, as in jac, where I need them for 
         tqdm progress display.
@@ -466,7 +470,7 @@ class LMAHeureuxPorosityDiff():
 
         return np.amin(y)
 
-    def zeros_CA(self, t, y, pbar, state):
+    def zeros_CA(self, t, y, progress_proxy, progress_dt, t0):
         """ solve_ivp demands that I add these two extra aguments, i.e.
         pbar and state, as in jac, where I need them for 
         tqdm progress display.
@@ -474,7 +478,7 @@ class LMAHeureuxPorosityDiff():
 
         return np.amin(y[self.CA_sl])
 
-    def zeros_CC(self, t, y, pbar, state):
+    def zeros_CC(self, t, y, progress_proxy, progress_dt, t0):
         """ solve_ivp demands that I add these two extra aguments, i.e.
         pbar and state, as in jac, where I need them for 
         tqdm progress display.
@@ -482,7 +486,7 @@ class LMAHeureuxPorosityDiff():
 
         return np.amin(y[self.CC_sl])
 
-    def ones_CA_plus_CC(self, t, y, pbar, state): 
+    def ones_CA_plus_CC(self, t, y, progress_proxy, progress_dt, t0): 
         """ solve_ivp demands that I add these two extra aguments, i.e.
         pbar and state, as in jac, where I need them for 
         tqdm progress display.
@@ -492,7 +496,7 @@ class LMAHeureuxPorosityDiff():
         CC = y[self.CC_sl]
         return np.amax(CA + CC) - 1
 
-    def ones_Phi(self, t, y, pbar, state): 
+    def ones_Phi(self, t, y, progress_proxy, progress_dt, t0): 
         """ solve_ivp demands that I add these two extra aguments, i.e.
         pbar and state, as in jac, where I need them for 
         tqdm progress display.
@@ -501,7 +505,7 @@ class LMAHeureuxPorosityDiff():
         Phi = y[self.Phi_sl]   
         return np.amax(Phi) - 1
 
-    def zeros_U(self, t, y, pbar, state): 
+    def zeros_U(self, t, y, progress_proxy, progress_dt, t0): 
         """ solve_ivp demands that I add these two extra aguments, i.e.
         pbar and state, as in jac, where I need them for 
         tqdm progress display.
@@ -515,7 +519,7 @@ class LMAHeureuxPorosityDiff():
         # is smallest.
         return np.amin(U)
 
-    def zeros_W(self, t, y, pbar, state): 
+    def zeros_W(self, t, y, progress_proxy, progress_dt, t0): 
         """ solve_ivp demands that I add these two extra aguments, i.e.
         pbar and state, as in jac, where I need them for 
         tqdm progress display.
@@ -530,15 +534,16 @@ class LMAHeureuxPorosityDiff():
         return np.amax(W)
 
 
-    def jac(self, t, y, pbar, state):
+    def jac(self, t, y, progress_proxy, progress_dt, t0):
         """ For tqdm to monitor progress. """
         """ From 
-        https://stackoverflow.com/questions/59047892/how-to-monitor-the-process-of-scipy-odeint """
-        last_t, dt = state
-        n = int((t - last_t)/dt)
-        pbar.update(n)
-        # this we need to take into account that n is a rounded number.
-        state[0] = last_t + dt * n
+        https://stackoverflow.com/questions/59047892/
+        how-to-monitor-the-process-of-scipy-odeint """
+        if self.last_t == 0.:
+            self.last_t = t0        
+        n = int((t - self.last_t) / progress_dt)
+        progress_proxy.update(n)
+        self.last_t += n * progress_dt        
         
         CA = y[self.CA_sl]
         CC = y[self.CC_sl]
