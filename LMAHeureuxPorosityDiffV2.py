@@ -84,9 +84,6 @@ class LMAHeureuxPorosityDiff():
         self.cCO3_sl = self.slices_for_all_fields[3]
         self.Phi_sl = self.slices_for_all_fields[4]
         
-        self.backward_diff = _make_derivative(Depths, method="backward")
-        self.forward_diff = _make_derivative(Depths, method="forward")
-
         # Fiadeiro-Veronis integration involves a coth and a reciprocal, which can
         # easily lead to FloatingPointError: overflow encountered in double_scalars.
         # To avoid this, better revert to either backwards or central differencing 
