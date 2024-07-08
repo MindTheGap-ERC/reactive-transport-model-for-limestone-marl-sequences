@@ -52,7 +52,7 @@ def np_heaviside(x1, x2):
 
     return heaviside_impl
 
-@njit
+@njit(cache=True)
 def Jacobian(CA, CC, cCa, cCO3, Phi, KRat, m1, m2, \
             n1, n2, nu1, nu2, not_too_deep, \
             not_too_shallow, lambda_, Da, delta, no_depths, no_fields):
