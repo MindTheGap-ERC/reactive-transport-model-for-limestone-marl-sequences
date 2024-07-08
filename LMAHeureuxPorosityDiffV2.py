@@ -329,161 +329,171 @@ class LMAHeureuxPorosityDiff():
         #     self.delta_x, self.Peclet_min, self.Peclet_max, \
         #     no_depths = self.Depths.shape[0])
 
-        @njit(cache=True)
-        def pde_rhs(CA, CC, cCa, \
-                cCO3, Phi, KRat, \
-                m1, m2, n1, n2, nu1, nu2, \
-                not_too_deep, not_too_shallow, presum, rhorat, \
-                lambda_, Da, dCa, dCO3, delta, auxcon, \
-                delta_x, Peclet_min, Peclet_max, no_depths):
-            """ compiled helper function evaluating right hand side """
+        return LMAHeureuxPorosityDiff.pde_rhs(CA, CC, cCa, cCO3, Phi, 
+                                              CA_grad_back_op, CC_grad_back_op,
+                                              cCa_grad_back_op, cCa_grad_forw_op, 
+                                              cCa_laplace_op, cCO3_grad_back_op, 
+                                              cCO3_grad_forw_op, cCO3_laplace_op, 
+                                              Phi_grad_back_op, Phi_grad_forw_op, 
+                                              Phi_laplace_op, KRat, m1, m2, n1, 
+                                              n2, nu1, nu2, not_too_deep, 
+                                              not_too_shallow, presum, rhorat, 
+                                              lambda_, Da, dCa, dCO3, delta, 
+                                              auxcon, delta_x, Peclet_min, 
+                                              Peclet_max, no_depths)
 
-            CA_grad_back = CA_grad_back_op(CA) 
-            CC_grad_back = CC_grad_back_op(CC)
-            cCa_grad_back = cCa_grad_back_op(cCa)
-            cCa_grad_forw = cCa_grad_forw_op(cCa)
-            cCa_laplace = cCa_laplace_op(cCa)
-            cCO3_grad_back = cCO3_grad_back_op(cCO3)
-            cCO3_grad_forw = cCO3_grad_forw_op(cCO3)
-            cCO3_laplace = cCO3_laplace_op(cCO3)
-            Phi_grad_back = Phi_grad_back_op(Phi) 
-            Phi_grad_forw = Phi_grad_forw_op(Phi)
-            Phi_laplace = Phi_laplace_op(Phi)
+    @staticmethod
+    @njit(cache=True)
+    def pde_rhs(CA, CC, cCa, cCO3, Phi, CA_grad_back_op, CC_grad_back_op, 
+                cCa_grad_back_op, cCa_grad_forw_op, cCa_laplace_op, 
+                cCO3_grad_back_op, cCO3_grad_forw_op, cCO3_laplace_op, 
+                Phi_grad_back_op, Phi_grad_forw_op, Phi_laplace_op, 
+                KRat, m1, m2, n1, n2, nu1, nu2, not_too_deep, not_too_shallow, 
+                presum, rhorat, lambda_, Da, dCa, dCO3, delta, auxcon, delta_x, 
+                Peclet_min, Peclet_max, no_depths):
+        """ compiled helper function evaluating right hand side """
 
-            denominator = np.empty(no_depths)
-            common_helper1 = np.empty(no_depths)
-            common_helper2 = np.empty(no_depths)
-            helper_cCa_grad = np.empty(no_depths)
-            helper_cCO3_grad = np.empty(no_depths)
-            F = np.empty(no_depths)
-            U = np.empty(no_depths)
-            W = np.empty(no_depths)
-            two_factors = np.empty(no_depths)
-            two_factors_upp_lim = np.empty(no_depths)
-            two_factors_low_lim = np.empty(no_depths)
-            three_factors = np.empty(no_depths)
-            three_factors_upp_lim = np.empty(no_depths)
-            three_factors_low_lim = np.empty(no_depths)
-            coA = np.empty(no_depths)
-            coC = np.empty(no_depths)
-            common_helper3 = np.empty(no_depths)
-            rate = np.empty(5 * no_depths)
-            dPhi = np.empty(no_depths)
-            dW_dx = np.empty(no_depths)
-            one_minus_Phi = np.empty(no_depths)
-            CA_grad = np.empty(no_depths)
-            CC_grad = np.empty(no_depths)
-            cCa_grad = np.empty(no_depths)
-            cCO3_grad = np.empty(no_depths)
-            Phi_grad = np.empty(no_depths)
+        CA_grad_back = CA_grad_back_op(CA) 
+        CC_grad_back = CC_grad_back_op(CC)
+        cCa_grad_back = cCa_grad_back_op(cCa)
+        cCa_grad_forw = cCa_grad_forw_op(cCa)
+        cCa_laplace = cCa_laplace_op(cCa)
+        cCO3_grad_back = cCO3_grad_back_op(cCO3)
+        cCO3_grad_forw = cCO3_grad_forw_op(cCO3)
+        cCO3_laplace = cCO3_laplace_op(cCO3)
+        Phi_grad_back = Phi_grad_back_op(Phi) 
+        Phi_grad_forw = Phi_grad_forw_op(Phi)
+        Phi_laplace = Phi_laplace_op(Phi)
 
-            for i in range(no_depths):
-                F[i] = 1 - np.exp(10 - 10 / Phi[i])
+        denominator = np.empty(no_depths)
+        common_helper1 = np.empty(no_depths)
+        common_helper2 = np.empty(no_depths)
+        helper_cCa_grad = np.empty(no_depths)
+        helper_cCO3_grad = np.empty(no_depths)
+        F = np.empty(no_depths)
+        U = np.empty(no_depths)
+        W = np.empty(no_depths)
+        two_factors = np.empty(no_depths)
+        two_factors_upp_lim = np.empty(no_depths)
+        two_factors_low_lim = np.empty(no_depths)
+        three_factors = np.empty(no_depths)
+        three_factors_upp_lim = np.empty(no_depths)
+        three_factors_low_lim = np.empty(no_depths)
+        coA = np.empty(no_depths)
+        coC = np.empty(no_depths)
+        common_helper3 = np.empty(no_depths)
+        rate = np.empty(5 * no_depths)
+        dPhi = np.empty(no_depths)
+        dW_dx = np.empty(no_depths)
+        one_minus_Phi = np.empty(no_depths)
+        CA_grad = np.empty(no_depths)
+        CC_grad = np.empty(no_depths)
+        cCa_grad = np.empty(no_depths)
+        cCO3_grad = np.empty(no_depths)
+        Phi_grad = np.empty(no_depths)
 
-                U[i] = presum + rhorat * Phi[i] ** 3 * F[i]/ (1 - Phi[i])
+        for i in range(no_depths):
+            F[i] = 1 - np.exp(10 - 10 / Phi[i])
 
-                # Enforce no bottom boundary condition for CA and CC by using
-                # backwards differencing only.
-                CA_grad[i] = CA_grad_back[i]
-                CC_grad[i] = CC_grad_back[i]
+            U[i] = presum + rhorat * Phi[i] ** 3 * F[i]/ (1 - Phi[i])
 
-                W[i] = presum - rhorat * Phi[i] ** 2 * F[i]
+            # Enforce no bottom boundary condition for CA and CC by using
+            # backwards differencing only.
+            CA_grad[i] = CA_grad_back[i]
+            CC_grad[i] = CC_grad_back[i]
 
-                # Implementing equation 6 from l'Heureux.
-                denominator[i] = 1 - 2 * np.log(Phi[i])
+            W[i] = presum - rhorat * Phi[i] ** 2 * F[i]
 
-                # Fiadeiro-Veronis scheme for equations 42 and 43
-                # from l'Heureux. 
-                Peclet_cCa = W[i] * delta_x * denominator[i]/ (2. * dCa )
-                if np.abs(Peclet_cCa) < Peclet_min:
-                    sigma_cCa = 0
-                elif np.abs(Peclet_cCa) > Peclet_max:
-                    sigma_cCa = np.sign(W[i])
-                else:
-                     sigma_cCa = np.cosh(Peclet_cCa)/np.sinh(Peclet_cCa) - 1/Peclet_cCa
+            # Implementing equation 6 from l'Heureux.
+            denominator[i] = 1 - 2 * np.log(Phi[i])
 
-                Peclet_cCO3 = W[i] * delta_x * denominator[i]/ (2. * dCO3)
-                if np.abs(Peclet_cCO3) < Peclet_min:
-                    sigma_cCO3 = 0
-                elif np.abs(Peclet_cCO3) > Peclet_max:
-                    sigma_cCO3 = np.sign(W[i])
-                else:
-                    sigma_cCO3 = np.cosh(Peclet_cCO3)/np.sinh(Peclet_cCO3) - 1/Peclet_cCO3
+            # Fiadeiro-Veronis scheme for equations 42 and 43
+            # from l'Heureux. 
+            Peclet_cCa = W[i] * delta_x * denominator[i]/ (2. * dCa )
+            if np.abs(Peclet_cCa) < Peclet_min:
+                sigma_cCa = 0
+            elif np.abs(Peclet_cCa) > Peclet_max:
+                sigma_cCa = np.sign(W[i])
+            else:
+                 sigma_cCa = np.cosh(Peclet_cCa)/np.sinh(Peclet_cCa) - 1/Peclet_cCa
 
-                one_minus_Phi[i] = 1 - Phi[i]                 
-                dPhi[i] = auxcon * F[i] * (Phi[i] ** 3) / one_minus_Phi[i]
-                Peclet_Phi = W[i] * delta_x / (2. * dPhi[i])
-                if np.abs(Peclet_Phi) < Peclet_min:
-                    sigma_Phi = 0
-                elif np.abs(Peclet_Phi) > Peclet_max:
-                    sigma_Phi = np.sign(W[i])
-                else:
-                    sigma_Phi = np.cosh(Peclet_Phi)/np.sinh(Peclet_Phi) - 1/Peclet_Phi
+            Peclet_cCO3 = W[i] * delta_x * denominator[i]/ (2. * dCO3)
+            if np.abs(Peclet_cCO3) < Peclet_min:
+                sigma_cCO3 = 0
+            elif np.abs(Peclet_cCO3) > Peclet_max:
+                sigma_cCO3 = np.sign(W[i])
+            else:
+                sigma_cCO3 = np.cosh(Peclet_cCO3)/np.sinh(Peclet_cCO3) - 1/Peclet_cCO3
 
-                cCa_grad[i] = 0.5 * ((1-sigma_cCa) * cCa_grad_forw[i] + \
-                              (1+sigma_cCa) * cCa_grad_back[i])
-                cCO3_grad[i] = 0.5 * ((1-sigma_cCO3) * cCO3_grad_forw[i] + \
-                              (1+sigma_cCO3) * cCO3_grad_back[i])
-                Phi_grad[i] = 0.5 * ((1-sigma_Phi) * Phi_grad_forw [i]+ \
-                              (1+sigma_Phi) * Phi_grad_back[i])
+            one_minus_Phi[i] = 1 - Phi[i]                 
+            dPhi[i] = auxcon * F[i] * (Phi[i] ** 3) / one_minus_Phi[i]
+            Peclet_Phi = W[i] * delta_x / (2. * dPhi[i])
+            if np.abs(Peclet_Phi) < Peclet_min:
+                sigma_Phi = 0
+            elif np.abs(Peclet_Phi) > Peclet_max:
+                sigma_Phi = np.sign(W[i])
+            else:
+                sigma_Phi = np.cosh(Peclet_Phi)/np.sinh(Peclet_Phi) - 1/Peclet_Phi
 
-                common_helper1[i] = Phi[i]/denominator[i]
-                common_helper2[i] = Phi_grad[i] * (2 + denominator[i]) \
-                                    / denominator[i] ** 2
-                helper_cCa_grad[i] = dCa * (common_helper2[i] * cCa_grad[i] \
-                                     + common_helper1[i] * cCa_laplace[i])
-                helper_cCO3_grad[i] = dCO3 * (common_helper2[i] * cCO3_grad[i] \
-                                     + common_helper1[i] * cCO3_laplace[i])            
+            cCa_grad[i] = 0.5 * ((1-sigma_cCa) * cCa_grad_forw[i] + \
+                          (1+sigma_cCa) * cCa_grad_back[i])
+            cCO3_grad[i] = 0.5 * ((1-sigma_cCO3) * cCO3_grad_forw[i] + \
+                          (1+sigma_cCO3) * cCO3_grad_back[i])
+            Phi_grad[i] = 0.5 * ((1-sigma_Phi) * Phi_grad_forw [i]+ \
+                          (1+sigma_Phi) * Phi_grad_back[i])
 
-                two_factors[i] = cCa[i] * cCO3[i]
-                two_factors_upp_lim[i] = min(two_factors[i],1)
-                two_factors_low_lim[i] = max(two_factors[i],1)
-                three_factors[i] = two_factors[i] * KRat
-                three_factors_upp_lim[i] = min(three_factors[i],1)
-                three_factors_low_lim[i] = max(three_factors[i],1)
+            common_helper1[i] = Phi[i]/denominator[i]
+            common_helper2[i] = Phi_grad[i] * (2 + denominator[i]) \
+                                / denominator[i] ** 2
+            helper_cCa_grad[i] = dCa * (common_helper2[i] * cCa_grad[i] \
+                                 + common_helper1[i] * cCa_laplace[i])
+            helper_cCO3_grad[i] = dCO3 * (common_helper2[i] * cCO3_grad[i] \
+                                 + common_helper1[i] * cCO3_laplace[i])            
 
-                coA[i] = CA[i] * (((1 - three_factors_upp_lim[i]) ** m2) * \
-                    (not_too_deep[i] * not_too_shallow[i]) - nu1 * \
-                    (three_factors_low_lim[i] - 1) ** m1)
+            two_factors[i] = cCa[i] * cCO3[i]
+            two_factors_upp_lim[i] = min(two_factors[i],1)
+            two_factors_low_lim[i] = max(two_factors[i],1)
+            three_factors[i] = two_factors[i] * KRat
+            three_factors_upp_lim[i] = min(three_factors[i],1)
+            three_factors_low_lim[i] = max(three_factors[i],1)
 
-                coC[i] = CC[i] * (((two_factors_low_lim[i] - 1) ** n1) - nu2 * \
-                    (1 - two_factors_upp_lim[i]) ** n2)         
+            coA[i] = CA[i] * (((1 - three_factors_upp_lim[i]) ** m2) * \
+                (not_too_deep[i] * not_too_shallow[i]) - nu1 * \
+                (three_factors_low_lim[i] - 1) ** m1)
 
-                common_helper3[i] = coA[i] - lambda_* coC[i]
-                   
-                dW_dx[i] = -rhorat * Phi_grad[i] * (2 * Phi[i] * F[i] + 10 * (F[i] - 1))    
-           
-                # This is dCA_dt
-                rate[i] = - U[i] * CA_grad[i] - Da * ((1 - CA[i]) \
-                                        * coA[i] + lambda_ * CA[i] * coC[i])
+            coC[i] = CC[i] * (((two_factors_low_lim[i] - 1) ** n1) - nu2 * \
+                (1 - two_factors_upp_lim[i]) ** n2)         
 
-                # This is dCC_dt
-                rate[no_depths + i] = - U[i] * CC_grad[i] + Da * (lambda_ * \
-                                        (1 - CC[i]) * coC[i] + CC[i] * coA[i])              
+            common_helper3[i] = coA[i] - lambda_* coC[i]
+               
+            dW_dx[i] = -rhorat * Phi_grad[i] * (2 * Phi[i] * F[i] + 10 * (F[i] - 1))    
+       
+            # This is dCA_dt
+            rate[i] = - U[i] * CA_grad[i] - Da * ((1 - CA[i]) \
+                                    * coA[i] + lambda_ * CA[i] * coC[i])
 
-                # This is dcCa_dt
-                rate[2 * no_depths + i] =  helper_cCa_grad[i]/Phi[i] - W[i] * \
-                                            cCa_grad[i] + Da * one_minus_Phi[i] * \
-                                            (delta - cCa[i]) * common_helper3[i] \
-                                            /Phi[i]                                 
+            # This is dCC_dt
+            rate[no_depths + i] = - U[i] * CC_grad[i] + Da * (lambda_ * \
+                                    (1 - CC[i]) * coC[i] + CC[i] * coA[i])              
 
-                # This is dcCO3_dt
-                rate[3 * no_depths + i] =  helper_cCO3_grad[i]/Phi[i] - W[i] * \
-                                            cCO3_grad[i] + Da * one_minus_Phi[i] * \
-                                            (delta - cCO3[i]) * common_helper3[i] \
-                                            /Phi[i]                       
+            # This is dcCa_dt
+            rate[2 * no_depths + i] =  helper_cCa_grad[i]/Phi[i] - W[i] * \
+                                        cCa_grad[i] + Da * one_minus_Phi[i] * \
+                                        (delta - cCa[i]) * common_helper3[i] \
+                                        /Phi[i]                                 
 
-                # This is dPhi_dt
-                rate[4 * no_depths + i] = - (dW_dx[i] * Phi[i] + W[i] * Phi_grad[i]) \
-                                          + dPhi[i] * Phi_laplace[i] + Da * one_minus_Phi[i] \
-                                          * common_helper3[i] 
+            # This is dcCO3_dt
+            rate[3 * no_depths + i] =  helper_cCO3_grad[i]/Phi[i] - W[i] * \
+                                        cCO3_grad[i] + Da * one_minus_Phi[i] * \
+                                        (delta - cCO3[i]) * common_helper3[i] \
+                                        /Phi[i]                       
 
-            return rate
+            # This is dPhi_dt
+            rate[4 * no_depths + i] = - (dW_dx[i] * Phi[i] + W[i] * Phi_grad[i]) \
+                                      + dPhi[i] * Phi_laplace[i] + Da * one_minus_Phi[i] \
+                                      * common_helper3[i] 
 
-        return pde_rhs(CA.data, CC.data, cCa.data, cCO3.data, Phi.data, KRat,
-                       m1, m2, n1, n2, nu1, nu2, not_too_deep, not_too_shallow,
-                       presum, rhorat, lambda_, Da, dCa, dCO3, delta, auxcon,
-                       delta_x, Peclet_min, Peclet_max, no_depths)
+        return rate
 
     def jacobian_sparsity(self):
         no_depths = self.Depths.shape[0]
