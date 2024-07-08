@@ -88,8 +88,7 @@ eq = LMAHeureuxPorosityDiff(Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30
                             muA, D0Ca, PhiNR, PhiInfty, DCa, DCO3, 
                             not_too_shallow, not_too_deep)     
 
-timeMult = 1e3 / Tstar
-end_time = timeMult * Tstar/Tstar
+end_time = 10 / Tstar
 # Number of times to evaluate, for storage.
 no_t_eval = 1000
 t_eval = np.linspace(0, end_time, num = no_t_eval)
@@ -108,8 +107,8 @@ with tqdm(total=number_of_progress_updates) as pbar:
                 atol = 1e-3, rtol = 1e-3, t_eval= t_eval, \
                 events = [eq.zeros, eq.zeros_CA, eq.zeros_CC, \
                 eq.ones_CA_plus_CC, eq.ones_Phi, eq.zeros_U, eq.zeros_W],  \
-                method="RK23", dense_output= True,\
-                first_step = end_time/1e6, jac = eq.jac, \
+                method="RK23", dense_output= False,\
+                first_step = 1e-6, jac = eq.jac, \
                 args=[pbar, (end_time - t0)/number_of_progress_updates, t0])
 end_computing = time.time()
 
