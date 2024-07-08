@@ -78,6 +78,7 @@ class LMAHeureuxPorosityDiff():
                  (1 - np.exp(10 - 10 / self.Phi0)) / (1 - self.Phi0)  
         self.not_too_shallow = not_too_shallow.data
         self.not_too_deep = not_too_deep.data      
+
         self.CA_sl= self.slices_all_fields[0]
         self.CC_sl = self.slices_all_fields[1]
         self.cCa_sl = self.slices_all_fields[2]
@@ -94,8 +95,14 @@ class LMAHeureuxPorosityDiff():
         self.last_t = 0.  # Helper variable for progress bar.
 
         # Make operators for use in Numba compiled (i.e. jit compiled) functions.
+        # Instead of the default central differenced gradient from py-pde
+        # construct forward and backward differenced gradients and apply
+        # either one of them, based on the sign of U.
         self.CA_grad_back_op = self.Depths.make_operator("grad_back", self.bc_CA)
         self.CC_grad_back_op = self.Depths.make_operator("grad_back", self.bc_CC)
+        # Instead of the default central differenced gradient from py-pde
+        # construct forward and backward differenced gradients and give them
+        # appropriate weights according to a Fiadeiro-Veronis scheme.
         self.cCa_grad_back_op = self.Depths.make_operator("grad_back", self.bc_cCa)
         self.cCa_grad_forw_op = self.Depths.make_operator("grad_forw", self.bc_cCa)      
         self.cCa_laplace_op = self.Depths.make_operator("laplace", self.bc_cCa)
@@ -125,12 +132,6 @@ class LMAHeureuxPorosityDiff():
         CaSurface.label = "Ca"
         CO3Surface.label = "CO3"
         PorSurface.label = "Po"
-
-        self.AragoniteSurface = AragoniteSurface
-        self.CalciteSurface = CalciteSurface
-        self.CaSurface = CaSurface
-        self.CO3Surface = CO3Surface
-        self.PorSurface = PorSurface
 
         return FieldCollection([AragoniteSurface, CalciteSurface, CaSurface, 
                                 CO3Surface, PorSurface])
@@ -303,34 +304,11 @@ class LMAHeureuxPorosityDiff():
         Peclet_max = self.Peclet_max
         no_depths = self.Depths.shape[0]
 
-        CA = ScalarField(self.Depths, y[self.slices_all_fields[0]])
-        # print(f"\n type(CA.data) = {type(CA.data)}, \n, np.info(CA.data) = {np.info(CA.data)}\n")
-        CC = ScalarField(self.Depths, y[self.slices_all_fields[1]])
-        # print(f"\n type(CC) = {type(CC)}, \n, np.info(CC) = {np.info(CC)}\n")
-        cCa = ScalarField(self.Depths, y[self.slices_all_fields[2]])
-        cCO3 = ScalarField(self.Depths, y[self.slices_all_fields[3]])
-        Phi = ScalarField(self.Depths, y[self.slices_all_fields[4]])
-
-        # Instead of the default central differenced gradient from py-pde
-        # construct forward and backward differenced gradients and apply
-        # either one of them, based on the sign of U.
-        # CA_grad_back = CA.apply_operator("grad_back", self.bc_CA)
-        # CC_grad_back = CC.apply_operator("grad_back", self.bc_CC)
-
-        # # Instead of the default central differenced gradient from py-pde
-        # # construct forward and backward differenced gradients and give them
-        # # appropriate weights according to a Fiadeiro-Veronis scheme.
-        # cCa_grad_back = cCa.apply_operator("grad_back", self.bc_cCa)
-        # cCa_grad_forw = cCa.apply_operator("grad_forw", self.bc_cCa)      
-        # cCa_laplace = cCa.laplace(self.bc_cCa)
-
-        # cCO3_grad_back = cCO3.apply_operator("grad_back", self.bc_cCO3)
-        # cCO3_grad_forw = cCO3.apply_operator("grad_forw", self.bc_cCO3)
-        # cCO3_laplace = cCO3.laplace(self.bc_cCO3)
-
-        # Phi_grad_back = Phi.apply_operator("grad_back", self.bc_Phi)
-        # Phi_grad_forw = Phi.apply_operator("grad_forw", self.bc_Phi)
-        # Phi_laplace = Phi.laplace(self.bc_Phi)
+        CA = y[self.CA_sl]
+        CC = y[self.CC_sl]
+        cCa = y[self.cCa_sl]
+        cCO3 = y[self.cCO3_sl]
+        Phi = y[self.Phi_sl]
 
         CA_grad_back_op = self.CA_grad_back_op
         CC_grad_back_op = self.CC_grad_back_op 
