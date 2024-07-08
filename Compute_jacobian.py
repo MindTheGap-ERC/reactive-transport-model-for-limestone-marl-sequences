@@ -289,149 +289,139 @@ def Jacobian(CA, CC, cCa, cCO3, Phi, KRat, m1, m2, \
                (-nu2 * max_one_m_two_f ** n2 + \
                max_two_f_m_one ** n1)) """
 
-    def compute_all_Jacobian_elements():
-        row_indices = np.arange(no_depths)
-        col_indices = np.arange(no_depths)
-        n = no_fields * no_depths 
-        all_jac_values = np.zeros((n, n))
-        for i in range(no_fields):
-            row = i * no_depths + row_indices
-            for j in range(no_fields):
-                col = j * no_depths + col_indices
-                # row_and_col = (row, col)
-                if i == 0 and j == 0:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*(-CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) + CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1) + (1 - CA)*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]
-                elif i == 0 and j == 1:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -CA*Da*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1)
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i == 0 and j == 2:    
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*(CA*CC*lambda_*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)) + CA*(1 - CA)*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i == 0 and j == 3:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*(CA*CC*lambda_*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)) + CA*(1 - CA)*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i == 0 and j == 4:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = np.zeros(no_depths)
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                     
-                elif i==1 and j == 0:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = CC*Da*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1)
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==1 and j == 1:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1) + lambda_*(1 - CC)*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==1 and j == 2:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(CA*CC*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) + CC*lambda_*(1 - CC)*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==1 and j == 3:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(CA*CC*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) + CC*lambda_*(1 - CC)*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==1 and j == 4:    
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = np.zeros(no_depths)
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                          
-                elif i==2 and j == 0:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(-cCa + delta)*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1)/Phi
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==2 and j == 1:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*lambda_*(1 - Phi)*(-cCa + delta)*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1)/Phi
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==2 and j == 2:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(-cCa + delta)*(CA*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))/Phi - Da*(1 - Phi)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==2 and j == 3:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(-cCa + delta)*(CA*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))/Phi
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==2 and j == 4:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*(-cCa + delta)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi - Da*(1 - Phi)*(-cCa + delta)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi**2
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==3 and j == 0:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(-cCO3 + delta)*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1)/Phi
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                     
-                elif i==3 and j == 1:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*lambda_*(1 - Phi)*(-cCO3 + delta)*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1)/Phi
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==3 and j == 2:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(-cCO3 + delta)*(CA*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))/Phi
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==3 and j == 3:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(-cCO3 + delta)*(CA*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))/Phi - Da*(1 - Phi)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==3 and j == 4:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*(-cCO3 + delta)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi - Da*(1 - Phi)*(-cCO3 + delta)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi**2
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                      
-                elif i==4 and j == 0:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1)
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==4 and j == 1:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*lambda_*(1 - Phi)*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1)
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                    
-                elif i==4 and j == 2:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(CA*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                        
-                elif i==4 and j == 3:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = Da*(1 - Phi)*(CA*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                          
-                elif i==4 and j == 4:
-                    # Need this extra loop because of Numba limitations.
-                    jac_values = -Da*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))
-                    for k in range(no_depths):
-                        all_jac_values[row[k], col[k]] = jac_values[k]                                                                            
-
-        return all_jac_values
-        
-    return compute_all_Jacobian_elements()
-
-    
-
-
-
-
-
+    # def compute_all_Jacobian_elements():
+    row_indices = np.arange(no_depths)
+    col_indices = np.arange(no_depths)
+    n = no_fields * no_depths 
+    all_jac_values = np.zeros((n, n))
+    for i in range(no_fields):
+        row = i * no_depths + row_indices
+        for j in range(no_fields):
+            col = j * no_depths + col_indices
+            # row_and_col = (row, col)
+            if i == 0 and j == 0:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*(-CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) + CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1) + (1 - CA)*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]
+            elif i == 0 and j == 1:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -CA*Da*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1)
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i == 0 and j == 2:    
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*(CA*CC*lambda_*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)) + CA*(1 - CA)*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i == 0 and j == 3:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*(CA*CC*lambda_*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)) + CA*(1 - CA)*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i == 0 and j == 4:
+                # Need this extra loop because of Numba limitations.
+                jac_values = np.zeros(no_depths)
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                     
+            elif i==1 and j == 0:
+                # Need this extra loop because of Numba limitations.
+                jac_values = CC*Da*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1)
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==1 and j == 1:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1) + lambda_*(1 - CC)*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==1 and j == 2:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(CA*CC*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) + CC*lambda_*(1 - CC)*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==1 and j == 3:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(CA*CC*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) + CC*lambda_*(1 - CC)*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==1 and j == 4:    
+                # Need this extra loop because of Numba limitations.
+                jac_values = np.zeros(no_depths)
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                          
+            elif i==2 and j == 0:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(-cCa + delta)*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1)/Phi
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==2 and j == 1:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*lambda_*(1 - Phi)*(-cCa + delta)*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1)/Phi
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==2 and j == 2:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(-cCa + delta)*(CA*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))/Phi - Da*(1 - Phi)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==2 and j == 3:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(-cCa + delta)*(CA*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))/Phi
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==2 and j == 4:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*(-cCa + delta)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi - Da*(1 - Phi)*(-cCa + delta)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi**2
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==3 and j == 0:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(-cCO3 + delta)*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1)/Phi
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                     
+            elif i==3 and j == 1:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*lambda_*(1 - Phi)*(-cCO3 + delta)*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1)/Phi
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==3 and j == 2:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(-cCO3 + delta)*(CA*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))/Phi
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==3 and j == 3:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(-cCO3 + delta)*(CA*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))/Phi - Da*(1 - Phi)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==3 and j == 4:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*(-cCO3 + delta)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi - Da*(1 - Phi)*(-cCO3 + delta)*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))/Phi**2
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                      
+            elif i==4 and j == 0:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1)
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==4 and j == 1:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*lambda_*(1 - Phi)*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1)
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                    
+            elif i==4 and j == 2:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(CA*(-KRat*cCO3*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCO3*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCO3*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCO3*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                        
+            elif i==4 and j == 3:
+                # Need this extra loop because of Numba limitations.
+                jac_values = Da*(1 - Phi)*(CA*(-KRat*cCa*m1*nu1*hs_thr_f_m_one*max_thr_f_m_one**(m1-1) - KRat*cCa*m2*selected_depths*hs_one_m_thr_f*max_one_m_thr_f**(m2-1)) - CC*lambda_*(cCa*n1*hs_two_f_m_one*max_two_f_m_one**(n1-1) + cCa*n2*nu2*hs_one_m_two_f*max_one_m_two_f**(n2-1)))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                          
+            elif i==4 and j == 4:
+                # Need this extra loop because of Numba limitations.
+                jac_values = -Da*(CA*(selected_depths*max_one_m_thr_f**m2 - nu1*max_thr_f_m_one**m1) - CC*lambda_*(-nu2*max_one_m_two_f**n2 + max_two_f_m_one**n1))
+                for k in range(no_depths):
+                    all_jac_values[row[k], col[k]] = jac_values[k]                                                                            
+    return all_jac_values
