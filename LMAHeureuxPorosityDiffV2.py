@@ -10,9 +10,9 @@ from pde.grids.operators.cartesian import _make_derivative
 class LMAHeureuxPorosityDiff():
 
     def __init__(self, Depths, slices_all_fields, CA0, CC0, cCa0, cCO30, Phi0, 
-                sedimentationrate, Xstar, Tstar, k1, k2, k3, k4, m1, m2, n1, n2, 
-                b, beta, rhos, rhow, rhos0, KA, KC, muA, D0Ca, PhiNR, PhiInfty, 
-                DCa, DCO3, not_too_shallow, not_too_deep):  
+                 sedimentationrate, Xstar, Tstar, k1, k2, k3, k4, m1, m2, n1, 
+                 n2, b, beta, rhos, rhow, rhos0, KA, KC, muA, D0Ca, PhiNR, 
+                 PhiInfty, PhiIni, DCa, DCO3, not_too_shallow, not_too_deep):  
         self.no_fields = 5
         self.Depths = Depths    
         self.Depths.register_operator("grad_back", \
@@ -124,6 +124,17 @@ class LMAHeureuxPorosityDiff():
         setattr(self.zeros_U.__func__, "terminal", False)
         setattr(self.zeros_W.__func__, "terminal", False)
 
+        # Accommodate for fixed porosity diffusion coefficient.
+        # Beware that the functional Jacobian has not been aligned with this,
+        # i.e. it was derived using a porosity diffusion coefficient depending
+        # on a time-varying porosity. This will all be fine if you do not set
+        # 'jac=eq.jac' in solve_ivp, but leave it empty such that a numerically
+        # approximated Jacobian will be used.
+        self.PhiIni = PhiIni
+        self.F_fixed = 1 - np.exp(10 - 10 / self.PhiIni)
+        self.dPhi_fixed = self.auxcon * self.F_fixed *\
+                          self.PhiIni ** 3 / (1 - self.PhiIni)         
+
     def get_state(self, AragoniteSurface, CalciteSurface, CaSurface, CO3Surface, 
                   PorSurface):
         """generate a suitable initial state"""
@@ -221,7 +232,8 @@ class LMAHeureuxPorosityDiff():
             Peclet_cCO3.data, W.data, self.Peclet_min, self.Peclet_max)
         sigma_cCO3 = ScalarField(self.Depths, sigma_cCO3_data)
 
-        dPhi = self.auxcon * F * (Phi ** 3) / (1 - Phi)
+        # dPhi = self.auxcon * F * (Phi ** 3) / (1 - Phi)
+        dPhi = self.dPhi_fixed
         Peclet_Phi = common_Peclet / dPhi
         sigma_Phi_data = LMAHeureuxPorosityDiff.calculate_sigma(\
             Peclet_Phi.data, W.data, self.Peclet_min, self.Peclet_max)
@@ -303,6 +315,7 @@ class LMAHeureuxPorosityDiff():
         Peclet_min = self.Peclet_min
         Peclet_max = self.Peclet_max
         no_depths = self.Depths.shape[0]
+        dPhi_fixed = self.dPhi_fixed
 
         CA = y[self.CA_sl]
         CC = y[self.CC_sl]
@@ -321,13 +334,6 @@ class LMAHeureuxPorosityDiff():
         Phi_grad_back_op = self.Phi_grad_back_op 
         Phi_grad_forw_op = self.Phi_grad_forw_op 
         Phi_laplace_op = self.Phi_laplace_op 
-        # rhs = LMAHeureuxPorosityDiff.pde_rhs(CA.data, CC.data, cCa.data, \
-        #     cCO3.data, Phi.data, self.KRat, \
-        #     self.m1, self.m2, self.n1, self.n2, self.nu1, self.nu2, \
-        #     self.not_too_deep, self.not_too_shallow, self.presum, self.rhorat, \
-        #     self.lambda_, self.Da, self.dCa, self.dCO3, self.delta, self.auxcon, \
-        #     self.delta_x, self.Peclet_min, self.Peclet_max, \
-        #     no_depths = self.Depths.shape[0])
 
         return LMAHeureuxPorosityDiff.pde_rhs(CA, CC, cCa, cCO3, Phi, 
                                               CA_grad_back_op, CC_grad_back_op,
@@ -340,7 +346,7 @@ class LMAHeureuxPorosityDiff():
                                               not_too_shallow, presum, rhorat, 
                                               lambda_, Da, dCa, dCO3, delta, 
                                               auxcon, delta_x, Peclet_min, 
-                                              Peclet_max, no_depths)
+                                              Peclet_max, no_depths, dPhi_fixed)
 
     @staticmethod
     @njit(cache=True)
@@ -350,7 +356,7 @@ class LMAHeureuxPorosityDiff():
                 Phi_grad_back_op, Phi_grad_forw_op, Phi_laplace_op, 
                 KRat, m1, m2, n1, n2, nu1, nu2, not_too_deep, not_too_shallow, 
                 presum, rhorat, lambda_, Da, dCa, dCO3, delta, auxcon, delta_x, 
-                Peclet_min, Peclet_max, no_depths):
+                Peclet_min, Peclet_max, no_depths, dPhi_fixed):
         """ compiled helper function evaluating right hand side """
 
         CA_grad_back = CA_grad_back_op(CA) 
@@ -426,7 +432,9 @@ class LMAHeureuxPorosityDiff():
                 sigma_cCO3 = np.cosh(Peclet_cCO3)/np.sinh(Peclet_cCO3) - 1/Peclet_cCO3
 
             one_minus_Phi[i] = 1 - Phi[i]                 
-            dPhi[i] = auxcon * F[i] * (Phi[i] ** 3) / one_minus_Phi[i]
+            # dPhi[i] = auxcon * F[i] * (Phi[i] ** 3) / one_minus_Phi[i]
+            dPhi[i] = dPhi_fixed
+
             Peclet_Phi = W[i] * delta_x / (2. * dPhi[i])
             if np.abs(Peclet_Phi) < Peclet_min:
                 sigma_Phi = 0

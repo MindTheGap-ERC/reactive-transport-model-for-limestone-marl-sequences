@@ -85,7 +85,7 @@ slices_for_all_fields = [slice(i * number_of_depths, (i+1) * number_of_depths) \
 eq = LMAHeureuxPorosityDiff(Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30, Phi0, 
                             sedimentationrate, Xstar, Tstar, k1, k2, k3, k4, 
                             m1, m2, n1, n2, b, beta, rhos, rhow, rhos0, KA, KC, 
-                            muA, D0Ca, PhiNR, PhiInfty, DCa, DCO3, 
+                            muA, D0Ca, PhiNR, PhiInfty, PhiIni, DCa, DCO3, 
                             not_too_shallow, not_too_deep)     
 
 end_time = 2.5e5 / Tstar
