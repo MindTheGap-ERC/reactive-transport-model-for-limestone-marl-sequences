@@ -21,16 +21,9 @@ class LMAHeureuxPorosityDiff():
             lambda grid: _make_derivative(grid, method="forward"))
         self.delta_x = self.Depths._axes_coords[0][1] - \
                        self.Depths._axes_coords[0][0]
-        self.slices_all_fields = slices_all_fields
-        # There are no bottom boundary conditions for CA and CC in equations 
-        # 35 from L'Heureux, but py-pde demands left and right boundary 
-        # conditions. This means that '"curvature" : 0' is a dummy boundary 
-        # condition. We will make sure that it does not leak into our 
-        # integration, by using only backward differencing for the spatial
-        # derivatives in the right-hand sides of the time derivative equations
-        # for CA and CC.
-        self.bc_CA = [{"value": CA0}, {"value": 1e99}]
-        self.bc_CC = [{"value": CC0}, {"value": 1e99}]
+        self.slices_for_all_fields = slices_for_all_fields
+        self.bc_CA = [{"value": CA0}, {"curvature" : 0}]
+        self.bc_CC = [{"value": CC0}, {"curvature": 0}]
         self.bc_cCa = [{"value": cCa0}, {"derivative": 0}]
         self.bc_cCO3 = [{"value": cCO30}, {"derivative": 0}]
         self.bc_Phi = [{"value": Phi0}, {"derivative": 0}]   
@@ -99,7 +92,9 @@ class LMAHeureuxPorosityDiff():
         # construct forward and backward differenced gradients and apply
         # either one of them, based on the sign of U.
         self.CA_grad_back_op = self.Depths.make_operator("grad_back", self.bc_CA)
+        self.CA_grad_forw_op = self.Depths.make_operator("grad_forw", self.bc_CA)
         self.CC_grad_back_op = self.Depths.make_operator("grad_back", self.bc_CC)
+        self.CC_grad_forw_op = self.Depths.make_operator("grad_forw", self.bc_CC)
         # Instead of the default central differenced gradient from py-pde
         # construct forward and backward differenced gradients and give them
         # appropriate weights according to a Fiadeiro-Veronis scheme.
@@ -200,13 +195,18 @@ class LMAHeureuxPorosityDiff():
 
         U = self.presum + self.rhorat * Phi ** 3 * F / (1 - Phi)
         
-        # Enforce no bottom boundary condition for CA and CC by using
-        # backwards differencing only.
+        # Instead of the default central differenced gradient from py-pde
+        # construct forward and backward differenced gradients and apply
+        # either one of them, based on the sign of U.
         CA_grad_back = CA.apply_operator("grad_back", self.bc_CA)
-        CA_grad = CA_grad_back 
+        CA_grad_forw = CA.apply_operator("grad_forw", self.bc_CA)
+        CA_grad = ScalarField(self.Depths, np.where(U.data>0, CA_grad_back.data, \
+            CA_grad_forw.data))
 
-        CC_grad_back = CC.apply_operator("grad_back", self.bc_CC)
-        CC_grad = CC_grad_back
+        CC_grad_back = CC._apply_operator("grad_back", self.bc_CC)
+        CC_grad_forw = CC._apply_operator("grad_forw", self.bc_CC)    
+        CC_grad = ScalarField(self.Depths, np.where(U.data>0, CC_grad_back.data, \
+            CC_grad_forw.data))
 
         W = self.presum - self.rhorat * Phi ** 2 * F
         
@@ -324,7 +324,9 @@ class LMAHeureuxPorosityDiff():
         Phi = y[self.Phi_sl]
 
         CA_grad_back_op = self.CA_grad_back_op
+        CA_grad_forw_op = self.CA_grad_forw_op
         CC_grad_back_op = self.CC_grad_back_op 
+        CC_grad_forw_op = self.CC_grad_forw_op 
         cCa_grad_back_op = self.cCa_grad_back_op 
         cCa_grad_forw_op = self.cCa_grad_forw_op 
         cCa_laplace_op =  self.cCa_laplace_op 
@@ -336,7 +338,8 @@ class LMAHeureuxPorosityDiff():
         Phi_laplace_op = self.Phi_laplace_op 
 
         return LMAHeureuxPorosityDiff.pde_rhs(CA, CC, cCa, cCO3, Phi, 
-                                              CA_grad_back_op, CC_grad_back_op,
+                                              CA_grad_back_op, CA_grad_forw_op, 
+                                              CC_grad_back_op, CC_grad_forw_op,
                                               cCa_grad_back_op, cCa_grad_forw_op, 
                                               cCa_laplace_op, cCO3_grad_back_op, 
                                               cCO3_grad_forw_op, cCO3_laplace_op, 
@@ -350,14 +353,14 @@ class LMAHeureuxPorosityDiff():
 
     @staticmethod
     @njit(cache=True)
-    def pde_rhs(CA, CC, cCa, cCO3, Phi, CA_grad_back_op, CC_grad_back_op, 
+    def pde_rhs(CA, CC, cCa, cCO3, Phi, CA_grad_back_op, CA_grad_forw_op,
+                CC_grad_back_op, CC_grad_forw_op,
                 cCa_grad_back_op, cCa_grad_forw_op, cCa_laplace_op, 
                 cCO3_grad_back_op, cCO3_grad_forw_op, cCO3_laplace_op, 
                 Phi_grad_back_op, Phi_grad_forw_op, Phi_laplace_op, 
                 KRat, m1, m2, n1, n2, nu1, nu2, not_too_deep, not_too_shallow, 
                 presum, rhorat, lambda_, Da, dCa, dCO3, delta, auxcon, delta_x, 
                 Peclet_min, Peclet_max, no_depths, dPhi_fixed):
-        """ compiled helper function evaluating right hand side """
 
         CA_grad_back = CA_grad_back_op(CA) 
         CC_grad_back = CC_grad_back_op(CC)
@@ -403,10 +406,12 @@ class LMAHeureuxPorosityDiff():
 
             U[i] = presum + rhorat * Phi[i] ** 3 * F[i]/ (1 - Phi[i])
 
-            # Enforce no bottom boundary condition for CA and CC by using
-            # backwards differencing only.
-            CA_grad[i] = CA_grad_back[i]
-            CC_grad[i] = CC_grad_back[i]
+            if U[i] > 0:
+                CA_grad[i] = CA_grad_back[i]
+                CC_grad[i] = CC_grad_back[i]
+            else:
+                CA_grad[i] = CA_grad_forw[i]
+                CC_grad[i] = CC_grad_forw[i]
 
             W[i] = presum - rhorat * Phi[i] ** 2 * F[i]
 
