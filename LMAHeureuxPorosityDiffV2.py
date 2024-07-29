@@ -21,7 +21,7 @@ class LMAHeureuxPorosityDiff():
             lambda grid: _make_derivative(grid, method="forward"))
         self.delta_x = self.Depths._axes_coords[0][1] - \
                        self.Depths._axes_coords[0][0]
-        self.slices_for_all_fields = slices_for_all_fields
+        self.slices_all_fields = slices_all_fields
         self.bc_CA = [{"value": CA0}, {"curvature" : 0}]
         self.bc_CC = [{"value": CC0}, {"curvature": 0}]
         self.bc_cCa = [{"value": cCa0}, {"derivative": 0}]
@@ -363,7 +363,9 @@ class LMAHeureuxPorosityDiff():
                 Peclet_min, Peclet_max, no_depths, dPhi_fixed):
 
         CA_grad_back = CA_grad_back_op(CA) 
+        CA_grad_forw = CA_grad_forw_op(CA) 
         CC_grad_back = CC_grad_back_op(CC)
+        CC_grad_forw = CC_grad_forw_op(CC)
         cCa_grad_back = cCa_grad_back_op(cCa)
         cCa_grad_forw = cCa_grad_forw_op(cCa)
         cCa_laplace = cCa_laplace_op(cCa)
