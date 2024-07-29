@@ -49,7 +49,7 @@ k4 = k3
 muA = 100.09
 DCa = 131.9
 DCO3 = 272.6
-b = 5e-4
+b = 5e-4*0.8**3/(0.8*3)
 
 PhiNR = Phi0
 
@@ -58,9 +58,9 @@ PhiInfty = 0.01
 Xstar = D0Ca / sedimentationrate
 Tstar = Xstar / sedimentationrate 
 
-number_of_depths = 200
+number_of_depths = 2000
 
-max_depth = 500
+max_depth = 1000
 
 Depths = CartesianGrid([[0, max_depth * (1 + 0.5/number_of_depths)/Xstar]],\
                         [number_of_depths], periodic=False)
@@ -88,7 +88,7 @@ eq = LMAHeureuxPorosityDiff(Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30
                             muA, D0Ca, PhiNR, PhiInfty, PhiIni, DCa, DCO3, 
                             not_too_shallow, not_too_deep)     
 
-end_time = 2.5e5 / Tstar
+end_time = 1e6 / Tstar
 # Number of times to evaluate, for storage.
 no_t_eval = 1000
 t_eval = np.linspace(0, end_time, num = no_t_eval)
@@ -107,7 +107,7 @@ with tqdm(total=number_of_progress_updates) as pbar:
                 atol = 1e-3, rtol = 1e-3, t_eval= t_eval, \
                 events = [eq.zeros, eq.zeros_CA, eq.zeros_CC, \
                 eq.ones_CA_plus_CC, eq.ones_Phi, eq.zeros_U, eq.zeros_W],  \
-                method="BDF", dense_output= False,\
+                method="LSODA", dense_output= False,\
                 first_step = 1e-6, \
                 args=[pbar, (end_time - t0)/number_of_progress_updates, t0])
 end_computing = time.time()
