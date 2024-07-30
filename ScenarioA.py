@@ -51,7 +51,7 @@ DCa = 131.9
 DCO3 = 272.6
 b = 5.0e-4*0.8**3/(0.8*3)   # sediment compressibility (Pa^-1)
 
-PhiNR = Phi0
+PhiNR = PhiIni
 
 PhiInfty = 0.01
 
