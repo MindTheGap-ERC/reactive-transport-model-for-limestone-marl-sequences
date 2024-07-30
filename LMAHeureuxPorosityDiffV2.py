@@ -203,8 +203,8 @@ class LMAHeureuxPorosityDiff():
         CA_grad = ScalarField(self.Depths, np.where(U.data>0, CA_grad_back.data, \
             CA_grad_forw.data))
 
-        CC_grad_back = CC._apply_operator("grad_back", self.bc_CC)
-        CC_grad_forw = CC._apply_operator("grad_forw", self.bc_CC)    
+        CC_grad_back = CC.apply_operator("grad_back", self.bc_CC)
+        CC_grad_forw = CC.apply_operator("grad_forw", self.bc_CC)    
         CC_grad = ScalarField(self.Depths, np.where(U.data>0, CC_grad_back.data, \
             CC_grad_forw.data))
 
