@@ -62,7 +62,7 @@ max_depth = 1625
 
 # Standard depth resolution is 2.5 cm, i.e. 500cm/200.
 # Doubling this may be a good measure.
-number_of_depths = int((1625/500) * (2/200))
+number_of_depths = int((max_depth/500) * 2 * 200)
 
 Depths = CartesianGrid([[0, max_depth * (1 + 0.5/number_of_depths)/Xstar]],\
                         [number_of_depths], periodic=False)
