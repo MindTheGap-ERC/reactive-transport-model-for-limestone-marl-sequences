@@ -49,7 +49,7 @@ k4 = k3
 muA = 100.09
 DCa = 131.9
 DCO3 = 272.6
-b = 5e-4*0.8**3/(0.8*3)
+b = 5.0e-4*0.8**3/(0.8*3)   # sediment compressibility (Pa^-1)
 
 PhiNR = Phi0
 
@@ -58,9 +58,9 @@ PhiInfty = 0.01
 Xstar = D0Ca / sedimentationrate
 Tstar = Xstar / sedimentationrate 
 
-number_of_depths = 2000
+number_of_depths = 800
 
-max_depth = 1000
+max_depth = 1625
 
 Depths = CartesianGrid([[0, max_depth * (1 + 0.5/number_of_depths)/Xstar]],\
                         [number_of_depths], periodic=False)
@@ -88,9 +88,10 @@ eq = LMAHeureuxPorosityDiff(Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30
                             muA, D0Ca, PhiNR, PhiInfty, PhiIni, DCa, DCO3, 
                             not_too_shallow, not_too_deep)     
 
-end_time = 1e6 / Tstar
+# Time to integrate in units of T*
+end_time = 5e3
 # Number of times to evaluate, for storage.
-no_t_eval = 1000
+no_t_eval = 10_000
 t_eval = np.linspace(0, end_time, num = no_t_eval)
 
 state = eq.get_state(AragoniteSurface, CalciteSurface, CaSurface, 
@@ -98,7 +99,7 @@ state = eq.get_state(AragoniteSurface, CalciteSurface, CaSurface,
 
 y0 = state.data.ravel()   
 
-number_of_progress_updates = 100000
+number_of_progress_updates = 100_000
 t0 = 0
 
 start_computing = time.time()
@@ -160,9 +161,9 @@ print()
 if sol.status == 0:
     covered_time = Tstar * end_time
 else:
-   covered_time = pbar.n * Tstar/number_of_progress_updates 
+   covered_time = pbar.n * Tstar * end_time /number_of_progress_updates 
 
-plt.title("Situation after " + " {:.2f} ".format(covered_time) + " years")
+plt.title("Situation after " + " {:.2e} ".format(covered_time) + " years")
 # Marker size
 ms = 3
 depths = ScalarField.from_expression(Depths, "x").data * Xstar
