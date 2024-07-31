@@ -115,7 +115,7 @@ with tqdm(total=number_of_progress_updates) as pbar:
                 events = [eq.zeros, eq.zeros_CA, eq.zeros_CC, \
                 eq.ones_CA_plus_CC, eq.ones_Phi, eq.zeros_U, eq.zeros_W],  \
                 method="Radau", dense_output= False,\
-                first_step = 1e-6, \
+                first_step = 1e-6, jac_sparsity=eq.jacobian_sparsity(), \
                 args=[pbar, (end_time - t0)/number_of_progress_updates, t0])
 end_computing = time.time()
 
