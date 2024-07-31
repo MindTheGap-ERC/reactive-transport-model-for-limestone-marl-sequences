@@ -58,7 +58,7 @@ PhiInfty = 0.01
 # It could be that F-V caused instabilities instead of resolving them,
 # e.g. in the case of oscillations.
 # FV_switch = 1 will use the Fiadeiro-Veronis scheme for spatial derivatives.
-FV_switch = 1
+FV_switch = 0
 
 Xstar = D0Ca / sedimentationrate
 Tstar = Xstar / sedimentationrate 
@@ -66,8 +66,7 @@ Tstar = Xstar / sedimentationrate
 max_depth = 1625
 
 # Standard depth resolution is 2.5 cm, i.e. 500cm/200.
-# Doubling this may be a good measure.
-number_of_depths = int((max_depth/500) * 2 * 200)
+number_of_depths = int((max_depth/500) * 200)
 
 Depths = CartesianGrid([[0, max_depth * (1 + 0.5/number_of_depths)/Xstar]],\
                         [number_of_depths], periodic=False)
