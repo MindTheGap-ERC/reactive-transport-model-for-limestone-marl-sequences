@@ -12,7 +12,8 @@ class LMAHeureuxPorosityDiff():
     def __init__(self, Depths, slices_all_fields, CA0, CC0, cCa0, cCO30, Phi0, 
                  sedimentationrate, Xstar, Tstar, k1, k2, k3, k4, m1, m2, n1, 
                  n2, b, beta, rhos, rhow, rhos0, KA, KC, muA, D0Ca, PhiNR, 
-                 PhiInfty, PhiIni, DCa, DCO3, not_too_shallow, not_too_deep):  
+                 PhiInfty, PhiIni, DCa, DCO3, not_too_shallow, not_too_deep,
+                 FV_switch):  
         self.no_fields = 5
         self.Depths = Depths    
         self.Depths.register_operator("grad_back", \
@@ -71,6 +72,7 @@ class LMAHeureuxPorosityDiff():
                  (1 - np.exp(10 - 10 / self.Phi0)) / (1 - self.Phi0)  
         self.not_too_shallow = not_too_shallow.data
         self.not_too_deep = not_too_deep.data      
+        self.FV_switch = FV_switch
 
         self.CA_sl= self.slices_all_fields[0]
         self.CC_sl = self.slices_all_fields[1]
@@ -218,26 +220,31 @@ class LMAHeureuxPorosityDiff():
 
         # Implementing equation 6 from l'Heureux.
         denominator = 1 - 2 * np.log(Phi)
-
-        # Fiadeiro-Veronis scheme for equations 42 and 43
-        # from l'Heureux. 
-        common_Peclet  = W * self.delta_x / 2. 
-        Peclet_cCa =  common_Peclet * denominator/ self.dCa       
-        sigma_cCa_data = LMAHeureuxPorosityDiff.calculate_sigma(\
-            Peclet_cCa.data, W.data, self.Peclet_min, self.Peclet_max)
-        sigma_cCa = ScalarField(self.Depths, sigma_cCa_data)
-
-        Peclet_cCO3 = common_Peclet * denominator/ self.dCO3      
-        sigma_cCO3_data = LMAHeureuxPorosityDiff.calculate_sigma(\
-            Peclet_cCO3.data, W.data, self.Peclet_min, self.Peclet_max)
-        sigma_cCO3 = ScalarField(self.Depths, sigma_cCO3_data)
-
         # dPhi = self.auxcon * F * (Phi ** 3) / (1 - Phi)
         dPhi = self.dPhi_fixed
-        Peclet_Phi = common_Peclet / dPhi
-        sigma_Phi_data = LMAHeureuxPorosityDiff.calculate_sigma(\
-            Peclet_Phi.data, W.data, self.Peclet_min, self.Peclet_max)
-        sigma_Phi = ScalarField(self.Depths, sigma_Phi_data)
+
+        if self.FV_switch:
+            # Fiadeiro-Veronis scheme for equations 42 and 43
+            # from l'Heureux. 
+            common_Peclet  = W * self.delta_x / 2. 
+            Peclet_cCa =  common_Peclet * denominator/ self.dCa       
+            sigma_cCa_data = LMAHeureuxPorosityDiff.calculate_sigma(\
+                Peclet_cCa.data, W.data, self.Peclet_min, self.Peclet_max)
+            sigma_cCa = ScalarField(self.Depths, sigma_cCa_data)
+
+            Peclet_cCO3 = common_Peclet * denominator/ self.dCO3      
+            sigma_cCO3_data = LMAHeureuxPorosityDiff.calculate_sigma(\
+                Peclet_cCO3.data, W.data, self.Peclet_min, self.Peclet_max)
+            sigma_cCO3 = ScalarField(self.Depths, sigma_cCO3_data)
+
+            Peclet_Phi = common_Peclet / dPhi
+            sigma_Phi_data = LMAHeureuxPorosityDiff.calculate_sigma(\
+                Peclet_Phi.data, W.data, self.Peclet_min, self.Peclet_max)
+            sigma_Phi = ScalarField(self.Depths, sigma_Phi_data)
+        else:
+            sigma_cCa = 0
+            sigma_cCO3 = 0
+            sigma_Phi = 0
 
         # Instead of the default central differenced gradient from py-pde
         # construct forward and backward differenced gradients and give them
@@ -316,6 +323,7 @@ class LMAHeureuxPorosityDiff():
         Peclet_max = self.Peclet_max
         no_depths = self.Depths.shape[0]
         dPhi_fixed = self.dPhi_fixed
+        FV_switch = self.FV_switch
 
         CA = y[self.CA_sl]
         CC = y[self.CC_sl]
@@ -349,7 +357,8 @@ class LMAHeureuxPorosityDiff():
                                               not_too_shallow, presum, rhorat, 
                                               lambda_, Da, dCa, dCO3, delta, 
                                               auxcon, delta_x, Peclet_min, 
-                                              Peclet_max, no_depths, dPhi_fixed)
+                                              Peclet_max, no_depths, dPhi_fixed,
+                                              FV_switch)
 
     @staticmethod
     @njit(cache=True)
@@ -360,7 +369,7 @@ class LMAHeureuxPorosityDiff():
                 Phi_grad_back_op, Phi_grad_forw_op, Phi_laplace_op, 
                 KRat, m1, m2, n1, n2, nu1, nu2, not_too_deep, not_too_shallow, 
                 presum, rhorat, lambda_, Da, dCa, dCO3, delta, auxcon, delta_x, 
-                Peclet_min, Peclet_max, no_depths, dPhi_fixed):
+                Peclet_min, Peclet_max, no_depths, dPhi_fixed, FV_switch):
 
         CA_grad_back = CA_grad_back_op(CA) 
         CA_grad_forw = CA_grad_forw_op(CA) 
@@ -419,36 +428,40 @@ class LMAHeureuxPorosityDiff():
 
             # Implementing equation 6 from l'Heureux.
             denominator[i] = 1 - 2 * np.log(Phi[i])
-
-            # Fiadeiro-Veronis scheme for equations 42 and 43
-            # from l'Heureux. 
-            Peclet_cCa = W[i] * delta_x * denominator[i]/ (2. * dCa )
-            if np.abs(Peclet_cCa) < Peclet_min:
-                sigma_cCa = 0
-            elif np.abs(Peclet_cCa) > Peclet_max:
-                sigma_cCa = np.sign(W[i])
-            else:
-                 sigma_cCa = np.cosh(Peclet_cCa)/np.sinh(Peclet_cCa) - 1/Peclet_cCa
-
-            Peclet_cCO3 = W[i] * delta_x * denominator[i]/ (2. * dCO3)
-            if np.abs(Peclet_cCO3) < Peclet_min:
-                sigma_cCO3 = 0
-            elif np.abs(Peclet_cCO3) > Peclet_max:
-                sigma_cCO3 = np.sign(W[i])
-            else:
-                sigma_cCO3 = np.cosh(Peclet_cCO3)/np.sinh(Peclet_cCO3) - 1/Peclet_cCO3
-
             one_minus_Phi[i] = 1 - Phi[i]                 
             # dPhi[i] = auxcon * F[i] * (Phi[i] ** 3) / one_minus_Phi[i]
             dPhi[i] = dPhi_fixed
 
-            Peclet_Phi = W[i] * delta_x / (2. * dPhi[i])
-            if np.abs(Peclet_Phi) < Peclet_min:
-                sigma_Phi = 0
-            elif np.abs(Peclet_Phi) > Peclet_max:
-                sigma_Phi = np.sign(W[i])
+            if FV_switch:
+                # Fiadeiro-Veronis scheme for equations 42 and 43
+                # from l'Heureux. 
+                Peclet_cCa = W[i] * delta_x * denominator[i]/ (2. * dCa )
+                if np.abs(Peclet_cCa) < Peclet_min:
+                    sigma_cCa = 0
+                elif np.abs(Peclet_cCa) > Peclet_max:
+                    sigma_cCa = np.sign(W[i])
+                else:
+                     sigma_cCa = np.cosh(Peclet_cCa)/np.sinh(Peclet_cCa) - 1/Peclet_cCa
+
+                Peclet_cCO3 = W[i] * delta_x * denominator[i]/ (2. * dCO3)
+                if np.abs(Peclet_cCO3) < Peclet_min:
+                    sigma_cCO3 = 0
+                elif np.abs(Peclet_cCO3) > Peclet_max:
+                    sigma_cCO3 = np.sign(W[i])
+                else:
+                    sigma_cCO3 = np.cosh(Peclet_cCO3)/np.sinh(Peclet_cCO3) - 1/Peclet_cCO3
+
+                Peclet_Phi = W[i] * delta_x / (2. * dPhi[i])
+                if np.abs(Peclet_Phi) < Peclet_min:
+                    sigma_Phi = 0
+                elif np.abs(Peclet_Phi) > Peclet_max:
+                    sigma_Phi = np.sign(W[i])
+                else:
+                    sigma_Phi = np.cosh(Peclet_Phi)/np.sinh(Peclet_Phi) - 1/Peclet_Phi
             else:
-                sigma_Phi = np.cosh(Peclet_Phi)/np.sinh(Peclet_Phi) - 1/Peclet_Phi
+                sigma_cCa = 0
+                sigma_cCO3 = 0
+                sigma_Phi = 0
 
             cCa_grad[i] = 0.5 * ((1-sigma_cCa) * cCa_grad_forw[i] + \
                           (1+sigma_cCa) * cCa_grad_back[i])
