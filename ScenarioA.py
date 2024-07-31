@@ -55,14 +55,18 @@ PhiNR = PhiIni
 
 PhiInfty = 0.01
 
+# It could be that F-V caused instabilities instead of resolving them,
+# e.g. in the case of oscillations.
+# FV_switch = 1 will use the Fiadeiro-Veronis scheme for spatial derivatives.
+FV_switch = 1
+
 Xstar = D0Ca / sedimentationrate
 Tstar = Xstar / sedimentationrate 
 
 max_depth = 1625
 
 # Standard depth resolution is 2.5 cm, i.e. 500cm/200.
-# Doubling this may be a good measure.
-number_of_depths = int((max_depth/500) * 2 * 200)
+number_of_depths = int((max_depth/500) * 200)
 
 Depths = CartesianGrid([[0, max_depth * (1 + 0.5/number_of_depths)/Xstar]],\
                         [number_of_depths], periodic=False)
@@ -88,7 +92,7 @@ eq = LMAHeureuxPorosityDiff(Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30
                             sedimentationrate, Xstar, Tstar, k1, k2, k3, k4, 
                             m1, m2, n1, n2, b, beta, rhos, rhow, rhos0, KA, KC, 
                             muA, D0Ca, PhiNR, PhiInfty, PhiIni, DCa, DCO3, 
-                            not_too_shallow, not_too_deep)     
+                            not_too_shallow, not_too_deep, FV_switch)     
 
 # Time to integrate in units of T*
 end_time = 5e3
@@ -110,7 +114,7 @@ with tqdm(total=number_of_progress_updates) as pbar:
                 atol = 1e-3, rtol = 1e-3, t_eval= t_eval, \
                 events = [eq.zeros, eq.zeros_CA, eq.zeros_CC, \
                 eq.ones_CA_plus_CC, eq.ones_Phi, eq.zeros_U, eq.zeros_W],  \
-                method="LSODA", dense_output= False,\
+                method="Radau", dense_output= False,\
                 first_step = 1e-6, \
                 args=[pbar, (end_time - t0)/number_of_progress_updates, t0])
 end_computing = time.time()
