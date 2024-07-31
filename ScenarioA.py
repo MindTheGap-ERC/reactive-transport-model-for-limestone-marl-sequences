@@ -66,7 +66,8 @@ Tstar = Xstar / sedimentationrate
 max_depth = 1625
 
 # Standard depth resolution is 2.5 cm, i.e. 500cm/200.
-number_of_depths = int((max_depth/500) * 200)
+# Doubling this may be a good measure.
+number_of_depths = int((max_depth/500) * 2 * 200)
 
 Depths = CartesianGrid([[0, max_depth * (1 + 0.5/number_of_depths)/Xstar]],\
                         [number_of_depths], periodic=False)
@@ -97,7 +98,7 @@ eq = LMAHeureuxPorosityDiff(Depths, slices_for_all_fields, CA0, CC0, cCa0, cCO30
 # Time to integrate in units of T*
 end_time = 5e3
 # Number of times to evaluate, for storage.
-no_t_eval = 10_000
+no_t_eval = 100_000
 t_eval = np.linspace(0, end_time, num = no_t_eval)
 
 state = eq.get_state(AragoniteSurface, CalciteSurface, CaSurface, 
