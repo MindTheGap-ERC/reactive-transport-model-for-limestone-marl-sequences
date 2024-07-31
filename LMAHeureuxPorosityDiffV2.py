@@ -534,7 +534,7 @@ class LMAHeureuxPorosityDiff():
             for j in range(self.no_fields):
                 # 23 of 25 jacobian elements are zero.
                 # These are selected by this conditional.
-                if i < self.no_fields - 1 or j > 1:
+                if j < self.no_fields - 1 or i > 1:
                     jacob_csr += csr_matrix((data, (i * no_depths + row, \
                         j * no_depths + col)), shape = (n, n))
 
