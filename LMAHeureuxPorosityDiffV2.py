@@ -553,14 +553,14 @@ class LMAHeureuxPorosityDiff():
         offsets = ()
         for offset in range(-n + no_depths, n - no_depths + 1, no_depths): 
             offsets = offsets + ((offset -1, offset, offset + 1),)
-        # Turn offsets into a single tuple instead of a tuple of tuples
+        # Turn offsets into a single tuple instead of a tuple of tuples.
         offsets = sum(offsets, ())
         # Check that we have as many offsets as diagonals:
         try: 
             assert len(offsets) == diagonals.shape[0]
         except AssertionError as e:
             print('Setup of diagonals incorrect.')
-        # Construct the sparse matrix 
+        # Construct the sparse matrix. 
         raw_matrix = lil_matrix(dia_matrix((diagonals, offsets), shape=(n, n))) 
         # Set the Jacobian elements to zero that correspond with the derivatives
         # of the rhs of equations 40 and 41 wrt phi.
