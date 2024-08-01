@@ -561,7 +561,7 @@ class LMAHeureuxPorosityDiff():
         except AssertionError as e:
             print('Setup of diagonals incorrect.')
         # Construct the sparse matrix 
-        raw_matrix = lil_matrix(dia_matrix((diagonals, offsets), shape=(15, 15))) 
+        raw_matrix = lil_matrix(dia_matrix((diagonals, offsets), shape=(n, n))) 
         # Set the Jacobian elements to zero that correspond with the derivatives
         # of the rhs of equations 40 and 41 wrt phi.
         raw_matrix[:2 * no_depths, 4 * no_depths:] = 0
