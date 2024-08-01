@@ -526,19 +526,47 @@ class LMAHeureuxPorosityDiff():
     def jacobian_sparsity(self):
         no_depths = self.Depths.shape[0]
         n = self.no_fields * no_depths
-        jacob_csr = csr_matrix((n, n))
-        data = np.ones(no_depths)
-        row = np.arange(no_depths)
-        col = np.arange(no_depths)
-        for i in range(self.no_fields):
-            for j in range(self.no_fields):
-                # 23 of 25 jacobian elements are zero.
-                # These are selected by this conditional.
-                if j < self.no_fields - 1 or i > 1:
-                    jacob_csr += csr_matrix((data, (i * no_depths + row, \
-                        j * no_depths + col)), shape = (n, n))
+        
+        # It turns out the the Jacobian sparsity matrix, as provided by
+        # previous versions of this function was too strict. The diagonals
+        # had a width of 1, this implicitly assumes no dependencies of the
+        # Jacobian elements on fields at adjacent depths. A run with such
+        # a Jacobian sparsity matrix took a lot of compute power and time and
+        # ultimately halted without covering a single time step! A debugging 
+        # session with breakpoints inside solve_ivp showed that the Jacobian 
+        # matrix computed by `solve_ivp` (when neither the Jacobian nor the 
+        # Jacobian sparsity matrix was provided) has non-zero elements not 
+        # only on the diagonals but also on adjacent positions along the 
+        # diagonals. This was confirmed by ChatGPT:
+        # "It is indeed common for the Jacobian matrix of coupled partial 
+        # differential equations (PDEs), such as advection-diffusion equations, 
+        # to have non-zero elements beyond the main diagonal. This phenomenon, 
+        # where adjacent elements in the Jacobian are non-zero, is often due 
+        # to the spatial discretization of the differential equations."
+        # Likewise computing a functional Jacobian is only feasible for the
+        # diagonals, for positions near the diagonals it is very hard.
 
-        return jacob_csr
+        # Here we will choose diagonals of width 3.
+        diagonals = np.ones((3 * (2 * self.no_fields -1), n))
+
+        # Construct the offsets.
+        offsets = ()
+        for offset in range(-n + no_depths, n - no_depths + 1, no_depths): 
+            offsets = offsets + ((offset -1, offset, offset + 1),)
+        # Turn offsets into a single tuple instead of a tuple of tuples
+        offsets = sum(offsets, ())
+        # Check that we have as many offsets as diagonals:
+        try: 
+            assert len(offsets) == diagonals.shape[0]
+        except AssertionError as e:
+            print('Setup of diagonals incorrect.')
+        # Construct the sparse matrix 
+        raw_matrix = lil_matrix(dia_matrix((diagonals, offsets), shape=(15, 15))) 
+        # Set the Jacobian elements to zero that correspond with the derivatives
+        # of the rhs of equations 40 and 41 wrt phi.
+        raw_matrix[:2 * no_depths, 4 * no_depths:] = 0
+
+        return csr_matrix(raw_matrix)
 
     def zeros(self, t, y, progress_proxy, progress_dt, t0):
         """ solve_ivp demands that I add these two extra aguments, i.e.
