@@ -58,7 +58,7 @@ PhiInfty = 0.01
 # It could be that F-V caused instabilities instead of resolving them,
 # e.g. in the case of oscillations.
 # FV_switch = 1 will use the Fiadeiro-Veronis scheme for spatial derivatives.
-FV_switch = 0
+FV_switch = 1
 
 Xstar = D0Ca / sedimentationrate
 Tstar = Xstar / sedimentationrate 
