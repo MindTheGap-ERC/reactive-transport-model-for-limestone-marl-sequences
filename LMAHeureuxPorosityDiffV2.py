@@ -3,7 +3,7 @@ import line_profiler
 from pde import FieldCollection, PDEBase, ScalarField, FieldBase
 from numba import njit
 np.seterr(divide="raise", over="raise", under="warn", invalid="raise")
-from scipy.sparse import csr_matrix, find   
+from scipy.sparse import dia_matrix, lil_matrix, csr_matrix, find   
 from Compute_jacobian import Jacobian
 from pde.grids.operators.cartesian import _make_derivative
 
