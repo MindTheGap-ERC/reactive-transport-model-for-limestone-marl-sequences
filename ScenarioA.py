@@ -108,6 +108,8 @@ y0 = state.data.ravel()
 number_of_progress_updates = 100_000
 t0 = 0
 
+jac_sparsity = eq.jacobian_sparsity()
+
 start_computing = time.time()
 with tqdm(total=number_of_progress_updates) as pbar:
     sol = solve_ivp(fun = eq.fun_numba, t_span = (t0, end_time), y0 = y0, \
@@ -115,7 +117,7 @@ with tqdm(total=number_of_progress_updates) as pbar:
                 events = [eq.zeros, eq.zeros_CA, eq.zeros_CC, \
                 eq.ones_CA_plus_CC, eq.ones_Phi, eq.zeros_U, eq.zeros_W],  \
                 method="Radau", dense_output= False,\
-                first_step = 1e-6, jac_sparsity=eq.jacobian_sparsity(), \
+                first_step = 1e-6, jac_sparsity=jac_sparsity,  \
                 args=[pbar, (end_time - t0)/number_of_progress_updates, t0])
 end_computing = time.time()
 
