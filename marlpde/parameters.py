@@ -159,14 +159,12 @@ def jacobian_sparsity():
     matrix computed by `solve_ivp` (when neither the Jacobian nor the 
     Jacobian sparsity matrix was provided) has non-zero elements not 
     only on the diagonals but also on adjacent positions along the 
-    diagonals. This was confirmed by ChatGPT:
-    "It is indeed common for the Jacobian matrix of coupled partial 
-    differential equations (PDEs), such as advection-diffusion equations, 
-    to have non-zero elements beyond the main diagonal. This phenomenon, 
-    where adjacent elements in the Jacobian are non-zero, is often due 
-    to the spatial discretization of the differential equations."
-    Likewise computing a functional Jacobian is only feasible for the
-    diagonals, for positions near the diagonals it is very hard.
+    diagonals. 
+    See equation 2.58 from "Finite Difference Methods Finite for Differential
+    Equations by Randall J. Leveque for an example of off-diagonal Jacobian
+    matrix elements. This example is about the Jacobian for solving the pde 
+    describing the motion of a pendulum with a certain mass at the end of a 
+    rigid (but massless) bar.
 
     Here we will choose diagonals of width 3.
     '''
