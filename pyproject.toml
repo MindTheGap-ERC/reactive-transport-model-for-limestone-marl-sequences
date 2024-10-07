@@ -6,7 +6,7 @@ authors = ["Hanno Spreeuw <h.spreeuw@esciencecenter.nl>", "Johan Hidding <j.hidd
 license = "Apache-2"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.12"
+python = ">=3.10,<=3.12"
 py-pde = "^0.32.0"
 tqdm = "^4.64.1"
 numpy = "^1.23.5"
