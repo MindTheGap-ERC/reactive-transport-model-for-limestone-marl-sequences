@@ -18,7 +18,7 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     This function retrieves the parameters of the Scenario to be simulated and 
     the solution parameters for the integration. It then integrates the five
     partial differential equations from L'Heureux, stores and returns the 
-    solution, to be used for plotting. Its input comes from the parameters
+    solution, to be used for plotting. Its inputs come from the parameters
     module, which has dataclasses governing the solver, storage and model specs,
     through the solver_parms, tracker_parms and pde_parms dicts, respectively.
 
