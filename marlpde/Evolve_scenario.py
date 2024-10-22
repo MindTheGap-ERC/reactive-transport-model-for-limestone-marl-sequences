@@ -41,7 +41,7 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     Returns:
     --------
 
-    - **sol** (*pde.FieldCollection(pde.ScalarField(..), ..)*)
+    - **sol** (*pde.FieldCollection(pde.ScalarField(..), ..*)
          The data attribute of a pde.FieldCollection contains the final 
          solutions of the integration as a Numpy ndarray of floats.
          sol.data[0] through sol.data[4] contain the final solutions for the
