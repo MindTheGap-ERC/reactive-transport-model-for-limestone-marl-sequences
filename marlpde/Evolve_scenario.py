@@ -15,12 +15,13 @@ from LHeureux_model import LMAHeureuxPorosityDiff
 def integrate_equations(solver_parms, tracker_parms, pde_parms):
     '''Perform the integration and display and store the results.
 
-    This function retrieves the parameters of the Scenario to be simulated and 
-    the solution parameters for the integration. It then integrates the five
-    partial differential equations from L'Heureux, stores and returns the 
-    solution, to be used for plotting. Its inputs come from the parameters
-    module, which has dataclasses governing the solver, storage and model specs,
-    through the solver_parms, tracker_parms and pde_parms dicts, respectively.
+    This function uses the solver parameters for the integration and the
+    parameters of the Scenario to be simulated as input.
+    It integrates the five partial differential equations from L'Heureux, 
+    stores and returns the solution, to be used for plotting. 
+    Its inputs come from the parameters module, which has dataclasses governing
+    the solver, storage and model specs, through the solver_parms, tracker_parms
+    and pde_parms dicts, respectively.
 
     A progress bar shows how long the (remaining) integration will take.
 
@@ -41,17 +42,16 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     --------
 
     - **sol** (*pde.FieldCollection(pde.ScalarField(..), ..)*)
-        This is the "y" attribute of "sol" i.e. the solution derived by
-        solve_ivp. See the scipy.integrate.solve_ivp documentation for
-        some background. A reshape has been applied to arrive at one row per
-        field. The solutions as a function of time have been removed such that
-        only the solution for the last time is returned.
+         The data attribute of a pde.FieldCollection contains the final 
+         solutions of the integration as a Numpy ndarray of floats.
+         sol.data[0] through sol.data[4] contain the final solutions for the
+         calcite and aragonite compositions, calcium ions and carbonate ions
+         concentrations and the porosity, respectively.
 
     - **covered_time** (*float*)
-        This is the time interval of integration in years, from the start time
-        (probably 0) until the requested final time. When the integration halted
-        unexpectedly, the covered_time corresponds to the time covered until the
-        integration halted.
+        This is the time interval of integration in years. When the integration
+        halted unexpectedly, the covered_time corresponds to the time covered 
+        until the integration halted.
 
     - **depths** (*pde.CartesianGrid*)
         These are the centers of the grid cells that together constitute the 
@@ -62,7 +62,7 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
         in the differential equations.
 
     - **Store_folder** (*str*)
-        Could be a relative path, i.e.  a path relative to the root of this 
+        Could be a relative path, i.e. a path relative to the root of this 
         repository, to a folder where solutions of the integration should be 
         stored. Could also be an absolute path, though.
     '''
