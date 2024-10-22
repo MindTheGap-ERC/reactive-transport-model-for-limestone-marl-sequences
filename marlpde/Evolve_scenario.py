@@ -26,38 +26,42 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
 
     Parameters:
     -----------
-    solver_parms: dict 
-        Parameters about solver settings.
-    tracker_parms: dict 
-        Parameters about the progress bar and time interval for storage
-    pde_parms: dict
-        Model parameters, which govern e.g. the physical processes, but
-        also the discretization, such as the number of grid cells.
+    
+    - **solver_parms** (*dict*):  
+      Parameters about solver settings.
+    
+    - **tracker_parms** (*dict*):  
+      Parameters about the progress bar and time interval for storage.
+    
+    - **pde_parms** (*dict*):  
+      Model parameters, which govern e.g. the physical processes, but 
+      also the discretization, such as the number of grid cells.
 
     Returns:
     --------
-    field_solutions: ndarray
+
+    - **sol** (*pde.FieldCollection(pde.ScalarField(..), ..)*)
         This is the "y" attribute of "sol" i.e. the solution derived by
         solve_ivp. See the scipy.integrate.solve_ivp documentation for
         some background. A reshape has been applied to arrive at one row per
         field. The solutions as a function of time have been removed such that
         only the solution for the last time is returned.
 
-    covered_time: float
+    - **covered_time** (*float*)
         This is the time interval of integration in years, from the start time
         (probably 0) until the requested final time. When the integration halted
         unexpectedly, the covered_time corresponds to the time covered until the
         integration halted.
 
-    depths: pde.CartesianGrid
+    - **depths** (*pde.CartesianGrid*)
         These are the centers of the grid cells that together constitute the 
         grid.
     
-    Xstar: float
+    - **Xstar** (*float*)
         Scaling factor between physical depths and dimensionless depths as used
         in the differential equations.
 
-    Store_folder: str
+    - **Store_folder** (*str*)
         Could be a relative path, i.e.  a path relative to the root of this 
         repository, to a folder where solutions of the integration should be 
         stored. Could also be an absolute path, though.
