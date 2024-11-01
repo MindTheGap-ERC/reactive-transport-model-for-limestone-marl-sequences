@@ -25,8 +25,8 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
 
     A progress bar shows how long the (remaining) integration will take.
 
-    Parameters:
-    -----------
+    Args:
+    -----
     
     - **solver_parms** (*dict*):  
       Parameters about solver settings.
@@ -41,30 +41,30 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     Returns:
     --------
 
-    - **sol** (*pde.FieldCollection(pde.ScalarField(..), ..)*)
-         The data attribute of a pde.FieldCollection contains the final 
-         solutions of the integration as a Numpy ndarray of floats.
-         sol.data[0] through sol.data[4] contain the final solutions for the
-         calcite and aragonite compositions, calcium ions and carbonate ions
-         concentrations and the porosity, respectively.
+    - **sol** (*pde.FieldCollection(pde.ScalarField(..), ..)*):  
+      The data attribute of a pde.FieldCollection contains the final 
+      solutions of the integration as a Numpy ndarray of floats.
+      sol.data[0] through sol.data[4] contain the final solutions for the
+      calcite and aragonite compositions, calcium ions and carbonate ions
+      concentrations and the porosity, respectively.
 
-    - **covered_time** (*float*)
-        This is the time interval of integration in years. When the integration
-        halted unexpectedly, the covered_time corresponds to the time covered 
-        until the integration halted.
+    - **covered_time** (*float*):  
+      This is the time interval of integration in years. When the integration
+      halted unexpectedly, the covered_time corresponds to the time covered 
+      until the integration halted.
 
-    - **depths** (*pde.CartesianGrid*)
-        These are the centers of the grid cells that together constitute the 
-        grid.
+    - **depths** (*pde.CartesianGrid*):  
+      These are the centers of the grid cells that together constitute the 
+      grid, in cm.
     
-    - **Xstar** (*float*)
-        Scaling factor between physical depths and dimensionless depths as used
-        in the differential equations.
+    - **Xstar** (*float*):  
+      Scaling factor between physical depths and dimensionless depths as used
+      in the differential equations, in cm.
 
-    - **Store_folder** (*str*)
-        Could be a relative path, i.e. a path relative to the root of this 
-        repository, to a folder where solutions of the integration should be 
-        stored. Could also be an absolute path, though.
+    - **Store_folder** (*str*):  
+      Could be a relative path, i.e. a path relative to the root of this 
+      repository, to a folder where solutions of the integration should be 
+      stored. Could also be an absolute path, though.
     '''
 
     Xstar = pde_parms["Xstar"]
@@ -159,10 +159,44 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     return sol, covered_time_span, depths, Xstar, store_folder
 
 def Plot_results(sol, covered_time, depths, Xstar, store_folder):
-    '''
+    """
     Plot the five fields at the end of the integration interval as a function
     of depth.
-    '''
+
+    Args:
+    ----
+
+    -  **sol** (*pde.FieldCollection(pde.ScalarField(..), ..)*):   
+         The data attribute of a pde.FieldCollection contains the final 
+         solutions of the integration as a Numpy ndarray of floats.
+         sol.data[0] through sol.data[4] contain the final solutions for the
+         calcite and aragonite compositions, calcium ions and carbonate ions
+         concentrations and the porosity, respectively.
+
+    - **covered_time** (*float*):  
+        This is the time interval of integration in years. When the integration
+        halted unexpectedly, the covered_time corresponds to the time covered 
+        until the integration halted.
+
+    - **depths** (*pde.CartesianGrid*):  
+        These are the centers of the grid cells that together constitute the 
+        grid, in cm.
+    
+    - **Xstar** (*float*):  
+        Scaling factor between physical depths and dimensionless depths as used
+        in the differential equations, in cm.
+
+    - **Store_folder** (*str*):  
+        Could be a relative path, i.e. a path relative to the root of this 
+        repository, to a folder where solutions of the integration should be 
+        stored. Could also be an absolute path, though.
+
+    Returns:
+    --------
+
+    - No return values, but a plot is generated and saved in **Store_folder**.
+
+    """
     fig, ax = plt.subplots()
     fig.suptitle(f"Distributions after {covered_time:.2f} years")
     # Marker size
