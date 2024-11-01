@@ -1,89 +1,251 @@
 import numpy as np
 from pde import FieldCollection, PDEBase, ScalarField
 from numba import njit
+
 np.seterr(divide="raise", over="raise", under="raise", invalid="raise")
 
+# Control what pdoc will document, i.e. output to .html.
+__all__ = ['LMAHeureuxPorosityDiff']
+
+
 class LMAHeureuxPorosityDiff(PDEBase):
+    """Sets all the physical parameters that define the model."""
 
     def __init__(self, AragoniteSurface, CalciteSurface, CaSurface,
                 CO3Surface, PorSurface, not_too_shallow, not_too_deep, CA0, CC0,
                 cCa0, cCO30, Phi0, sedimentationrate, Xstar, Tstar, k1, k2, k3,
                 k4, m1, m2, n1, n2, b, beta, rhos, rhow, rhos0, KA, KC, muA,
                 D0Ca, PhiNR, PhiInfty, PhiIni, DCa, DCO3):
+        """@private"""
 
         self.AragoniteSurface = AragoniteSurface
+        """  (*pde.ScalarField*):   
+        Initial distribution of aragonite composition along all depths
+        (dimensionless)."""
         self.CalciteSurface = CalciteSurface
+        """(*pde.ScalarField*):   
+        Initial distribution of calcite composition along all depths
+        (dimensionless)."""
+        
         self.CaSurface = CaSurface
+        """(*pde.Scalarfield*):   
+        Initial distribution of calcium ions concentration along all depths
+        (dimensionless)."""
+        
         self.CO3Surface = CO3Surface
+        """(*pde.ScalarField*):   
+        Initial distribution of carbonate ions concentration along all depths
+        (dimensionless)."""
+        
         self.PorSurface = PorSurface
+        """(*pde.ScalarField*):   
+        Initial distribution of porosity along all depths (dimensionless)."""
+        
         self.bc_CA = [{"value": CA0}, {"curvature": 0}]
+        """Top and bottom  boundary condition for aragonite.  
+        **CA0** (*float*):   
+        Aragonite composition at the top of the system, i.e. at the 
+        water-sediment interface (dimensionless)."""
+        
         self.bc_CC = [{"value": CC0}, {"curvature": 0}]        
+        """Top and bottom  boundary condition for calcite.  
+        **CC0** (*float*):   
+        Calcite composition at the top of the system, i.e. at the 
+        water-sediment interface (dimensionless)."""
+
         self.bc_cCa = [{"value": cCa0}, {"derivative": 0}]
+        """Top and bottom  boundary condition for the concentration of
+        calcium ions.  
+        **cCa0** (*float*):   
+        Calcium ion concentration at the top of the system, i.e. at the 
+        water-sediment interface (dimensionless)."""
+
         self.bc_cCO3 = [{"value": cCO30}, {"derivative": 0}]
+        """Top and bottom  boundary condition for the concentration of
+        carbonate ions.  
+        **cCO30** (*float*):   
+        Carbonate ion concentration at the top of the system, i.e. at the
+        water-sediment interface (dimensionless)."""
+        
         self.bc_Phi = [{"value": Phi0}, {"derivative": 0}]
+        """Top and bottom  boundary condition for the porosity.  
+        **Phi0** (*float*):   
+        Porosity at the top of the system, i.e. at the water-sediment 
+        interface (dimensionless)."""
+        
         self.sedimentationrate = sedimentationrate
+        """(*float*):   
+        Sedimentation rate (cm/a)."""
+        
         self.Xstar = Xstar
+        """(*float*):   
+        Scaling factor between physical depths and dimensionless depths as
+        used in the differential equations, in cm."""
+        
         self.Tstar = Tstar
+        """(*float*):   
+        Scaling factor between physical time and dimensionless time as
+        used in the differential equations, in years."""
+        
         self.k1 = k1
+        """(*float*):   
+        rate coefficient (1/a)."""
+        
         self.k2 = k2
+        """(*float*):   
+        rate coefficient (1/a)."""
+        
         self.nu1 = k1/k2
+        """@private"""
+
         self.k3 = k3
+        """(*float*):   
+        rate coefficient (1/a)."""
+        
         self.k4 = k4
+        """(*float*):   
+        rate coefficient (1/a)."""
+        
         self.nu2 = k4/k3
+        """@private"""
+        
         self.m1 = m1
+        """(*float*):       
+        Exponent of the reaction term for aragonite precipation."""
+        
         self.m2 = m2
+        """(*float*):   
+        Exponent of the reaction term for aragonite dissolution."""
+        
         self.n1 = n1
+        """(*float*):   
+        Exponent of the reaction term for calcite precipation."""
+        
         self.n2 = n2
+        """(*float*):   
+        Exponent of the reaction term for calcite dissolution."""
+        
         self.b = b
+        """(*float*):   
+        Sediment compressibility (1/(kPa) in SI or 0.1/kBa in cgs)."""
+        
         self.beta = beta
+        """(*float*):   
+        Constant in the hydraulic conductivity (cm/a)."""
+        
         self.rhos = rhos
+        """(*float*):   
+        Total solid density (g/cm³)."""
+        
         self.rhow = rhow
+        """(*float*):   
+        Density of water (g/cm³)."""
+        
         self.rhos0 = rhos0
+        """(*float*):   
+        Initial value of the total solid density (g/cm³)."""
+        
         self.KA = KA
+        """(*float*):   
+        Solubility of aragonite (M²)."""
+        
         self.KC = KC
+        """(*float*):   
+        Solubility of calcite (M²)."""
+        
         self.KRat = self.KC/self.KA
+        """@private"""
+        
         self.muA = muA
+        """(*float*):   
+        Molar mass of calcite and aragonite (g/mol)."""
+        
         self.D0Ca = D0Ca
+        """(*float*):   
+        Molecular diffusion coefficient of calcium ions in water (cm²/a)."""
+        
         self.PhiNR = PhiNR
+        """(*float*):   
+        Stationary unreactive system porosity (dimensionless)."""
+        
         self.PhiInfty = PhiInfty 
+        """(*float*):   
+        Parameter in equation 23 from L'Heureux (dimensionless)."""
+        
         self.Phi0 = Phi0
+        """@private"""
+
         self.DCa = DCa
+        """(*float*):   
+        Molecular diffusion coefficient of calcium ions in the sediment 
+        (cm²/a)."""
+        
         self.DCO3 = DCO3
+        """(*float*):   
+        Molecular diffusion coefficient of carbonate ions in the sediment 
+        (cm²/a)."""
+        
         self.not_too_shallow = not_too_shallow
+        """(*pde.Scalarfield*):   
+        Heaviside step function that is zero above the upper edge of the 
+        aragonite dissolution zone (ADZ) and 1 below that edge."""
+        
         self.not_too_deep = not_too_deep
+        """(*pde.Scalarfield*):   
+        Heaviside step function that is zero below the lower edge of the ADZ
+        and 1 above it."""
+        
 
         self.g = 100 * 9.81
+        """@private"""
         self.dCa = self.DCa / self.D0Ca
+        """@private"""
         self.dCO3 = self.DCO3 / self.D0Ca
+        """@private"""
         self.delta = self.rhos / (self.muA * np.sqrt(self.KC))
+        """@private"""
         self.Da = self.k2 * self.Tstar
+        """@private"""
         self.lambda_ = self.k3 / self.k2
+        """@private"""
         self.auxcon = self.beta / (self.D0Ca * self.b * self.g * self.rhow * \
                  (self.PhiNR - self.PhiInfty))
+        """@private"""
         self.rhorat0 = (self.rhos0 / self.rhow - 1) * self.beta / \
                   self.sedimentationrate
+        """@private"""
         self.rhorat = (self.rhos / self.rhow - 1) * self.beta / \
                  self.sedimentationrate
+        """@private"""
         self.presum = 1 - self.rhorat0 * self.Phi0 ** 3 * \
                  (1 - np.exp(10 - 10 / self.Phi0)) / (1 - self.Phi0)     
+        """@private"""
 
         # Fiadeiro-Veronis differentiation involves a coth and a reciprocal, which can
         # easily lead to FloatingPointError: overflow encountered in double_scalars.
         # To avoid this, better revert to either backwards or central differencing 
         # the Peclet number is very large or very small.
         self.Peclet_min = 1e-2
+        """@private"""
         self.Peclet_max = 1/self.Peclet_min
+        """@private"""
         # Need this number for Fiadeiro-Veronis differentiation.
         self.delta_x = self.AragoniteSurface.grid._axes_coords[0][1] - \
                        self.AragoniteSurface.grid._axes_coords[0][0]
+        """@private"""
         self.PhiIni = PhiIni
+        """**PhiIni** (*float*):   
+        Initial homogeneous porosity (dimensionless)"""
         self.F_fixed = 1 - np.exp(10 - 10 / self.PhiIni)
+        """@private"""
         self.dPhi_fixed = self.auxcon * self.F_fixed *\
                           self.PhiIni ** 3 / (1 - self.PhiIni) 
+        """@private"""
                           
 
     def get_state(self, AragoniteSurface, CalciteSurface, CaSurface, CO3Surface, 
                   PorSurface):
+        """@private"""
         # Return initial state and register forward and backward difference
         # operators. 
         AragoniteSurface.label = "ARA"
@@ -97,6 +259,11 @@ class LMAHeureuxPorosityDiff(PDEBase):
 
 
     def track_U_at_bottom(self, state, t):
+        """For recording U, the solid matrix advection field.
+        Although U is computed as part of the integration, for recording it,
+        we need to rederive it from the porosity at the bottom of the depth 
+        grid.
+          """
         # First, extract the porosity at the bottom of the system.
         # The derived quantities will then also be at the bottom of the system.
         Phi = state.data[4][-1]
@@ -108,26 +275,24 @@ class LMAHeureuxPorosityDiff(PDEBase):
     @staticmethod
     @njit
     def calculate_sigma(Peclet, W_data, Peclet_min, Peclet_max):
-        ''' Calculate sigma following formula 8.73 from Boudreau:
-        "Diagenetic Models and their implementation"
+        """ Calculate sigma following formula 8.73 from Boudreau:
+        'Diagenetic Models and their implementation'.
 
-        Parameters
-        ----------
-        Peclet: ndarray(dtype=float, ndim=1)
-            Array along depth of the Peclet numbers.
-        W-data: ndarray(dtype=float, ndim=1)
-            Array along depth of the velocity of the pore water 
-            (counted positive downwards)
-        Peclet_min: float
-            Lower limit for calculating 1/tanh(Peclet)
-        Peclet_max: float
-            Upper limit for calculating 1/tanh(Peclet)
+        Args:
+        -  **Peclet** (*ndarray(dtype=float, ndim=1)*):
+           Array along depth of the Peclet numbers.
+        -  **W-data** (*ndarray(dtype=float, ndim=1)*):
+           Array along depth of the velocity of the pore water 
+           (counted positive downwards)
+        -  **Peclet_min** (*float*):
+           Lower limit for calculating 1/tanh(Peclet)
+        -  **Peclet_max** (*float*):
+           Upper limit for calculating 1/tanh(Peclet)
 
         Returns
-        -------
-        sigma: ndarray(dtype=float, ndim=1)
-            Array along depth with sigma values
-        '''
+        -  **sigma** (*ndarray(dtype=float, ndim=1)*):
+           Array along depth with sigma values
+        """
         sigma = np.empty(Peclet.size)
         for i in range(sigma.size):
             if np.abs(Peclet[i]) < Peclet_min:
@@ -451,4 +616,4 @@ class LMAHeureuxPorosityDiff(PDEBase):
 
             return rate
 
-        return pde_rhs   
+        return pde_rhs 
