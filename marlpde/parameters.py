@@ -199,13 +199,13 @@ def jacobian_sparsity():
 
 @dataclass
 class Solver():
-    '''
-    Initialises all the parameters for the solver.
-    So parameters like time interval, time step and tolerance.
-    '''
+    """Initialises all the parameters for the solver, i.e. parameters like time
+    interval, time step and tolerance.
+    """
     dt: float = 1.e-6
-    # t_range is the integration time in units of T*.
     t_range: int = 1
+    """ t_range is the integration time in units of T*."""
+
     solver: str = "scipy"
     # Beware that "scheme" and "adaptive" will only be propagated if you have 
     # chosen py-pde's native "explicit" solver above.
