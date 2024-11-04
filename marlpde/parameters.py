@@ -199,24 +199,49 @@ class Solver():
     interval, time step and tolerance.
     """
     dt: float = 1.e-6
-    t_range: int = 1
-    """ t_range is the integration time in units of T*."""
-
+    """ Initial time step for the integration, in units of T* (dimensionless).
+    If the time step is not adaptive, i.e. if 'adaptive = False', this time 
+    step will be applied throughout the integration. If None, a default value
+    based on the stepper will be chosen."""
+    t_range: float = 1
+    """ The time interval that the integration should cover in units of T*
+    (dimensionless)."""
     solver: str = "scipy"
-    # Beware that "scheme" and "adaptive" will only be propagated if you have 
-    # chosen py-pde's native "explicit" solver above.
+    """The type of solver to use."""
     scheme: str = "euler"
+    """The type of integration scheme to use. Beware that 'scheme'
+    will only be propagated if you have chosen py-pde's native
+    'explicit' solver as 'solver'."""
     adaptive: bool = True
-    # solve_ivp from scipy offers six methods. They can be set here.
+    """Whether or not to use an adaptive time step. Beware that 'adaptive' 
+    will only be propagated if you have chosen py-pde's native
+    'explicit' solver as 'solver'."""
     method: str = "LSODA"
-    # Setting lband and uband for method="LSODA" leads to tremendous performance
-    # increase. See Scipy's solve_ivp documentation for background. Consider it
-    # equivalent to providing a sparsity matrix for the "Radau" and "BDF"
-    # implicit methods.
+    """solve_ivp from scipy.integrate offers six methods. 
+    They can be set here."""
     lband: int = 1
+    """ Setting lband and uband for method="LSODA" leads to tremendous
+    performance increase. See Scipy's 'solve_ivp' documentation for background.
+    Consider it equivalent to providing a sparsity matrix for the "Radau" 
+    and "BDF" implicit methods."""
     uband: int = 1
+    """ Setting lband and uband for method="LSODA" leads to tremendous
+    performance increase. See Scipy's 'solve_ivp' documentation for background.
+    Consider it equivalent to providing a sparsity matrix for the "Radau" 
+    and "BDF" implicit methods."""
     backend: str = "numba"
+    """Options are 'numpy and 'numba'. Choosing 'numba' means that the 
+    computations of the right-hand sides of the partial differential equations
+    for the five fields that we are integrating are compiled. This option is 
+    almost always faster than 'numpy', which uses the Python interpreter to 
+    launch (compiled) Numpy routines. However, the 'numba' option comes with
+    limitations with respect to the Python and Numpy routines that can be 
+    deployed. See the Numba documentation for a list of supported Numpy 
+    features.
+    """
     ret_info: bool = True
+    """Flag determining whether diagnostic information about the solver 
+    process should be returned. """
 
     def __post_init__(self):
         '''
@@ -244,7 +269,13 @@ class Tracker:
     Also indicates the quantities to be tracked, as boolean values.
     '''
     progress_tracker_interval: float = Solver().t_range / 1_000
-    live_plotting: bool = False
+    """This determines how often the progress bar, showing the 
+    integration progress, is updated. It is expressed in integration
+    units, i.e. in units of T*."""
+    live_plotting: bool = True
+    """It is possible to see how the distributions over depth, of the five
+    fields that we are integrating, evolve as integration progresses."""
     plotting_interval: str = '0:05'
+    """Update the live plots every """
     data_tracker_interval: float = 0.01
     track_U_at_bottom: bool = False
