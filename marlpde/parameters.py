@@ -276,6 +276,18 @@ class Tracker:
     """It is possible to see how the distributions over depth, of the five
     fields that we are integrating, evolve as integration progresses."""
     plotting_interval: str = '0:05'
-    """Update the live plots every """
+    """Attribute of the LivePlotTracker class that determines the interruption
+    of the simulation. A single number determines an interval (measured in the 
+    simulation time unit) of regular interruption. A string is interpreted as a
+    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is 
+    taken as explicit simulation time points."""
     data_tracker_interval: float = 0.01
+    """Attribute of the DataTracker class that determines the interruption
+    of the simulation. A single number determines an interval (measured in the 
+    simulation time unit) of regular interruption. A string is interpreted as a
+    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is 
+    taken as explicit simulation time points."""
     track_U_at_bottom: bool = False
+    """Whether to track solid matrix advection velocity U at the bottom of the
+    grid and store it as a dataset 'U at bottom' in a separate group 'U' 
+    within the hdf5 file containing all stored results."""
