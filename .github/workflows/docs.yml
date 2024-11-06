@@ -26,9 +26,8 @@ jobs:
       # install all dependencies (including pdoc)
       - run: pip install pipenv
       - run: pipenv install
-      - run: pipenv shell
       # build your documentation into docs/.
-      - run: pdoc marlpde/*.py -o ./docs/
+      - run: pipenv run pdoc marlpde/*.py -o ./docs/
 
       - uses: actions/upload-pages-artifact@v3
         with:
