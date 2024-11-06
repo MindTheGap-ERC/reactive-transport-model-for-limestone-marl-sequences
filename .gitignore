@@ -5,3 +5,4 @@ __pycache__
 Results
 .vscode/*.json
 *.lock
+docs/*
