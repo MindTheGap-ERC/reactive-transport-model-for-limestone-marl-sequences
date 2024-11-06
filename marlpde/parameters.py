@@ -269,6 +269,7 @@ class Solver():
             pass
 
 
+@no_init_docs
 @dataclass
 class Tracker:
     '''
