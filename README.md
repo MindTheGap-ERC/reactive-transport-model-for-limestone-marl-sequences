@@ -25,6 +25,7 @@ git clone https://github.com/astro-turing/Integrating-diagenetic-equations-using
 Next,
 ```
 cd Integrating-diagenetic-equations-using-Python
+git switch release_v1.0.0
 pipenv install
 ```
 
