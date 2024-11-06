@@ -1,3 +1,6 @@
+"""
+.. include:: ../README.md
+"""
 import pathlib
 import sys
 from .LHeureux_model import LMAHeureuxPorosityDiff
