@@ -308,9 +308,6 @@
                     <a class="class" href="#Tracker">Tracker</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="function" href="#Tracker.__init__">Tracker</a>
-                        </li>
-                        <li>
                                 <a class="variable" href="#Tracker.progress_tracker_interval">progress_tracker_interval</a>
                         </li>
                         <li>
@@ -2479,44 +2476,42 @@ retained.</p>
 </span><span id="jacobian_sparsity-160"><a href="#jacobian_sparsity-160"><span class="linenos">160</span></a><span class="sd">    matrix computed by `solve_ivp` (when neither the Jacobian nor the </span>
 </span><span id="jacobian_sparsity-161"><a href="#jacobian_sparsity-161"><span class="linenos">161</span></a><span class="sd">    Jacobian sparsity matrix was provided) has non-zero elements not </span>
 </span><span id="jacobian_sparsity-162"><a href="#jacobian_sparsity-162"><span class="linenos">162</span></a><span class="sd">    only on the diagonals but also on adjacent positions along the </span>
-</span><span id="jacobian_sparsity-163"><a href="#jacobian_sparsity-163"><span class="linenos">163</span></a><span class="sd">    diagonals. This was confirmed by ChatGPT:</span>
-</span><span id="jacobian_sparsity-164"><a href="#jacobian_sparsity-164"><span class="linenos">164</span></a><span class="sd">    &quot;It is indeed common for the Jacobian matrix of coupled partial </span>
-</span><span id="jacobian_sparsity-165"><a href="#jacobian_sparsity-165"><span class="linenos">165</span></a><span class="sd">    differential equations (PDEs), such as advection-diffusion equations, </span>
-</span><span id="jacobian_sparsity-166"><a href="#jacobian_sparsity-166"><span class="linenos">166</span></a><span class="sd">    to have non-zero elements beyond the main diagonal. This phenomenon, </span>
-</span><span id="jacobian_sparsity-167"><a href="#jacobian_sparsity-167"><span class="linenos">167</span></a><span class="sd">    where adjacent elements in the Jacobian are non-zero, is often due </span>
-</span><span id="jacobian_sparsity-168"><a href="#jacobian_sparsity-168"><span class="linenos">168</span></a><span class="sd">    to the spatial discretization of the differential equations.&quot;</span>
-</span><span id="jacobian_sparsity-169"><a href="#jacobian_sparsity-169"><span class="linenos">169</span></a><span class="sd">    Likewise computing a functional Jacobian is only feasible for the</span>
-</span><span id="jacobian_sparsity-170"><a href="#jacobian_sparsity-170"><span class="linenos">170</span></a><span class="sd">    diagonals, for positions near the diagonals it is very hard.</span>
-</span><span id="jacobian_sparsity-171"><a href="#jacobian_sparsity-171"><span class="linenos">171</span></a>
-</span><span id="jacobian_sparsity-172"><a href="#jacobian_sparsity-172"><span class="linenos">172</span></a><span class="sd">    Here we will choose diagonals of width 3.</span>
-</span><span id="jacobian_sparsity-173"><a href="#jacobian_sparsity-173"><span class="linenos">173</span></a><span class="sd">    &#39;&#39;&#39;</span>
-</span><span id="jacobian_sparsity-174"><a href="#jacobian_sparsity-174"><span class="linenos">174</span></a>
-</span><span id="jacobian_sparsity-175"><a href="#jacobian_sparsity-175"><span class="linenos">175</span></a>    <span class="n">no_depths</span> <span class="o">=</span> <span class="n">Map_Scenario</span><span class="p">()</span><span class="o">.</span><span class="n">N</span>
-</span><span id="jacobian_sparsity-176"><a href="#jacobian_sparsity-176"><span class="linenos">176</span></a>    <span class="c1"># Number of fields = 5, i.e. calcite, aragonite, concentrations of</span>
-</span><span id="jacobian_sparsity-177"><a href="#jacobian_sparsity-177"><span class="linenos">177</span></a>    <span class="c1"># calcium and carbonate ions and the porosity.</span>
-</span><span id="jacobian_sparsity-178"><a href="#jacobian_sparsity-178"><span class="linenos">178</span></a>    <span class="n">no_fields</span> <span class="o">=</span> <span class="mi">5</span>
-</span><span id="jacobian_sparsity-179"><a href="#jacobian_sparsity-179"><span class="linenos">179</span></a>    <span class="n">n</span> <span class="o">=</span> <span class="n">no_fields</span> <span class="o">*</span> <span class="n">no_depths</span>
-</span><span id="jacobian_sparsity-180"><a href="#jacobian_sparsity-180"><span class="linenos">180</span></a>    
-</span><span id="jacobian_sparsity-181"><a href="#jacobian_sparsity-181"><span class="linenos">181</span></a>    <span class="n">diagonals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">no_fields</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="p">))</span>
-</span><span id="jacobian_sparsity-182"><a href="#jacobian_sparsity-182"><span class="linenos">182</span></a>
-</span><span id="jacobian_sparsity-183"><a href="#jacobian_sparsity-183"><span class="linenos">183</span></a>    <span class="c1"># Construct the offsets.</span>
-</span><span id="jacobian_sparsity-184"><a href="#jacobian_sparsity-184"><span class="linenos">184</span></a>    <span class="n">offsets</span> <span class="o">=</span> <span class="p">()</span>
-</span><span id="jacobian_sparsity-185"><a href="#jacobian_sparsity-185"><span class="linenos">185</span></a>    <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">n</span> <span class="o">+</span> <span class="n">no_depths</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">no_depths</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">no_depths</span><span class="p">):</span> 
-</span><span id="jacobian_sparsity-186"><a href="#jacobian_sparsity-186"><span class="linenos">186</span></a>        <span class="n">offsets</span> <span class="o">=</span> <span class="n">offsets</span> <span class="o">+</span> <span class="p">((</span><span class="n">offset</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),)</span>
-</span><span id="jacobian_sparsity-187"><a href="#jacobian_sparsity-187"><span class="linenos">187</span></a>    <span class="c1"># Turn offsets into a single tuple instead of a tuple of tuples.</span>
-</span><span id="jacobian_sparsity-188"><a href="#jacobian_sparsity-188"><span class="linenos">188</span></a>    <span class="n">offsets</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">offsets</span><span class="p">,</span> <span class="p">())</span>
-</span><span id="jacobian_sparsity-189"><a href="#jacobian_sparsity-189"><span class="linenos">189</span></a>    <span class="c1"># Check that we have as many offsets as diagonals:</span>
-</span><span id="jacobian_sparsity-190"><a href="#jacobian_sparsity-190"><span class="linenos">190</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="jacobian_sparsity-191"><a href="#jacobian_sparsity-191"><span class="linenos">191</span></a>        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">offsets</span><span class="p">)</span> <span class="o">==</span> <span class="n">diagonals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="jacobian_sparsity-192"><a href="#jacobian_sparsity-192"><span class="linenos">192</span></a>    <span class="k">except</span> <span class="ne">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="jacobian_sparsity-193"><a href="#jacobian_sparsity-193"><span class="linenos">193</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setup of diagonals incorrect.&#39;</span><span class="p">)</span>
-</span><span id="jacobian_sparsity-194"><a href="#jacobian_sparsity-194"><span class="linenos">194</span></a>    <span class="c1"># Construct the sparse matrix. </span>
-</span><span id="jacobian_sparsity-195"><a href="#jacobian_sparsity-195"><span class="linenos">195</span></a>    <span class="n">raw_matrix</span> <span class="o">=</span> <span class="n">lil_matrix</span><span class="p">(</span><span class="n">dia_matrix</span><span class="p">((</span><span class="n">diagonals</span><span class="p">,</span> <span class="n">offsets</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)))</span> 
-</span><span id="jacobian_sparsity-196"><a href="#jacobian_sparsity-196"><span class="linenos">196</span></a>    <span class="c1"># Set the Jacobian elements to zero that correspond with the derivatives</span>
-</span><span id="jacobian_sparsity-197"><a href="#jacobian_sparsity-197"><span class="linenos">197</span></a>    <span class="c1"># of the rhs of equations 40 and 41 wrt phi.</span>
-</span><span id="jacobian_sparsity-198"><a href="#jacobian_sparsity-198"><span class="linenos">198</span></a>    <span class="n">raw_matrix</span><span class="p">[:</span><span class="mi">2</span> <span class="o">*</span> <span class="n">no_depths</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">no_depths</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="jacobian_sparsity-199"><a href="#jacobian_sparsity-199"><span class="linenos">199</span></a>
-</span><span id="jacobian_sparsity-200"><a href="#jacobian_sparsity-200"><span class="linenos">200</span></a>    <span class="k">return</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">raw_matrix</span><span class="p">)</span>
+</span><span id="jacobian_sparsity-163"><a href="#jacobian_sparsity-163"><span class="linenos">163</span></a><span class="sd">    diagonals. </span>
+</span><span id="jacobian_sparsity-164"><a href="#jacobian_sparsity-164"><span class="linenos">164</span></a><span class="sd">    See equation 2.58 from &quot;Finite Difference Methods Finite for Differential</span>
+</span><span id="jacobian_sparsity-165"><a href="#jacobian_sparsity-165"><span class="linenos">165</span></a><span class="sd">    Equations by Randall J. Leveque for an example of off-diagonal Jacobian</span>
+</span><span id="jacobian_sparsity-166"><a href="#jacobian_sparsity-166"><span class="linenos">166</span></a><span class="sd">    matrix elements. This example is about the Jacobian for solving the pde </span>
+</span><span id="jacobian_sparsity-167"><a href="#jacobian_sparsity-167"><span class="linenos">167</span></a><span class="sd">    describing the motion of a pendulum with a certain mass at the end of a </span>
+</span><span id="jacobian_sparsity-168"><a href="#jacobian_sparsity-168"><span class="linenos">168</span></a><span class="sd">    rigid (but massless) bar.</span>
+</span><span id="jacobian_sparsity-169"><a href="#jacobian_sparsity-169"><span class="linenos">169</span></a>
+</span><span id="jacobian_sparsity-170"><a href="#jacobian_sparsity-170"><span class="linenos">170</span></a><span class="sd">    Here we will choose diagonals of width 3.</span>
+</span><span id="jacobian_sparsity-171"><a href="#jacobian_sparsity-171"><span class="linenos">171</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="jacobian_sparsity-172"><a href="#jacobian_sparsity-172"><span class="linenos">172</span></a>
+</span><span id="jacobian_sparsity-173"><a href="#jacobian_sparsity-173"><span class="linenos">173</span></a>    <span class="n">no_depths</span> <span class="o">=</span> <span class="n">Map_Scenario</span><span class="p">()</span><span class="o">.</span><span class="n">N</span>
+</span><span id="jacobian_sparsity-174"><a href="#jacobian_sparsity-174"><span class="linenos">174</span></a>    <span class="c1"># Number of fields = 5, i.e. calcite, aragonite, concentrations of</span>
+</span><span id="jacobian_sparsity-175"><a href="#jacobian_sparsity-175"><span class="linenos">175</span></a>    <span class="c1"># calcium and carbonate ions and the porosity.</span>
+</span><span id="jacobian_sparsity-176"><a href="#jacobian_sparsity-176"><span class="linenos">176</span></a>    <span class="n">no_fields</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="jacobian_sparsity-177"><a href="#jacobian_sparsity-177"><span class="linenos">177</span></a>    <span class="n">n</span> <span class="o">=</span> <span class="n">no_fields</span> <span class="o">*</span> <span class="n">no_depths</span>
+</span><span id="jacobian_sparsity-178"><a href="#jacobian_sparsity-178"><span class="linenos">178</span></a>    
+</span><span id="jacobian_sparsity-179"><a href="#jacobian_sparsity-179"><span class="linenos">179</span></a>    <span class="n">diagonals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">no_fields</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="p">))</span>
+</span><span id="jacobian_sparsity-180"><a href="#jacobian_sparsity-180"><span class="linenos">180</span></a>
+</span><span id="jacobian_sparsity-181"><a href="#jacobian_sparsity-181"><span class="linenos">181</span></a>    <span class="c1"># Construct the offsets.</span>
+</span><span id="jacobian_sparsity-182"><a href="#jacobian_sparsity-182"><span class="linenos">182</span></a>    <span class="n">offsets</span> <span class="o">=</span> <span class="p">()</span>
+</span><span id="jacobian_sparsity-183"><a href="#jacobian_sparsity-183"><span class="linenos">183</span></a>    <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">n</span> <span class="o">+</span> <span class="n">no_depths</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">no_depths</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">no_depths</span><span class="p">):</span> 
+</span><span id="jacobian_sparsity-184"><a href="#jacobian_sparsity-184"><span class="linenos">184</span></a>        <span class="n">offsets</span> <span class="o">=</span> <span class="n">offsets</span> <span class="o">+</span> <span class="p">((</span><span class="n">offset</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),)</span>
+</span><span id="jacobian_sparsity-185"><a href="#jacobian_sparsity-185"><span class="linenos">185</span></a>    <span class="c1"># Turn offsets into a single tuple instead of a tuple of tuples.</span>
+</span><span id="jacobian_sparsity-186"><a href="#jacobian_sparsity-186"><span class="linenos">186</span></a>    <span class="n">offsets</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">offsets</span><span class="p">,</span> <span class="p">())</span>
+</span><span id="jacobian_sparsity-187"><a href="#jacobian_sparsity-187"><span class="linenos">187</span></a>    <span class="c1"># Check that we have as many offsets as diagonals:</span>
+</span><span id="jacobian_sparsity-188"><a href="#jacobian_sparsity-188"><span class="linenos">188</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="jacobian_sparsity-189"><a href="#jacobian_sparsity-189"><span class="linenos">189</span></a>        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">offsets</span><span class="p">)</span> <span class="o">==</span> <span class="n">diagonals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="jacobian_sparsity-190"><a href="#jacobian_sparsity-190"><span class="linenos">190</span></a>    <span class="k">except</span> <span class="ne">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="jacobian_sparsity-191"><a href="#jacobian_sparsity-191"><span class="linenos">191</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setup of diagonals incorrect.&#39;</span><span class="p">)</span>
+</span><span id="jacobian_sparsity-192"><a href="#jacobian_sparsity-192"><span class="linenos">192</span></a>    <span class="c1"># Construct the sparse matrix. </span>
+</span><span id="jacobian_sparsity-193"><a href="#jacobian_sparsity-193"><span class="linenos">193</span></a>    <span class="n">raw_matrix</span> <span class="o">=</span> <span class="n">lil_matrix</span><span class="p">(</span><span class="n">dia_matrix</span><span class="p">((</span><span class="n">diagonals</span><span class="p">,</span> <span class="n">offsets</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)))</span> 
+</span><span id="jacobian_sparsity-194"><a href="#jacobian_sparsity-194"><span class="linenos">194</span></a>    <span class="c1"># Set the Jacobian elements to zero that correspond with the derivatives</span>
+</span><span id="jacobian_sparsity-195"><a href="#jacobian_sparsity-195"><span class="linenos">195</span></a>    <span class="c1"># of the rhs of equations 40 and 41 wrt phi.</span>
+</span><span id="jacobian_sparsity-196"><a href="#jacobian_sparsity-196"><span class="linenos">196</span></a>    <span class="n">raw_matrix</span><span class="p">[:</span><span class="mi">2</span> <span class="o">*</span> <span class="n">no_depths</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">no_depths</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="jacobian_sparsity-197"><a href="#jacobian_sparsity-197"><span class="linenos">197</span></a>
+</span><span id="jacobian_sparsity-198"><a href="#jacobian_sparsity-198"><span class="linenos">198</span></a>    <span class="k">return</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">raw_matrix</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -2530,14 +2525,12 @@ session with breakpoints inside solve_ivp showed that the Jacobian
 matrix computed by <code>solve_ivp</code> (when neither the Jacobian nor the 
 Jacobian sparsity matrix was provided) has non-zero elements not 
 only on the diagonals but also on adjacent positions along the 
-diagonals. This was confirmed by ChatGPT:
-"It is indeed common for the Jacobian matrix of coupled partial 
-differential equations (PDEs), such as advection-diffusion equations, 
-to have non-zero elements beyond the main diagonal. This phenomenon, 
-where adjacent elements in the Jacobian are non-zero, is often due 
-to the spatial discretization of the differential equations."
-Likewise computing a functional Jacobian is only feasible for the
-diagonals, for positions near the diagonals it is very hard.</p>
+diagonals. 
+See equation 2.58 from "Finite Difference Methods Finite for Differential
+Equations by Randall J. Leveque for an example of off-diagonal Jacobian
+matrix elements. This example is about the Jacobian for solving the pde 
+describing the motion of a pendulum with a certain mass at the end of a 
+rigid (but massless) bar.</p>
 
 <p>Here we will choose diagonals of width 3.</p>
 </div>
@@ -2557,74 +2550,74 @@ diagonals, for positions near the diagonals it is very hard.</p>
 
     </div>
     <a class="headerlink" href="#Solver"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Solver-203"><a href="#Solver-203"><span class="linenos">203</span></a><span class="nd">@no_init_docs</span>
-</span><span id="Solver-204"><a href="#Solver-204"><span class="linenos">204</span></a><span class="nd">@dataclass</span>
-</span><span id="Solver-205"><a href="#Solver-205"><span class="linenos">205</span></a><span class="k">class</span> <span class="nc">Solver</span><span class="p">():</span>
-</span><span id="Solver-206"><a href="#Solver-206"><span class="linenos">206</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialises all the parameters for the solver, i.e. parameters like time</span>
-</span><span id="Solver-207"><a href="#Solver-207"><span class="linenos">207</span></a><span class="sd">    interval, time step and tolerance.</span>
-</span><span id="Solver-208"><a href="#Solver-208"><span class="linenos">208</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Solver-209"><a href="#Solver-209"><span class="linenos">209</span></a>    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.e-6</span>
-</span><span id="Solver-210"><a href="#Solver-210"><span class="linenos">210</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Initial time step for the integration, in units of T* (dimensionless).</span>
-</span><span id="Solver-211"><a href="#Solver-211"><span class="linenos">211</span></a><span class="sd">    If the time step is not adaptive, i.e. if &#39;adaptive = False&#39;, this time </span>
-</span><span id="Solver-212"><a href="#Solver-212"><span class="linenos">212</span></a><span class="sd">    step will be applied throughout the integration. If None, a default value</span>
-</span><span id="Solver-213"><a href="#Solver-213"><span class="linenos">213</span></a><span class="sd">    based on the stepper will be chosen.&quot;&quot;&quot;</span>
-</span><span id="Solver-214"><a href="#Solver-214"><span class="linenos">214</span></a>    <span class="n">t_range</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Solver-215"><a href="#Solver-215"><span class="linenos">215</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; The time interval that the integration should cover in units of T*</span>
-</span><span id="Solver-216"><a href="#Solver-216"><span class="linenos">216</span></a><span class="sd">    (dimensionless).&quot;&quot;&quot;</span>
-</span><span id="Solver-217"><a href="#Solver-217"><span class="linenos">217</span></a>    <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;scipy&quot;</span>
-</span><span id="Solver-218"><a href="#Solver-218"><span class="linenos">218</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of solver to use.&quot;&quot;&quot;</span>
-</span><span id="Solver-219"><a href="#Solver-219"><span class="linenos">219</span></a>    <span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;euler&quot;</span>
-</span><span id="Solver-220"><a href="#Solver-220"><span class="linenos">220</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of integration scheme to use. Beware that &#39;scheme&#39;</span>
-</span><span id="Solver-221"><a href="#Solver-221"><span class="linenos">221</span></a><span class="sd">    will only be propagated if you have chosen py-pde&#39;s native</span>
-</span><span id="Solver-222"><a href="#Solver-222"><span class="linenos">222</span></a><span class="sd">    &#39;explicit&#39; solver as &#39;solver&#39;.&quot;&quot;&quot;</span>
-</span><span id="Solver-223"><a href="#Solver-223"><span class="linenos">223</span></a>    <span class="n">adaptive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="Solver-224"><a href="#Solver-224"><span class="linenos">224</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether or not to use an adaptive time step. Beware that &#39;adaptive&#39; </span>
-</span><span id="Solver-225"><a href="#Solver-225"><span class="linenos">225</span></a><span class="sd">    will only be propagated if you have chosen py-pde&#39;s native</span>
-</span><span id="Solver-226"><a href="#Solver-226"><span class="linenos">226</span></a><span class="sd">    &#39;explicit&#39; solver as &#39;solver&#39;.&quot;&quot;&quot;</span>
-</span><span id="Solver-227"><a href="#Solver-227"><span class="linenos">227</span></a>    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LSODA&quot;</span>
-</span><span id="Solver-228"><a href="#Solver-228"><span class="linenos">228</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;solve_ivp from scipy.integrate offers six methods. </span>
-</span><span id="Solver-229"><a href="#Solver-229"><span class="linenos">229</span></a><span class="sd">    They can be set here.&quot;&quot;&quot;</span>
-</span><span id="Solver-230"><a href="#Solver-230"><span class="linenos">230</span></a>    <span class="n">lband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Solver-231"><a href="#Solver-231"><span class="linenos">231</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Setting lband and uband for method=&quot;LSODA&quot; leads to tremendous</span>
-</span><span id="Solver-232"><a href="#Solver-232"><span class="linenos">232</span></a><span class="sd">    performance increase. See Scipy&#39;s &#39;solve_ivp&#39; documentation for background.</span>
-</span><span id="Solver-233"><a href="#Solver-233"><span class="linenos">233</span></a><span class="sd">    Consider it equivalent to providing a sparsity matrix for the &quot;Radau&quot; </span>
-</span><span id="Solver-234"><a href="#Solver-234"><span class="linenos">234</span></a><span class="sd">    and &quot;BDF&quot; implicit methods.&quot;&quot;&quot;</span>
-</span><span id="Solver-235"><a href="#Solver-235"><span class="linenos">235</span></a>    <span class="n">uband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Solver-236"><a href="#Solver-236"><span class="linenos">236</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Setting lband and uband for method=&quot;LSODA&quot; leads to tremendous</span>
-</span><span id="Solver-237"><a href="#Solver-237"><span class="linenos">237</span></a><span class="sd">    performance increase. See Scipy&#39;s &#39;solve_ivp&#39; documentation for background.</span>
-</span><span id="Solver-238"><a href="#Solver-238"><span class="linenos">238</span></a><span class="sd">    Consider it equivalent to providing a sparsity matrix for the &quot;Radau&quot; </span>
-</span><span id="Solver-239"><a href="#Solver-239"><span class="linenos">239</span></a><span class="sd">    and &quot;BDF&quot; implicit methods.&quot;&quot;&quot;</span>
-</span><span id="Solver-240"><a href="#Solver-240"><span class="linenos">240</span></a>    <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;numba&quot;</span>
-</span><span id="Solver-241"><a href="#Solver-241"><span class="linenos">241</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Options are &#39;numpy and &#39;numba&#39;. Choosing &#39;numba&#39; means that the </span>
-</span><span id="Solver-242"><a href="#Solver-242"><span class="linenos">242</span></a><span class="sd">    computations of the right-hand sides of the partial differential equations</span>
-</span><span id="Solver-243"><a href="#Solver-243"><span class="linenos">243</span></a><span class="sd">    for the five fields that we are integrating are compiled. This option is </span>
-</span><span id="Solver-244"><a href="#Solver-244"><span class="linenos">244</span></a><span class="sd">    almost always faster than &#39;numpy&#39;, which uses the Python interpreter to </span>
-</span><span id="Solver-245"><a href="#Solver-245"><span class="linenos">245</span></a><span class="sd">    launch (compiled) Numpy routines. However, the &#39;numba&#39; option comes with</span>
-</span><span id="Solver-246"><a href="#Solver-246"><span class="linenos">246</span></a><span class="sd">    limitations with respect to the Python and Numpy routines that can be </span>
-</span><span id="Solver-247"><a href="#Solver-247"><span class="linenos">247</span></a><span class="sd">    deployed. See the Numba documentation for a list of supported Numpy </span>
-</span><span id="Solver-248"><a href="#Solver-248"><span class="linenos">248</span></a><span class="sd">    features.</span>
-</span><span id="Solver-249"><a href="#Solver-249"><span class="linenos">249</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Solver-250"><a href="#Solver-250"><span class="linenos">250</span></a>    <span class="n">ret_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="Solver-251"><a href="#Solver-251"><span class="linenos">251</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Flag determining whether diagnostic information about the solver </span>
-</span><span id="Solver-252"><a href="#Solver-252"><span class="linenos">252</span></a><span class="sd">    process should be returned. &quot;&quot;&quot;</span>
-</span><span id="Solver-253"><a href="#Solver-253"><span class="linenos">253</span></a>
-</span><span id="Solver-254"><a href="#Solver-254"><span class="linenos">254</span></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Solver-255"><a href="#Solver-255"><span class="linenos">255</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Solver-256"><a href="#Solver-256"><span class="linenos">256</span></a><span class="sd">        Filter out solver settings that are mutually incompatible.</span>
-</span><span id="Solver-257"><a href="#Solver-257"><span class="linenos">257</span></a><span class="sd">        &#39;&#39;&#39;</span>
-</span><span id="Solver-258"><a href="#Solver-258"><span class="linenos">258</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="Solver-259"><a href="#Solver-259"><span class="linenos">259</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">!=</span> <span class="s2">&quot;scipy&quot;</span><span class="p">:</span>
-</span><span id="Solver-260"><a href="#Solver-260"><span class="linenos">260</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span>
-</span><span id="Solver-261"><a href="#Solver-261"><span class="linenos">261</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;lband&quot;</span><span class="p">]</span>
-</span><span id="Solver-262"><a href="#Solver-262"><span class="linenos">262</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;uband&quot;</span><span class="p">]</span>
-</span><span id="Solver-263"><a href="#Solver-263"><span class="linenos">263</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="Solver-264"><a href="#Solver-264"><span class="linenos">264</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;scheme&quot;</span><span class="p">]</span>
-</span><span id="Solver-265"><a href="#Solver-265"><span class="linenos">265</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;adaptive&quot;</span><span class="p">]</span>
-</span><span id="Solver-266"><a href="#Solver-266"><span class="linenos">266</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;LSODA&quot;</span><span class="p">:</span>
-</span><span id="Solver-267"><a href="#Solver-267"><span class="linenos">267</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;lband&quot;</span><span class="p">]</span>
-</span><span id="Solver-268"><a href="#Solver-268"><span class="linenos">268</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;uband&quot;</span><span class="p">]</span>
-</span><span id="Solver-269"><a href="#Solver-269"><span class="linenos">269</span></a>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-</span><span id="Solver-270"><a href="#Solver-270"><span class="linenos">270</span></a>            <span class="k">pass</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Solver-201"><a href="#Solver-201"><span class="linenos">201</span></a><span class="nd">@no_init_docs</span>
+</span><span id="Solver-202"><a href="#Solver-202"><span class="linenos">202</span></a><span class="nd">@dataclass</span>
+</span><span id="Solver-203"><a href="#Solver-203"><span class="linenos">203</span></a><span class="k">class</span> <span class="nc">Solver</span><span class="p">():</span>
+</span><span id="Solver-204"><a href="#Solver-204"><span class="linenos">204</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialises all the parameters for the solver, i.e. parameters like time</span>
+</span><span id="Solver-205"><a href="#Solver-205"><span class="linenos">205</span></a><span class="sd">    interval, time step and tolerance.</span>
+</span><span id="Solver-206"><a href="#Solver-206"><span class="linenos">206</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Solver-207"><a href="#Solver-207"><span class="linenos">207</span></a>    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.e-6</span>
+</span><span id="Solver-208"><a href="#Solver-208"><span class="linenos">208</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Initial time step for the integration, in units of T* (dimensionless).</span>
+</span><span id="Solver-209"><a href="#Solver-209"><span class="linenos">209</span></a><span class="sd">    If the time step is not adaptive, i.e. if &#39;adaptive = False&#39;, this time </span>
+</span><span id="Solver-210"><a href="#Solver-210"><span class="linenos">210</span></a><span class="sd">    step will be applied throughout the integration. If None, a default value</span>
+</span><span id="Solver-211"><a href="#Solver-211"><span class="linenos">211</span></a><span class="sd">    based on the stepper will be chosen.&quot;&quot;&quot;</span>
+</span><span id="Solver-212"><a href="#Solver-212"><span class="linenos">212</span></a>    <span class="n">t_range</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Solver-213"><a href="#Solver-213"><span class="linenos">213</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; The time interval that the integration should cover in units of T*</span>
+</span><span id="Solver-214"><a href="#Solver-214"><span class="linenos">214</span></a><span class="sd">    (dimensionless).&quot;&quot;&quot;</span>
+</span><span id="Solver-215"><a href="#Solver-215"><span class="linenos">215</span></a>    <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;scipy&quot;</span>
+</span><span id="Solver-216"><a href="#Solver-216"><span class="linenos">216</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of solver to use.&quot;&quot;&quot;</span>
+</span><span id="Solver-217"><a href="#Solver-217"><span class="linenos">217</span></a>    <span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;euler&quot;</span>
+</span><span id="Solver-218"><a href="#Solver-218"><span class="linenos">218</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of integration scheme to use. Beware that &#39;scheme&#39;</span>
+</span><span id="Solver-219"><a href="#Solver-219"><span class="linenos">219</span></a><span class="sd">    will only be propagated if you have chosen py-pde&#39;s native</span>
+</span><span id="Solver-220"><a href="#Solver-220"><span class="linenos">220</span></a><span class="sd">    &#39;explicit&#39; solver as &#39;solver&#39;.&quot;&quot;&quot;</span>
+</span><span id="Solver-221"><a href="#Solver-221"><span class="linenos">221</span></a>    <span class="n">adaptive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Solver-222"><a href="#Solver-222"><span class="linenos">222</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether or not to use an adaptive time step. Beware that &#39;adaptive&#39; </span>
+</span><span id="Solver-223"><a href="#Solver-223"><span class="linenos">223</span></a><span class="sd">    will only be propagated if you have chosen py-pde&#39;s native</span>
+</span><span id="Solver-224"><a href="#Solver-224"><span class="linenos">224</span></a><span class="sd">    &#39;explicit&#39; solver as &#39;solver&#39;.&quot;&quot;&quot;</span>
+</span><span id="Solver-225"><a href="#Solver-225"><span class="linenos">225</span></a>    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LSODA&quot;</span>
+</span><span id="Solver-226"><a href="#Solver-226"><span class="linenos">226</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;solve_ivp from scipy.integrate offers six methods. </span>
+</span><span id="Solver-227"><a href="#Solver-227"><span class="linenos">227</span></a><span class="sd">    They can be set here.&quot;&quot;&quot;</span>
+</span><span id="Solver-228"><a href="#Solver-228"><span class="linenos">228</span></a>    <span class="n">lband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Solver-229"><a href="#Solver-229"><span class="linenos">229</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Setting lband and uband for method=&quot;LSODA&quot; leads to tremendous</span>
+</span><span id="Solver-230"><a href="#Solver-230"><span class="linenos">230</span></a><span class="sd">    performance increase. See Scipy&#39;s &#39;solve_ivp&#39; documentation for background.</span>
+</span><span id="Solver-231"><a href="#Solver-231"><span class="linenos">231</span></a><span class="sd">    Consider it equivalent to providing a sparsity matrix for the &quot;Radau&quot; </span>
+</span><span id="Solver-232"><a href="#Solver-232"><span class="linenos">232</span></a><span class="sd">    and &quot;BDF&quot; implicit methods.&quot;&quot;&quot;</span>
+</span><span id="Solver-233"><a href="#Solver-233"><span class="linenos">233</span></a>    <span class="n">uband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Solver-234"><a href="#Solver-234"><span class="linenos">234</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Setting lband and uband for method=&quot;LSODA&quot; leads to tremendous</span>
+</span><span id="Solver-235"><a href="#Solver-235"><span class="linenos">235</span></a><span class="sd">    performance increase. See Scipy&#39;s &#39;solve_ivp&#39; documentation for background.</span>
+</span><span id="Solver-236"><a href="#Solver-236"><span class="linenos">236</span></a><span class="sd">    Consider it equivalent to providing a sparsity matrix for the &quot;Radau&quot; </span>
+</span><span id="Solver-237"><a href="#Solver-237"><span class="linenos">237</span></a><span class="sd">    and &quot;BDF&quot; implicit methods.&quot;&quot;&quot;</span>
+</span><span id="Solver-238"><a href="#Solver-238"><span class="linenos">238</span></a>    <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;numba&quot;</span>
+</span><span id="Solver-239"><a href="#Solver-239"><span class="linenos">239</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Options are &#39;numpy and &#39;numba&#39;. Choosing &#39;numba&#39; means that the </span>
+</span><span id="Solver-240"><a href="#Solver-240"><span class="linenos">240</span></a><span class="sd">    computations of the right-hand sides of the partial differential equations</span>
+</span><span id="Solver-241"><a href="#Solver-241"><span class="linenos">241</span></a><span class="sd">    for the five fields that we are integrating are compiled. This option is </span>
+</span><span id="Solver-242"><a href="#Solver-242"><span class="linenos">242</span></a><span class="sd">    almost always faster than &#39;numpy&#39;, which uses the Python interpreter to </span>
+</span><span id="Solver-243"><a href="#Solver-243"><span class="linenos">243</span></a><span class="sd">    launch (compiled) Numpy routines. However, the &#39;numba&#39; option comes with</span>
+</span><span id="Solver-244"><a href="#Solver-244"><span class="linenos">244</span></a><span class="sd">    limitations with respect to the Python and Numpy routines that can be </span>
+</span><span id="Solver-245"><a href="#Solver-245"><span class="linenos">245</span></a><span class="sd">    deployed. See the Numba documentation for a list of supported Numpy </span>
+</span><span id="Solver-246"><a href="#Solver-246"><span class="linenos">246</span></a><span class="sd">    features.</span>
+</span><span id="Solver-247"><a href="#Solver-247"><span class="linenos">247</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Solver-248"><a href="#Solver-248"><span class="linenos">248</span></a>    <span class="n">ret_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Solver-249"><a href="#Solver-249"><span class="linenos">249</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Flag determining whether diagnostic information about the solver </span>
+</span><span id="Solver-250"><a href="#Solver-250"><span class="linenos">250</span></a><span class="sd">    process should be returned. &quot;&quot;&quot;</span>
+</span><span id="Solver-251"><a href="#Solver-251"><span class="linenos">251</span></a>
+</span><span id="Solver-252"><a href="#Solver-252"><span class="linenos">252</span></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Solver-253"><a href="#Solver-253"><span class="linenos">253</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Solver-254"><a href="#Solver-254"><span class="linenos">254</span></a><span class="sd">        Filter out solver settings that are mutually incompatible.</span>
+</span><span id="Solver-255"><a href="#Solver-255"><span class="linenos">255</span></a><span class="sd">        &#39;&#39;&#39;</span>
+</span><span id="Solver-256"><a href="#Solver-256"><span class="linenos">256</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="Solver-257"><a href="#Solver-257"><span class="linenos">257</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">!=</span> <span class="s2">&quot;scipy&quot;</span><span class="p">:</span>
+</span><span id="Solver-258"><a href="#Solver-258"><span class="linenos">258</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span>
+</span><span id="Solver-259"><a href="#Solver-259"><span class="linenos">259</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;lband&quot;</span><span class="p">]</span>
+</span><span id="Solver-260"><a href="#Solver-260"><span class="linenos">260</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;uband&quot;</span><span class="p">]</span>
+</span><span id="Solver-261"><a href="#Solver-261"><span class="linenos">261</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="Solver-262"><a href="#Solver-262"><span class="linenos">262</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;scheme&quot;</span><span class="p">]</span>
+</span><span id="Solver-263"><a href="#Solver-263"><span class="linenos">263</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;adaptive&quot;</span><span class="p">]</span>
+</span><span id="Solver-264"><a href="#Solver-264"><span class="linenos">264</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;LSODA&quot;</span><span class="p">:</span>
+</span><span id="Solver-265"><a href="#Solver-265"><span class="linenos">265</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;lband&quot;</span><span class="p">]</span>
+</span><span id="Solver-266"><a href="#Solver-266"><span class="linenos">266</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;uband&quot;</span><span class="p">]</span>
+</span><span id="Solver-267"><a href="#Solver-267"><span class="linenos">267</span></a>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+</span><span id="Solver-268"><a href="#Solver-268"><span class="linenos">268</span></a>            <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -2800,7 +2793,8 @@ process should be returned.</p>
                 <section id="Tracker">
                             <input id="Tracker-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@dataclass</div>
+                    <div class="decorator">@no_init_docs</div>
+        <div class="decorator">@dataclass</div>
 
     <span class="def">class</span>
     <span class="name">Tracker</span>:
@@ -2809,35 +2803,36 @@ process should be returned.</p>
 
     </div>
     <a class="headerlink" href="#Tracker"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Tracker-273"><a href="#Tracker-273"><span class="linenos">273</span></a><span class="nd">@dataclass</span>
-</span><span id="Tracker-274"><a href="#Tracker-274"><span class="linenos">274</span></a><span class="k">class</span> <span class="nc">Tracker</span><span class="p">:</span>
-</span><span id="Tracker-275"><a href="#Tracker-275"><span class="linenos">275</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Tracker-276"><a href="#Tracker-276"><span class="linenos">276</span></a><span class="sd">    Initialises all the tracking parameters, such as tracker interval.</span>
-</span><span id="Tracker-277"><a href="#Tracker-277"><span class="linenos">277</span></a><span class="sd">    Also indicates the quantities to be tracked, as boolean values.</span>
-</span><span id="Tracker-278"><a href="#Tracker-278"><span class="linenos">278</span></a><span class="sd">    &#39;&#39;&#39;</span>
-</span><span id="Tracker-279"><a href="#Tracker-279"><span class="linenos">279</span></a>    <span class="n">progress_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span><span class="o">.</span><span class="n">t_range</span> <span class="o">/</span> <span class="mi">1_000</span>
-</span><span id="Tracker-280"><a href="#Tracker-280"><span class="linenos">280</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;This determines how often the progress bar, showing the </span>
-</span><span id="Tracker-281"><a href="#Tracker-281"><span class="linenos">281</span></a><span class="sd">    integration progress, is updated. It is expressed in integration</span>
-</span><span id="Tracker-282"><a href="#Tracker-282"><span class="linenos">282</span></a><span class="sd">    units, i.e. in units of T*.&quot;&quot;&quot;</span>
-</span><span id="Tracker-283"><a href="#Tracker-283"><span class="linenos">283</span></a>    <span class="n">live_plotting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="Tracker-284"><a href="#Tracker-284"><span class="linenos">284</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;It is possible to see how the distributions over depth, of the five</span>
-</span><span id="Tracker-285"><a href="#Tracker-285"><span class="linenos">285</span></a><span class="sd">    fields that we are integrating, evolve as integration progresses.&quot;&quot;&quot;</span>
-</span><span id="Tracker-286"><a href="#Tracker-286"><span class="linenos">286</span></a>    <span class="n">plotting_interval</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;0:05&#39;</span>
-</span><span id="Tracker-287"><a href="#Tracker-287"><span class="linenos">287</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute of the LivePlotTracker class that determines the interruption</span>
-</span><span id="Tracker-288"><a href="#Tracker-288"><span class="linenos">288</span></a><span class="sd">    of the simulation. A single number determines an interval (measured in the </span>
-</span><span id="Tracker-289"><a href="#Tracker-289"><span class="linenos">289</span></a><span class="sd">    simulation time unit) of regular interruption. A string is interpreted as a</span>
-</span><span id="Tracker-290"><a href="#Tracker-290"><span class="linenos">290</span></a><span class="sd">    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is </span>
-</span><span id="Tracker-291"><a href="#Tracker-291"><span class="linenos">291</span></a><span class="sd">    taken as explicit simulation time points.&quot;&quot;&quot;</span>
-</span><span id="Tracker-292"><a href="#Tracker-292"><span class="linenos">292</span></a>    <span class="n">data_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
-</span><span id="Tracker-293"><a href="#Tracker-293"><span class="linenos">293</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute of the DataTracker class that determines the interruption</span>
-</span><span id="Tracker-294"><a href="#Tracker-294"><span class="linenos">294</span></a><span class="sd">    of the simulation. A single number determines an interval (measured in the </span>
-</span><span id="Tracker-295"><a href="#Tracker-295"><span class="linenos">295</span></a><span class="sd">    simulation time unit) of regular interruption. A string is interpreted as a</span>
-</span><span id="Tracker-296"><a href="#Tracker-296"><span class="linenos">296</span></a><span class="sd">    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is </span>
-</span><span id="Tracker-297"><a href="#Tracker-297"><span class="linenos">297</span></a><span class="sd">    taken as explicit simulation time points.&quot;&quot;&quot;</span>
-</span><span id="Tracker-298"><a href="#Tracker-298"><span class="linenos">298</span></a>    <span class="n">track_U_at_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-</span><span id="Tracker-299"><a href="#Tracker-299"><span class="linenos">299</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to track solid matrix advection velocity U at the bottom of the</span>
-</span><span id="Tracker-300"><a href="#Tracker-300"><span class="linenos">300</span></a><span class="sd">    grid and store it as a dataset &#39;U at bottom&#39; in a separate group &#39;U&#39; </span>
-</span><span id="Tracker-301"><a href="#Tracker-301"><span class="linenos">301</span></a><span class="sd">    within the hdf5 file containing all stored results.&quot;&quot;&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Tracker-271"><a href="#Tracker-271"><span class="linenos">271</span></a><span class="nd">@no_init_docs</span>
+</span><span id="Tracker-272"><a href="#Tracker-272"><span class="linenos">272</span></a><span class="nd">@dataclass</span>
+</span><span id="Tracker-273"><a href="#Tracker-273"><span class="linenos">273</span></a><span class="k">class</span> <span class="nc">Tracker</span><span class="p">:</span>
+</span><span id="Tracker-274"><a href="#Tracker-274"><span class="linenos">274</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Tracker-275"><a href="#Tracker-275"><span class="linenos">275</span></a><span class="sd">    Initialises all the tracking parameters, such as tracker interval.</span>
+</span><span id="Tracker-276"><a href="#Tracker-276"><span class="linenos">276</span></a><span class="sd">    Also indicates the quantities to be tracked, as boolean values.</span>
+</span><span id="Tracker-277"><a href="#Tracker-277"><span class="linenos">277</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Tracker-278"><a href="#Tracker-278"><span class="linenos">278</span></a>    <span class="n">progress_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span><span class="o">.</span><span class="n">t_range</span> <span class="o">/</span> <span class="mi">1_000</span>
+</span><span id="Tracker-279"><a href="#Tracker-279"><span class="linenos">279</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;This determines how often the progress bar, showing the </span>
+</span><span id="Tracker-280"><a href="#Tracker-280"><span class="linenos">280</span></a><span class="sd">    integration progress, is updated. It is expressed in integration</span>
+</span><span id="Tracker-281"><a href="#Tracker-281"><span class="linenos">281</span></a><span class="sd">    units, i.e. in units of T*.&quot;&quot;&quot;</span>
+</span><span id="Tracker-282"><a href="#Tracker-282"><span class="linenos">282</span></a>    <span class="n">live_plotting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Tracker-283"><a href="#Tracker-283"><span class="linenos">283</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;It is possible to see how the distributions over depth, of the five</span>
+</span><span id="Tracker-284"><a href="#Tracker-284"><span class="linenos">284</span></a><span class="sd">    fields that we are integrating, evolve as integration progresses.&quot;&quot;&quot;</span>
+</span><span id="Tracker-285"><a href="#Tracker-285"><span class="linenos">285</span></a>    <span class="n">plotting_interval</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;0:05&#39;</span>
+</span><span id="Tracker-286"><a href="#Tracker-286"><span class="linenos">286</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute of the LivePlotTracker class that determines the interruption</span>
+</span><span id="Tracker-287"><a href="#Tracker-287"><span class="linenos">287</span></a><span class="sd">    of the simulation. A single number determines an interval (measured in the </span>
+</span><span id="Tracker-288"><a href="#Tracker-288"><span class="linenos">288</span></a><span class="sd">    simulation time unit) of regular interruption. A string is interpreted as a</span>
+</span><span id="Tracker-289"><a href="#Tracker-289"><span class="linenos">289</span></a><span class="sd">    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is </span>
+</span><span id="Tracker-290"><a href="#Tracker-290"><span class="linenos">290</span></a><span class="sd">    taken as explicit simulation time points.&quot;&quot;&quot;</span>
+</span><span id="Tracker-291"><a href="#Tracker-291"><span class="linenos">291</span></a>    <span class="n">data_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
+</span><span id="Tracker-292"><a href="#Tracker-292"><span class="linenos">292</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute of the DataTracker class that determines the interruption</span>
+</span><span id="Tracker-293"><a href="#Tracker-293"><span class="linenos">293</span></a><span class="sd">    of the simulation. A single number determines an interval (measured in the </span>
+</span><span id="Tracker-294"><a href="#Tracker-294"><span class="linenos">294</span></a><span class="sd">    simulation time unit) of regular interruption. A string is interpreted as a</span>
+</span><span id="Tracker-295"><a href="#Tracker-295"><span class="linenos">295</span></a><span class="sd">    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is </span>
+</span><span id="Tracker-296"><a href="#Tracker-296"><span class="linenos">296</span></a><span class="sd">    taken as explicit simulation time points.&quot;&quot;&quot;</span>
+</span><span id="Tracker-297"><a href="#Tracker-297"><span class="linenos">297</span></a>    <span class="n">track_U_at_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="Tracker-298"><a href="#Tracker-298"><span class="linenos">298</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to track solid matrix advection velocity U at the bottom of the</span>
+</span><span id="Tracker-299"><a href="#Tracker-299"><span class="linenos">299</span></a><span class="sd">    grid and store it as a dataset &#39;U at bottom&#39; in a separate group &#39;U&#39; </span>
+</span><span id="Tracker-300"><a href="#Tracker-300"><span class="linenos">300</span></a><span class="sd">    within the hdf5 file containing all stored results.&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
@@ -2846,18 +2841,6 @@ Also indicates the quantities to be tracked, as boolean values.</p>
 </div>
 
 
-                            <div id="Tracker.__init__" class="classattr">
-                                <div class="attr function">
-            
-        <span class="name">Tracker</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">progress_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span>,</span><span class="param">	<span class="n">live_plotting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>,</span><span class="param">	<span class="n">plotting_interval</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;0:05&#39;</span>,</span><span class="param">	<span class="n">data_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>,</span><span class="param">	<span class="n">track_U_at_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Tracker.__init__"></a>
-    
-    
-
-                            </div>
                             <div id="Tracker.progress_tracker_interval" class="classattr">
                                 <div class="attr variable">
             <span class="name">progress_tracker_interval</span><span class="annotation">: float</span>        =
