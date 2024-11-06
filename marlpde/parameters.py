@@ -6,13 +6,18 @@ from scipy.sparse import lil_matrix, dia_matrix, csr_matrix
 u = UnitRegistry()
 quantity = u.Quantity
 
+def no_init_docs(cls):
+    cls.__init__.__doc__ = "@private"
+    return cls
+
+
+@no_init_docs
 @dataclass
 class Scenario:
-    '''
-    Sets all the Scenario parameter values from the FORTRAN code from 
+    """ Sets all the Scenario parameter values from the FORTRAN code from 
     L'Heureux (2018). Strictly, the initial and boundary porosities are not
     part of the Scenario parameters, but they are included here.
-    '''
+    """
     mua: quantity    = 100.09 * u.g/u.mol
     rhoa: quantity   = 2.95 * u.g/u.cm**3
     rhoc: quantity   = 2.71 * u.g/u.cm**3
@@ -193,6 +198,8 @@ def jacobian_sparsity():
 
     return csr_matrix(raw_matrix)
 
+
+@no_init_docs
 @dataclass
 class Solver():
     """Initialises all the parameters for the solver, i.e. parameters like time

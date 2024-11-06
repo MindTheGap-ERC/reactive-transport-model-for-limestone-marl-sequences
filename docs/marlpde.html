@@ -161,14 +161,116 @@
 
             </li>
             <li>
+                    <a class="class" href="#Scenario">Scenario</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="variable" href="#Scenario.mua">mua</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.rhoa">rhoa</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.rhoc">rhoc</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.rhot">rhot</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.rhow">rhow</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.D0ca">D0ca</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.D0co3">D0co3</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.Ka">Ka</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.Kc">Kc</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.beta">beta</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.b">b</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.k1">k1</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.k2">k2</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.k3">k3</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.k4">k4</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.nn">nn</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.m">m</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.S">S</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.phiinf">phiinf</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.phi0">phi0</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.ca0">ca0</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.co30">co30</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.ccal0">ccal0</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.cara0">cara0</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.xdis">xdis</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.length">length</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.Th">Th</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.phi00">phi00</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.ca00">ca00</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.co300">co300</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.ccal00">ccal00</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.cara00">cara00</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
                     <a class="function" href="#Map_Scenario">Map_Scenario</a>
+            </li>
+            <li>
+                    <a class="function" href="#jacobian_sparsity">jacobian_sparsity</a>
             </li>
             <li>
                     <a class="class" href="#Solver">Solver</a>
                             <ul class="memberlist">
-                        <li>
-                                <a class="function" href="#Solver.__init__">Solver</a>
-                        </li>
                         <li>
                                 <a class="variable" href="#Solver.dt">dt</a>
                         </li>
@@ -345,11 +447,13 @@ python marlpde/Evolve_scenario.py
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">import</span> <span class="nn">sys</span>
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span> <span class="nn">.LHeureux_model</span> <span class="kn">import</span> <span class="n">LMAHeureuxPorosityDiff</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Map_Scenario</span><span class="p">,</span> <span class="n">Solver</span><span class="p">,</span> <span class="n">Tracker</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="c1"># Control what pdoc will document, i.e. output to .html.</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;LMAHeureuxPorosityDiff&#39;</span><span class="p">,</span> <span class="s1">&#39;Map_Scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;Solver&#39;</span><span class="p">,</span> <span class="s1">&#39;Tracker&#39;</span><span class="p">]</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Scenario</span><span class="p">,</span> <span class="n">jacobian_sparsity</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="c1"># Control what pdoc will document, i.e. output to .html.</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;LMAHeureuxPorosityDiff&#39;</span><span class="p">,</span> <span class="s1">&#39;Scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;Map_Scenario&#39;</span><span class="p">,</span> 
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>           <span class="s1">&#39;jacobian_sparsity&#39;</span><span class="p">,</span> <span class="s1">&#39;Solver&#39;</span><span class="p">,</span> <span class="s1">&#39;Tracker&#39;</span><span class="p">]</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
 </span></pre></div>
 
 
@@ -1786,6 +1890,453 @@ Array along depth with sigma values</li>
                                 </dl>
                             </div>
                 </section>
+                <section id="Scenario">
+                            <input id="Scenario-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+                    <div class="decorator">@no_init_docs</div>
+        <div class="decorator">@dataclass</div>
+
+    <span class="def">class</span>
+    <span class="name">Scenario</span>:
+
+                <label class="view-source-button" for="Scenario-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Scenario"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Scenario-15"><a href="#Scenario-15"><span class="linenos">15</span></a><span class="nd">@no_init_docs</span>
+</span><span id="Scenario-16"><a href="#Scenario-16"><span class="linenos">16</span></a><span class="nd">@dataclass</span>
+</span><span id="Scenario-17"><a href="#Scenario-17"><span class="linenos">17</span></a><span class="k">class</span> <span class="nc">Scenario</span><span class="p">:</span>
+</span><span id="Scenario-18"><a href="#Scenario-18"><span class="linenos">18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Sets all the Scenario parameter values from the FORTRAN code from </span>
+</span><span id="Scenario-19"><a href="#Scenario-19"><span class="linenos">19</span></a><span class="sd">    L&#39;Heureux (2018). Strictly, the initial and boundary porosities are not</span>
+</span><span id="Scenario-20"><a href="#Scenario-20"><span class="linenos">20</span></a><span class="sd">    part of the Scenario parameters, but they are included here.</span>
+</span><span id="Scenario-21"><a href="#Scenario-21"><span class="linenos">21</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Scenario-22"><a href="#Scenario-22"><span class="linenos">22</span></a>    <span class="n">mua</span><span class="p">:</span> <span class="n">quantity</span>    <span class="o">=</span> <span class="mf">100.09</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">mol</span>
+</span><span id="Scenario-23"><a href="#Scenario-23"><span class="linenos">23</span></a>    <span class="n">rhoa</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">2.95</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="mi">3</span>
+</span><span id="Scenario-24"><a href="#Scenario-24"><span class="linenos">24</span></a>    <span class="n">rhoc</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">2.71</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="mi">3</span>
+</span><span id="Scenario-25"><a href="#Scenario-25"><span class="linenos">25</span></a>    <span class="n">rhot</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">2.8</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="mi">3</span>
+</span><span id="Scenario-26"><a href="#Scenario-26"><span class="linenos">26</span></a>    <span class="n">rhow</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">1.023</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="mi">3</span>
+</span><span id="Scenario-27"><a href="#Scenario-27"><span class="linenos">27</span></a>    <span class="n">D0ca</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">131.9</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">a</span>
+</span><span id="Scenario-28"><a href="#Scenario-28"><span class="linenos">28</span></a>    <span class="n">D0co3</span><span class="p">:</span> <span class="n">quantity</span>  <span class="o">=</span> <span class="mf">272.6</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">a</span>
+</span><span id="Scenario-29"><a href="#Scenario-29"><span class="linenos">29</span></a>    <span class="n">Ka</span><span class="p">:</span> <span class="n">quantity</span>     <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">6.19</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">M</span><span class="o">**</span><span class="mi">2</span>
+</span><span id="Scenario-30"><a href="#Scenario-30"><span class="linenos">30</span></a>    <span class="n">Kc</span><span class="p">:</span> <span class="n">quantity</span>     <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">6.37</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">M</span><span class="o">**</span><span class="mi">2</span>
+</span><span id="Scenario-31"><a href="#Scenario-31"><span class="linenos">31</span></a>    <span class="n">beta</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">a</span>
+</span><span id="Scenario-32"><a href="#Scenario-32"><span class="linenos">32</span></a>    <span class="n">b</span><span class="p">:</span> <span class="n">quantity</span>      <span class="o">=</span> <span class="mf">5.0</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">kPa</span>
+</span><span id="Scenario-33"><a href="#Scenario-33"><span class="linenos">33</span></a>    <span class="n">k1</span><span class="p">:</span> <span class="n">quantity</span>     <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">a</span>
+</span><span id="Scenario-34"><a href="#Scenario-34"><span class="linenos">34</span></a>    <span class="n">k2</span><span class="p">:</span> <span class="n">quantity</span>     <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">a</span>
+</span><span id="Scenario-35"><a href="#Scenario-35"><span class="linenos">35</span></a>    <span class="n">k3</span><span class="p">:</span> <span class="n">quantity</span>     <span class="o">=</span> <span class="mf">0.1</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">a</span>
+</span><span id="Scenario-36"><a href="#Scenario-36"><span class="linenos">36</span></a>    <span class="n">k4</span><span class="p">:</span> <span class="n">quantity</span>     <span class="o">=</span> <span class="mf">0.1</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">a</span>
+</span><span id="Scenario-37"><a href="#Scenario-37"><span class="linenos">37</span></a>    <span class="n">nn</span><span class="p">:</span> <span class="n">quantity</span>     <span class="o">=</span> <span class="mf">2.8</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span><span id="Scenario-38"><a href="#Scenario-38"><span class="linenos">38</span></a>    <span class="n">m</span><span class="p">:</span> <span class="n">quantity</span>      <span class="o">=</span> <span class="mf">2.48</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span><span id="Scenario-39"><a href="#Scenario-39"><span class="linenos">39</span></a>    <span class="n">S</span><span class="p">:</span> <span class="n">quantity</span>      <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">a</span>
+</span><span id="Scenario-40"><a href="#Scenario-40"><span class="linenos">40</span></a>    <span class="c1"># cAthy: quantity  = 0.1 * u.dimensionless</span>
+</span><span id="Scenario-41"><a href="#Scenario-41"><span class="linenos">41</span></a>    <span class="n">phiinf</span><span class="p">:</span> <span class="n">quantity</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span><span id="Scenario-42"><a href="#Scenario-42"><span class="linenos">42</span></a>    <span class="n">phi0</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span><span id="Scenario-43"><a href="#Scenario-43"><span class="linenos">43</span></a>    <span class="n">ca0</span><span class="p">:</span> <span class="n">quantity</span>    <span class="o">=</span> <span class="mf">0.326e-3</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">M</span>
+</span><span id="Scenario-44"><a href="#Scenario-44"><span class="linenos">44</span></a>    <span class="n">co30</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">0.326e-3</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">M</span>
+</span><span id="Scenario-45"><a href="#Scenario-45"><span class="linenos">45</span></a>    <span class="n">ccal0</span><span class="p">:</span> <span class="n">quantity</span>  <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span><span id="Scenario-46"><a href="#Scenario-46"><span class="linenos">46</span></a>    <span class="n">cara0</span><span class="p">:</span> <span class="n">quantity</span>  <span class="o">=</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span><span id="Scenario-47"><a href="#Scenario-47"><span class="linenos">47</span></a>    <span class="n">xdis</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">50.0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span>       <span class="c1"># x_d   (start of dissolution zone)</span>
+</span><span id="Scenario-48"><a href="#Scenario-48"><span class="linenos">48</span></a>    <span class="n">length</span><span class="p">:</span> <span class="n">quantity</span> <span class="o">=</span> <span class="mf">500.0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span>
+</span><span id="Scenario-49"><a href="#Scenario-49"><span class="linenos">49</span></a>    <span class="n">Th</span><span class="p">:</span> <span class="n">quantity</span>     <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span>      <span class="c1"># h_d   (height of dissolution zone)</span>
+</span><span id="Scenario-50"><a href="#Scenario-50"><span class="linenos">50</span></a>    <span class="n">phi00</span><span class="p">:</span> <span class="n">quantity</span>  <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span><span id="Scenario-51"><a href="#Scenario-51"><span class="linenos">51</span></a>    <span class="n">ca00</span><span class="p">:</span> <span class="n">quantity</span>   <span class="o">=</span> <span class="mf">0.326e-3</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">M</span>    <span class="c1"># sqrt(Kc) / 2</span>
+</span><span id="Scenario-52"><a href="#Scenario-52"><span class="linenos">52</span></a>    <span class="n">co300</span><span class="p">:</span> <span class="n">quantity</span>  <span class="o">=</span> <span class="mf">0.326e-3</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">M</span>    <span class="c1"># sqrt(Kc) / 2</span>
+</span><span id="Scenario-53"><a href="#Scenario-53"><span class="linenos">53</span></a>    <span class="n">ccal00</span><span class="p">:</span> <span class="n">quantity</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span><span id="Scenario-54"><a href="#Scenario-54"><span class="linenos">54</span></a>    <span class="n">cara00</span><span class="p">:</span> <span class="n">quantity</span> <span class="o">=</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Sets all the Scenario parameter values from the FORTRAN code from 
+L'Heureux (2018). Strictly, the initial and boundary porosities are not
+part of the Scenario parameters, but they are included here.</p>
+</div>
+
+
+                            <div id="Scenario.mua" class="classattr">
+                                <div class="attr variable">
+            <span class="name">mua</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(100.09, &#39;gram / mole&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.mua"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.rhoa" class="classattr">
+                                <div class="attr variable">
+            <span class="name">rhoa</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(2.95, &#39;gram / centimeter ** 3&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.rhoa"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.rhoc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">rhoc</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(2.71, &#39;gram / centimeter ** 3&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.rhoc"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.rhot" class="classattr">
+                                <div class="attr variable">
+            <span class="name">rhot</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(2.8, &#39;gram / centimeter ** 3&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.rhot"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.rhow" class="classattr">
+                                <div class="attr variable">
+            <span class="name">rhow</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(1.023, &#39;gram / centimeter ** 3&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.rhow"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.D0ca" class="classattr">
+                                <div class="attr variable">
+            <span class="name">D0ca</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(131.9, &#39;centimeter ** 2 / year&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.D0ca"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.D0co3" class="classattr">
+                                <div class="attr variable">
+            <span class="name">D0co3</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(272.6, &#39;centimeter ** 2 / year&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.D0co3"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.Ka" class="classattr">
+                                <div class="attr variable">
+            <span class="name">Ka</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(6.45654229e-07, &#39;molar ** 2&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.Ka"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.Kc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">Kc</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(4.26579519e-07, &#39;molar ** 2&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.Kc"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.beta" class="classattr">
+                                <div class="attr variable">
+            <span class="name">beta</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.1, &#39;centimeter / year&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.beta"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.b" class="classattr">
+                                <div class="attr variable">
+            <span class="name">b</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(5.0, &#39;1 / kilopascal&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.b"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.k1" class="classattr">
+                                <div class="attr variable">
+            <span class="name">k1</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(1.0, &#39;1 / year&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.k1"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.k2" class="classattr">
+                                <div class="attr variable">
+            <span class="name">k2</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(1.0, &#39;1 / year&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.k2"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.k3" class="classattr">
+                                <div class="attr variable">
+            <span class="name">k3</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.1, &#39;1 / year&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.k3"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.k4" class="classattr">
+                                <div class="attr variable">
+            <span class="name">k4</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.1, &#39;1 / year&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.k4"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.nn" class="classattr">
+                                <div class="attr variable">
+            <span class="name">nn</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(2.8, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.nn"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.m" class="classattr">
+                                <div class="attr variable">
+            <span class="name">m</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(2.48, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.m"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.S" class="classattr">
+                                <div class="attr variable">
+            <span class="name">S</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.1, &#39;centimeter / year&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.S"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.phiinf" class="classattr">
+                                <div class="attr variable">
+            <span class="name">phiinf</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.01, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.phiinf"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.phi0" class="classattr">
+                                <div class="attr variable">
+            <span class="name">phi0</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.8, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.phi0"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.ca0" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ca0</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.000326, &#39;molar&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.ca0"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.co30" class="classattr">
+                                <div class="attr variable">
+            <span class="name">co30</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.000326, &#39;molar&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.co30"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.ccal0" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ccal0</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.3, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.ccal0"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.cara0" class="classattr">
+                                <div class="attr variable">
+            <span class="name">cara0</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.6, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.cara0"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.xdis" class="classattr">
+                                <div class="attr variable">
+            <span class="name">xdis</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(50.0, &#39;centimeter&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.xdis"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.length" class="classattr">
+                                <div class="attr variable">
+            <span class="name">length</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(500.0, &#39;centimeter&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.length"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.Th" class="classattr">
+                                <div class="attr variable">
+            <span class="name">Th</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(100.0, &#39;centimeter&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.Th"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.phi00" class="classattr">
+                                <div class="attr variable">
+            <span class="name">phi00</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.8, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.phi00"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.ca00" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ca00</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.000326, &#39;molar&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.ca00"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.co300" class="classattr">
+                                <div class="attr variable">
+            <span class="name">co300</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.000326, &#39;molar&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.co300"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.ccal00" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ccal00</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.3, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.ccal00"></a>
+    
+    
+
+                            </div>
+                            <div id="Scenario.cara00" class="classattr">
+                                <div class="attr variable">
+            <span class="name">cara00</span><span class="annotation">: pint.Quantity</span>        =
+<span class="default_value">&lt;Quantity(0.6, &#39;dimensionless&#39;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.cara00"></a>
+    
+    
+
+                            </div>
+                </section>
                 <section id="Map_Scenario">
                             <input id="Map_Scenario-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
@@ -1797,100 +2348,100 @@ Array along depth with sigma values</li>
 
     </div>
     <a class="headerlink" href="#Map_Scenario"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Map_Scenario-51"><a href="#Map_Scenario-51"><span class="linenos"> 51</span></a><span class="k">def</span> <span class="nf">Map_Scenario</span><span class="p">():</span>
-</span><span id="Map_Scenario-52"><a href="#Map_Scenario-52"><span class="linenos"> 52</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Map_Scenario-53"><a href="#Map_Scenario-53"><span class="linenos"> 53</span></a><span class="sd">    Maps the Fortran &#39;Scenario&#39; parameters to the equivalent parameters in the</span>
-</span><span id="Map_Scenario-54"><a href="#Map_Scenario-54"><span class="linenos"> 54</span></a><span class="sd">    Matlab and Python codes. These codes use slightly different parameter </span>
-</span><span id="Map_Scenario-55"><a href="#Map_Scenario-55"><span class="linenos"> 55</span></a><span class="sd">    names. Besides the mapping, also a few numerical conversions are applied.</span>
-</span><span id="Map_Scenario-56"><a href="#Map_Scenario-56"><span class="linenos"> 56</span></a><span class="sd">    To do these conversions, a number of FORTRAN parameters need to be passed on </span>
-</span><span id="Map_Scenario-57"><a href="#Map_Scenario-57"><span class="linenos"> 57</span></a><span class="sd">    &quot;as is&quot;, i.e. unchanged.</span>
-</span><span id="Map_Scenario-58"><a href="#Map_Scenario-58"><span class="linenos"> 58</span></a><span class="sd">    Units from Scenario are dropped, so only magnitudes (i.e. values) are </span>
-</span><span id="Map_Scenario-59"><a href="#Map_Scenario-59"><span class="linenos"> 59</span></a><span class="sd">    retained.</span>
-</span><span id="Map_Scenario-60"><a href="#Map_Scenario-60"><span class="linenos"> 60</span></a><span class="sd">    &#39;&#39;&#39;</span>
-</span><span id="Map_Scenario-61"><a href="#Map_Scenario-61"><span class="linenos"> 61</span></a>    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Ka&quot;</span><span class="p">:</span><span class="s2">&quot;KA&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-62"><a href="#Map_Scenario-62"><span class="linenos"> 62</span></a>               <span class="s2">&quot;Kc&quot;</span><span class="p">:</span><span class="s2">&quot;KC&quot;</span><span class="p">,</span> 
-</span><span id="Map_Scenario-63"><a href="#Map_Scenario-63"><span class="linenos"> 63</span></a>               <span class="s2">&quot;cara0&quot;</span><span class="p">:</span> <span class="s2">&quot;CA0&quot;</span><span class="p">,</span> 
-</span><span id="Map_Scenario-64"><a href="#Map_Scenario-64"><span class="linenos"> 64</span></a>               <span class="s2">&quot;cara00&quot;</span><span class="p">:</span> <span class="s2">&quot;CAIni&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-65"><a href="#Map_Scenario-65"><span class="linenos"> 65</span></a>               <span class="s2">&quot;ccal0&quot;</span><span class="p">:</span> <span class="s2">&quot;CC0&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-66"><a href="#Map_Scenario-66"><span class="linenos"> 66</span></a>               <span class="s2">&quot;ccal00&quot;</span><span class="p">:</span> <span class="s2">&quot;CCIni&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-67"><a href="#Map_Scenario-67"><span class="linenos"> 67</span></a>               <span class="s2">&quot;ca0&quot;</span><span class="p">:</span> <span class="s2">&quot;ca0&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-68"><a href="#Map_Scenario-68"><span class="linenos"> 68</span></a>               <span class="s2">&quot;ca00&quot;</span><span class="p">:</span> <span class="s2">&quot;ca00&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-69"><a href="#Map_Scenario-69"><span class="linenos"> 69</span></a>               <span class="s2">&quot;co30&quot;</span><span class="p">:</span> <span class="s2">&quot;co30&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-70"><a href="#Map_Scenario-70"><span class="linenos"> 70</span></a>               <span class="s2">&quot;co300&quot;</span><span class="p">:</span> <span class="s2">&quot;co300&quot;</span><span class="p">,</span>               
-</span><span id="Map_Scenario-71"><a href="#Map_Scenario-71"><span class="linenos"> 71</span></a>               <span class="s2">&quot;phi0&quot;</span><span class="p">:</span> <span class="s2">&quot;Phi0&quot;</span><span class="p">,</span> 
-</span><span id="Map_Scenario-72"><a href="#Map_Scenario-72"><span class="linenos"> 72</span></a>               <span class="s2">&quot;phi00&quot;</span><span class="p">:</span><span class="s2">&quot;PhiIni&quot;</span><span class="p">,</span> 
-</span><span id="Map_Scenario-73"><a href="#Map_Scenario-73"><span class="linenos"> 73</span></a>               <span class="s2">&quot;xdis&quot;</span><span class="p">:</span> <span class="s2">&quot;ShallowLimit&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-74"><a href="#Map_Scenario-74"><span class="linenos"> 74</span></a>               <span class="s2">&quot;Th&quot;</span><span class="p">:</span> <span class="s2">&quot;Th&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-75"><a href="#Map_Scenario-75"><span class="linenos"> 75</span></a>               <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="s2">&quot;sedimentationrate&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-76"><a href="#Map_Scenario-76"><span class="linenos"> 76</span></a>               <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-77"><a href="#Map_Scenario-77"><span class="linenos"> 77</span></a>               <span class="s2">&quot;nn&quot;</span><span class="p">:</span> <span class="s2">&quot;n1&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-78"><a href="#Map_Scenario-78"><span class="linenos"> 78</span></a>               <span class="s2">&quot;rhoa&quot;</span><span class="p">:</span> <span class="s2">&quot;rhoa&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-79"><a href="#Map_Scenario-79"><span class="linenos"> 79</span></a>               <span class="s2">&quot;rhoc&quot;</span><span class="p">:</span> <span class="s2">&quot;rhoc&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-80"><a href="#Map_Scenario-80"><span class="linenos"> 80</span></a>               <span class="s2">&quot;rhot&quot;</span><span class="p">:</span> <span class="s2">&quot;rhot&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-81"><a href="#Map_Scenario-81"><span class="linenos"> 81</span></a>               <span class="s2">&quot;rhow&quot;</span><span class="p">:</span> <span class="s2">&quot;rhow&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-82"><a href="#Map_Scenario-82"><span class="linenos"> 82</span></a>               <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-83"><a href="#Map_Scenario-83"><span class="linenos"> 83</span></a>               <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-84"><a href="#Map_Scenario-84"><span class="linenos"> 84</span></a>               <span class="s2">&quot;D0ca&quot;</span><span class="p">:</span> <span class="s2">&quot;D0Ca&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-85"><a href="#Map_Scenario-85"><span class="linenos"> 85</span></a>               <span class="s2">&quot;k1&quot;</span><span class="p">:</span> <span class="s2">&quot;k1&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-86"><a href="#Map_Scenario-86"><span class="linenos"> 86</span></a>               <span class="s2">&quot;k2&quot;</span><span class="p">:</span> <span class="s2">&quot;k2&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-87"><a href="#Map_Scenario-87"><span class="linenos"> 87</span></a>               <span class="s2">&quot;k3&quot;</span><span class="p">:</span> <span class="s2">&quot;k3&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-88"><a href="#Map_Scenario-88"><span class="linenos"> 88</span></a>               <span class="s2">&quot;k4&quot;</span><span class="p">:</span> <span class="s2">&quot;k4&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-89"><a href="#Map_Scenario-89"><span class="linenos"> 89</span></a>               <span class="s2">&quot;mua&quot;</span><span class="p">:</span> <span class="s2">&quot;muA&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-90"><a href="#Map_Scenario-90"><span class="linenos"> 90</span></a>               <span class="s2">&quot;D0co3&quot;</span><span class="p">:</span> <span class="s2">&quot;DCO3&quot;</span><span class="p">,</span>  
-</span><span id="Map_Scenario-91"><a href="#Map_Scenario-91"><span class="linenos"> 91</span></a>               <span class="s2">&quot;phiinf&quot;</span><span class="p">:</span> <span class="s2">&quot;PhiInfty&quot;</span><span class="p">,</span>
-</span><span id="Map_Scenario-92"><a href="#Map_Scenario-92"><span class="linenos"> 92</span></a>               <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="s2">&quot;max_depth&quot;</span>
-</span><span id="Map_Scenario-93"><a href="#Map_Scenario-93"><span class="linenos"> 93</span></a>    <span class="p">}</span>
-</span><span id="Map_Scenario-94"><a href="#Map_Scenario-94"><span class="linenos"> 94</span></a>
-</span><span id="Map_Scenario-95"><a href="#Map_Scenario-95"><span class="linenos"> 95</span></a>    <span class="n">all_fields</span> <span class="o">=</span> <span class="n">fields</span><span class="p">(</span><span class="n">Scenario</span><span class="p">)</span>
-</span><span id="Map_Scenario-96"><a href="#Map_Scenario-96"><span class="linenos"> 96</span></a>
-</span><span id="Map_Scenario-97"><a href="#Map_Scenario-97"><span class="linenos"> 97</span></a>    <span class="n">allowed_fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">field</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">all_fields</span>
-</span><span id="Map_Scenario-98"><a href="#Map_Scenario-98"><span class="linenos"> 98</span></a>                      <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">]</span>
-</span><span id="Map_Scenario-99"><a href="#Map_Scenario-99"><span class="linenos"> 99</span></a>    
-</span><span id="Map_Scenario-100"><a href="#Map_Scenario-100"><span class="linenos">100</span></a>    <span class="n">derived_fields</span> <span class="o">=</span> <span class="p">[(</span><span class="n">mapping</span><span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span> 
-</span><span id="Map_Scenario-101"><a href="#Map_Scenario-101"><span class="linenos">101</span></a>                      <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">allowed_fields</span><span class="p">]</span>
-</span><span id="Map_Scenario-102"><a href="#Map_Scenario-102"><span class="linenos">102</span></a>                    
-</span><span id="Map_Scenario-103"><a href="#Map_Scenario-103"><span class="linenos">103</span></a>    <span class="c1"># Here we append the fields that cannot be initialised directly from the</span>
-</span><span id="Map_Scenario-104"><a href="#Map_Scenario-104"><span class="linenos">104</span></a>    <span class="c1"># Scenario dataclass.</span>
-</span><span id="Map_Scenario-105"><a href="#Map_Scenario-105"><span class="linenos">105</span></a>    <span class="n">derived_fields</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="s2">&quot;cCa0&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-106"><a href="#Map_Scenario-106"><span class="linenos">106</span></a>                           <span class="p">(</span><span class="s2">&quot;cCaIni&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-107"><a href="#Map_Scenario-107"><span class="linenos">107</span></a>                           <span class="p">(</span><span class="s2">&quot;cCO30&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-108"><a href="#Map_Scenario-108"><span class="linenos">108</span></a>                           <span class="p">(</span><span class="s2">&quot;cCO3Ini&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-109"><a href="#Map_Scenario-109"><span class="linenos">109</span></a>                           <span class="p">(</span><span class="s2">&quot;DeepLimit&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-110"><a href="#Map_Scenario-110"><span class="linenos">110</span></a>                           <span class="p">(</span><span class="s2">&quot;rhos0&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-111"><a href="#Map_Scenario-111"><span class="linenos">111</span></a>                           <span class="p">(</span><span class="s2">&quot;rhos&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-112"><a href="#Map_Scenario-112"><span class="linenos">112</span></a>                           <span class="p">(</span><span class="s2">&quot;Xstar&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-113"><a href="#Map_Scenario-113"><span class="linenos">113</span></a>                           <span class="p">(</span><span class="s2">&quot;Tstar&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-114"><a href="#Map_Scenario-114"><span class="linenos">114</span></a>                           <span class="p">(</span><span class="s2">&quot;m2&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-115"><a href="#Map_Scenario-115"><span class="linenos">115</span></a>                           <span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-116"><a href="#Map_Scenario-116"><span class="linenos">116</span></a>                           <span class="p">(</span><span class="s2">&quot;DCa&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-117"><a href="#Map_Scenario-117"><span class="linenos">117</span></a>                           <span class="p">(</span><span class="s2">&quot;PhiNR&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-</span><span id="Map_Scenario-118"><a href="#Map_Scenario-118"><span class="linenos">118</span></a>                           <span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">)])</span>
-</span><span id="Map_Scenario-119"><a href="#Map_Scenario-119"><span class="linenos">119</span></a>
-</span><span id="Map_Scenario-120"><a href="#Map_Scenario-120"><span class="linenos">120</span></a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Map_Scenario-121"><a href="#Map_Scenario-121"><span class="linenos">121</span></a>        <span class="c1"># The Python parameters that need additional conversion</span>
-</span><span id="Map_Scenario-122"><a href="#Map_Scenario-122"><span class="linenos">122</span></a>        <span class="c1"># are initialised here.   </span>
-</span><span id="Map_Scenario-123"><a href="#Map_Scenario-123"><span class="linenos">123</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cCa0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ca0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KC</span><span class="p">)</span>
-</span><span id="Map_Scenario-124"><a href="#Map_Scenario-124"><span class="linenos">124</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cCaIni</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ca00</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KC</span><span class="p">)</span>
-</span><span id="Map_Scenario-125"><a href="#Map_Scenario-125"><span class="linenos">125</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cCO30</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">co30</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KC</span><span class="p">)</span>
-</span><span id="Map_Scenario-126"><a href="#Map_Scenario-126"><span class="linenos">126</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cCO3Ini</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">co300</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KC</span><span class="p">)</span>
-</span><span id="Map_Scenario-127"><a href="#Map_Scenario-127"><span class="linenos">127</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">DeepLimit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ShallowLimit</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Th</span>
-</span><span id="Map_Scenario-128"><a href="#Map_Scenario-128"><span class="linenos">128</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">rhos0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rhoa</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">CA0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rhoc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">CC0</span> <span class="o">+</span> \
-</span><span id="Map_Scenario-129"><a href="#Map_Scenario-129"><span class="linenos">129</span></a>                     <span class="bp">self</span><span class="o">.</span> <span class="n">rhot</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CA0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">CC0</span><span class="p">))</span>
-</span><span id="Map_Scenario-130"><a href="#Map_Scenario-130"><span class="linenos">130</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">rhos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rhos0</span>
-</span><span id="Map_Scenario-131"><a href="#Map_Scenario-131"><span class="linenos">131</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xstar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">D0Ca</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sedimentationrate</span>
-</span><span id="Map_Scenario-132"><a href="#Map_Scenario-132"><span class="linenos">132</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">Tstar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xstar</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sedimentationrate</span>
-</span><span id="Map_Scenario-133"><a href="#Map_Scenario-133"><span class="linenos">133</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">/</span><span class="mf">1e4</span><span class="p">)</span> 
-</span><span id="Map_Scenario-134"><a href="#Map_Scenario-134"><span class="linenos">134</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">m2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m1</span>
-</span><span id="Map_Scenario-135"><a href="#Map_Scenario-135"><span class="linenos">135</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">n2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n1</span>
-</span><span id="Map_Scenario-136"><a href="#Map_Scenario-136"><span class="linenos">136</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">DCa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">D0Ca</span>
-</span><span id="Map_Scenario-137"><a href="#Map_Scenario-137"><span class="linenos">137</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">PhiNR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PhiIni</span>
-</span><span id="Map_Scenario-138"><a href="#Map_Scenario-138"><span class="linenos">138</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="mi">200</span>
-</span><span id="Map_Scenario-139"><a href="#Map_Scenario-139"><span class="linenos">139</span></a>
-</span><span id="Map_Scenario-140"><a href="#Map_Scenario-140"><span class="linenos">140</span></a>               
-</span><span id="Map_Scenario-141"><a href="#Map_Scenario-141"><span class="linenos">141</span></a>    <span class="n">derived_dataclass</span> <span class="o">=</span> <span class="n">make_dataclass</span><span class="p">(</span><span class="s2">&quot;Mapped parameters&quot;</span><span class="p">,</span> <span class="n">derived_fields</span><span class="p">,</span>
-</span><span id="Map_Scenario-142"><a href="#Map_Scenario-142"><span class="linenos">142</span></a>                                       <span class="n">namespace</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__post_init__&quot;</span><span class="p">:</span> <span class="n">post_init</span><span class="p">})</span>
-</span><span id="Map_Scenario-143"><a href="#Map_Scenario-143"><span class="linenos">143</span></a>
-</span><span id="Map_Scenario-144"><a href="#Map_Scenario-144"><span class="linenos">144</span></a>    <span class="k">return</span> <span class="n">derived_dataclass</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Map_Scenario-56"><a href="#Map_Scenario-56"><span class="linenos"> 56</span></a><span class="k">def</span> <span class="nf">Map_Scenario</span><span class="p">():</span>
+</span><span id="Map_Scenario-57"><a href="#Map_Scenario-57"><span class="linenos"> 57</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Map_Scenario-58"><a href="#Map_Scenario-58"><span class="linenos"> 58</span></a><span class="sd">    Maps the Fortran &#39;Scenario&#39; parameters to the equivalent parameters in the</span>
+</span><span id="Map_Scenario-59"><a href="#Map_Scenario-59"><span class="linenos"> 59</span></a><span class="sd">    Matlab and Python codes. These codes use slightly different parameter </span>
+</span><span id="Map_Scenario-60"><a href="#Map_Scenario-60"><span class="linenos"> 60</span></a><span class="sd">    names. Besides the mapping, also a few numerical conversions are applied.</span>
+</span><span id="Map_Scenario-61"><a href="#Map_Scenario-61"><span class="linenos"> 61</span></a><span class="sd">    To do these conversions, a number of FORTRAN parameters need to be passed on </span>
+</span><span id="Map_Scenario-62"><a href="#Map_Scenario-62"><span class="linenos"> 62</span></a><span class="sd">    &quot;as is&quot;, i.e. unchanged.</span>
+</span><span id="Map_Scenario-63"><a href="#Map_Scenario-63"><span class="linenos"> 63</span></a><span class="sd">    Units from Scenario are dropped, so only magnitudes (i.e. values) are </span>
+</span><span id="Map_Scenario-64"><a href="#Map_Scenario-64"><span class="linenos"> 64</span></a><span class="sd">    retained.</span>
+</span><span id="Map_Scenario-65"><a href="#Map_Scenario-65"><span class="linenos"> 65</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Map_Scenario-66"><a href="#Map_Scenario-66"><span class="linenos"> 66</span></a>    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Ka&quot;</span><span class="p">:</span><span class="s2">&quot;KA&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-67"><a href="#Map_Scenario-67"><span class="linenos"> 67</span></a>               <span class="s2">&quot;Kc&quot;</span><span class="p">:</span><span class="s2">&quot;KC&quot;</span><span class="p">,</span> 
+</span><span id="Map_Scenario-68"><a href="#Map_Scenario-68"><span class="linenos"> 68</span></a>               <span class="s2">&quot;cara0&quot;</span><span class="p">:</span> <span class="s2">&quot;CA0&quot;</span><span class="p">,</span> 
+</span><span id="Map_Scenario-69"><a href="#Map_Scenario-69"><span class="linenos"> 69</span></a>               <span class="s2">&quot;cara00&quot;</span><span class="p">:</span> <span class="s2">&quot;CAIni&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-70"><a href="#Map_Scenario-70"><span class="linenos"> 70</span></a>               <span class="s2">&quot;ccal0&quot;</span><span class="p">:</span> <span class="s2">&quot;CC0&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-71"><a href="#Map_Scenario-71"><span class="linenos"> 71</span></a>               <span class="s2">&quot;ccal00&quot;</span><span class="p">:</span> <span class="s2">&quot;CCIni&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-72"><a href="#Map_Scenario-72"><span class="linenos"> 72</span></a>               <span class="s2">&quot;ca0&quot;</span><span class="p">:</span> <span class="s2">&quot;ca0&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-73"><a href="#Map_Scenario-73"><span class="linenos"> 73</span></a>               <span class="s2">&quot;ca00&quot;</span><span class="p">:</span> <span class="s2">&quot;ca00&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-74"><a href="#Map_Scenario-74"><span class="linenos"> 74</span></a>               <span class="s2">&quot;co30&quot;</span><span class="p">:</span> <span class="s2">&quot;co30&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-75"><a href="#Map_Scenario-75"><span class="linenos"> 75</span></a>               <span class="s2">&quot;co300&quot;</span><span class="p">:</span> <span class="s2">&quot;co300&quot;</span><span class="p">,</span>               
+</span><span id="Map_Scenario-76"><a href="#Map_Scenario-76"><span class="linenos"> 76</span></a>               <span class="s2">&quot;phi0&quot;</span><span class="p">:</span> <span class="s2">&quot;Phi0&quot;</span><span class="p">,</span> 
+</span><span id="Map_Scenario-77"><a href="#Map_Scenario-77"><span class="linenos"> 77</span></a>               <span class="s2">&quot;phi00&quot;</span><span class="p">:</span><span class="s2">&quot;PhiIni&quot;</span><span class="p">,</span> 
+</span><span id="Map_Scenario-78"><a href="#Map_Scenario-78"><span class="linenos"> 78</span></a>               <span class="s2">&quot;xdis&quot;</span><span class="p">:</span> <span class="s2">&quot;ShallowLimit&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-79"><a href="#Map_Scenario-79"><span class="linenos"> 79</span></a>               <span class="s2">&quot;Th&quot;</span><span class="p">:</span> <span class="s2">&quot;Th&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-80"><a href="#Map_Scenario-80"><span class="linenos"> 80</span></a>               <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="s2">&quot;sedimentationrate&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-81"><a href="#Map_Scenario-81"><span class="linenos"> 81</span></a>               <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="s2">&quot;m1&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-82"><a href="#Map_Scenario-82"><span class="linenos"> 82</span></a>               <span class="s2">&quot;nn&quot;</span><span class="p">:</span> <span class="s2">&quot;n1&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-83"><a href="#Map_Scenario-83"><span class="linenos"> 83</span></a>               <span class="s2">&quot;rhoa&quot;</span><span class="p">:</span> <span class="s2">&quot;rhoa&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-84"><a href="#Map_Scenario-84"><span class="linenos"> 84</span></a>               <span class="s2">&quot;rhoc&quot;</span><span class="p">:</span> <span class="s2">&quot;rhoc&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-85"><a href="#Map_Scenario-85"><span class="linenos"> 85</span></a>               <span class="s2">&quot;rhot&quot;</span><span class="p">:</span> <span class="s2">&quot;rhot&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-86"><a href="#Map_Scenario-86"><span class="linenos"> 86</span></a>               <span class="s2">&quot;rhow&quot;</span><span class="p">:</span> <span class="s2">&quot;rhow&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-87"><a href="#Map_Scenario-87"><span class="linenos"> 87</span></a>               <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-88"><a href="#Map_Scenario-88"><span class="linenos"> 88</span></a>               <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-89"><a href="#Map_Scenario-89"><span class="linenos"> 89</span></a>               <span class="s2">&quot;D0ca&quot;</span><span class="p">:</span> <span class="s2">&quot;D0Ca&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-90"><a href="#Map_Scenario-90"><span class="linenos"> 90</span></a>               <span class="s2">&quot;k1&quot;</span><span class="p">:</span> <span class="s2">&quot;k1&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-91"><a href="#Map_Scenario-91"><span class="linenos"> 91</span></a>               <span class="s2">&quot;k2&quot;</span><span class="p">:</span> <span class="s2">&quot;k2&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-92"><a href="#Map_Scenario-92"><span class="linenos"> 92</span></a>               <span class="s2">&quot;k3&quot;</span><span class="p">:</span> <span class="s2">&quot;k3&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-93"><a href="#Map_Scenario-93"><span class="linenos"> 93</span></a>               <span class="s2">&quot;k4&quot;</span><span class="p">:</span> <span class="s2">&quot;k4&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-94"><a href="#Map_Scenario-94"><span class="linenos"> 94</span></a>               <span class="s2">&quot;mua&quot;</span><span class="p">:</span> <span class="s2">&quot;muA&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-95"><a href="#Map_Scenario-95"><span class="linenos"> 95</span></a>               <span class="s2">&quot;D0co3&quot;</span><span class="p">:</span> <span class="s2">&quot;DCO3&quot;</span><span class="p">,</span>  
+</span><span id="Map_Scenario-96"><a href="#Map_Scenario-96"><span class="linenos"> 96</span></a>               <span class="s2">&quot;phiinf&quot;</span><span class="p">:</span> <span class="s2">&quot;PhiInfty&quot;</span><span class="p">,</span>
+</span><span id="Map_Scenario-97"><a href="#Map_Scenario-97"><span class="linenos"> 97</span></a>               <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="s2">&quot;max_depth&quot;</span>
+</span><span id="Map_Scenario-98"><a href="#Map_Scenario-98"><span class="linenos"> 98</span></a>    <span class="p">}</span>
+</span><span id="Map_Scenario-99"><a href="#Map_Scenario-99"><span class="linenos"> 99</span></a>
+</span><span id="Map_Scenario-100"><a href="#Map_Scenario-100"><span class="linenos">100</span></a>    <span class="n">all_fields</span> <span class="o">=</span> <span class="n">fields</span><span class="p">(</span><span class="n">Scenario</span><span class="p">)</span>
+</span><span id="Map_Scenario-101"><a href="#Map_Scenario-101"><span class="linenos">101</span></a>
+</span><span id="Map_Scenario-102"><a href="#Map_Scenario-102"><span class="linenos">102</span></a>    <span class="n">allowed_fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">field</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">all_fields</span>
+</span><span id="Map_Scenario-103"><a href="#Map_Scenario-103"><span class="linenos">103</span></a>                      <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">]</span>
+</span><span id="Map_Scenario-104"><a href="#Map_Scenario-104"><span class="linenos">104</span></a>    
+</span><span id="Map_Scenario-105"><a href="#Map_Scenario-105"><span class="linenos">105</span></a>    <span class="n">derived_fields</span> <span class="o">=</span> <span class="p">[(</span><span class="n">mapping</span><span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span> 
+</span><span id="Map_Scenario-106"><a href="#Map_Scenario-106"><span class="linenos">106</span></a>                      <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">allowed_fields</span><span class="p">]</span>
+</span><span id="Map_Scenario-107"><a href="#Map_Scenario-107"><span class="linenos">107</span></a>                    
+</span><span id="Map_Scenario-108"><a href="#Map_Scenario-108"><span class="linenos">108</span></a>    <span class="c1"># Here we append the fields that cannot be initialised directly from the</span>
+</span><span id="Map_Scenario-109"><a href="#Map_Scenario-109"><span class="linenos">109</span></a>    <span class="c1"># Scenario dataclass.</span>
+</span><span id="Map_Scenario-110"><a href="#Map_Scenario-110"><span class="linenos">110</span></a>    <span class="n">derived_fields</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="s2">&quot;cCa0&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-111"><a href="#Map_Scenario-111"><span class="linenos">111</span></a>                           <span class="p">(</span><span class="s2">&quot;cCaIni&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-112"><a href="#Map_Scenario-112"><span class="linenos">112</span></a>                           <span class="p">(</span><span class="s2">&quot;cCO30&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-113"><a href="#Map_Scenario-113"><span class="linenos">113</span></a>                           <span class="p">(</span><span class="s2">&quot;cCO3Ini&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-114"><a href="#Map_Scenario-114"><span class="linenos">114</span></a>                           <span class="p">(</span><span class="s2">&quot;DeepLimit&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-115"><a href="#Map_Scenario-115"><span class="linenos">115</span></a>                           <span class="p">(</span><span class="s2">&quot;rhos0&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-116"><a href="#Map_Scenario-116"><span class="linenos">116</span></a>                           <span class="p">(</span><span class="s2">&quot;rhos&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-117"><a href="#Map_Scenario-117"><span class="linenos">117</span></a>                           <span class="p">(</span><span class="s2">&quot;Xstar&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-118"><a href="#Map_Scenario-118"><span class="linenos">118</span></a>                           <span class="p">(</span><span class="s2">&quot;Tstar&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-119"><a href="#Map_Scenario-119"><span class="linenos">119</span></a>                           <span class="p">(</span><span class="s2">&quot;m2&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-120"><a href="#Map_Scenario-120"><span class="linenos">120</span></a>                           <span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-121"><a href="#Map_Scenario-121"><span class="linenos">121</span></a>                           <span class="p">(</span><span class="s2">&quot;DCa&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-122"><a href="#Map_Scenario-122"><span class="linenos">122</span></a>                           <span class="p">(</span><span class="s2">&quot;PhiNR&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+</span><span id="Map_Scenario-123"><a href="#Map_Scenario-123"><span class="linenos">123</span></a>                           <span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">)])</span>
+</span><span id="Map_Scenario-124"><a href="#Map_Scenario-124"><span class="linenos">124</span></a>
+</span><span id="Map_Scenario-125"><a href="#Map_Scenario-125"><span class="linenos">125</span></a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Map_Scenario-126"><a href="#Map_Scenario-126"><span class="linenos">126</span></a>        <span class="c1"># The Python parameters that need additional conversion</span>
+</span><span id="Map_Scenario-127"><a href="#Map_Scenario-127"><span class="linenos">127</span></a>        <span class="c1"># are initialised here.   </span>
+</span><span id="Map_Scenario-128"><a href="#Map_Scenario-128"><span class="linenos">128</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cCa0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ca0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KC</span><span class="p">)</span>
+</span><span id="Map_Scenario-129"><a href="#Map_Scenario-129"><span class="linenos">129</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cCaIni</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ca00</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KC</span><span class="p">)</span>
+</span><span id="Map_Scenario-130"><a href="#Map_Scenario-130"><span class="linenos">130</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cCO30</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">co30</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KC</span><span class="p">)</span>
+</span><span id="Map_Scenario-131"><a href="#Map_Scenario-131"><span class="linenos">131</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cCO3Ini</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">co300</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KC</span><span class="p">)</span>
+</span><span id="Map_Scenario-132"><a href="#Map_Scenario-132"><span class="linenos">132</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">DeepLimit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ShallowLimit</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Th</span>
+</span><span id="Map_Scenario-133"><a href="#Map_Scenario-133"><span class="linenos">133</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">rhos0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rhoa</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">CA0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rhoc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">CC0</span> <span class="o">+</span> \
+</span><span id="Map_Scenario-134"><a href="#Map_Scenario-134"><span class="linenos">134</span></a>                     <span class="bp">self</span><span class="o">.</span> <span class="n">rhot</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CA0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">CC0</span><span class="p">))</span>
+</span><span id="Map_Scenario-135"><a href="#Map_Scenario-135"><span class="linenos">135</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">rhos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rhos0</span>
+</span><span id="Map_Scenario-136"><a href="#Map_Scenario-136"><span class="linenos">136</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xstar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">D0Ca</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sedimentationrate</span>
+</span><span id="Map_Scenario-137"><a href="#Map_Scenario-137"><span class="linenos">137</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">Tstar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xstar</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sedimentationrate</span>
+</span><span id="Map_Scenario-138"><a href="#Map_Scenario-138"><span class="linenos">138</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">/</span><span class="mf">1e4</span><span class="p">)</span> 
+</span><span id="Map_Scenario-139"><a href="#Map_Scenario-139"><span class="linenos">139</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">m2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m1</span>
+</span><span id="Map_Scenario-140"><a href="#Map_Scenario-140"><span class="linenos">140</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">n2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n1</span>
+</span><span id="Map_Scenario-141"><a href="#Map_Scenario-141"><span class="linenos">141</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">DCa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">D0Ca</span>
+</span><span id="Map_Scenario-142"><a href="#Map_Scenario-142"><span class="linenos">142</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">PhiNR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PhiIni</span>
+</span><span id="Map_Scenario-143"><a href="#Map_Scenario-143"><span class="linenos">143</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="mi">200</span>
+</span><span id="Map_Scenario-144"><a href="#Map_Scenario-144"><span class="linenos">144</span></a>
+</span><span id="Map_Scenario-145"><a href="#Map_Scenario-145"><span class="linenos">145</span></a>               
+</span><span id="Map_Scenario-146"><a href="#Map_Scenario-146"><span class="linenos">146</span></a>    <span class="n">derived_dataclass</span> <span class="o">=</span> <span class="n">make_dataclass</span><span class="p">(</span><span class="s2">&quot;Mapped parameters&quot;</span><span class="p">,</span> <span class="n">derived_fields</span><span class="p">,</span>
+</span><span id="Map_Scenario-147"><a href="#Map_Scenario-147"><span class="linenos">147</span></a>                                       <span class="n">namespace</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__post_init__&quot;</span><span class="p">:</span> <span class="n">post_init</span><span class="p">})</span>
+</span><span id="Map_Scenario-148"><a href="#Map_Scenario-148"><span class="linenos">148</span></a>
+</span><span id="Map_Scenario-149"><a href="#Map_Scenario-149"><span class="linenos">149</span></a>    <span class="k">return</span> <span class="n">derived_dataclass</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -1905,10 +2456,99 @@ retained.</p>
 
 
                 </section>
+                <section id="jacobian_sparsity">
+                            <input id="jacobian_sparsity-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">jacobian_sparsity</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="jacobian_sparsity-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#jacobian_sparsity"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="jacobian_sparsity-151"><a href="#jacobian_sparsity-151"><span class="linenos">151</span></a><span class="k">def</span> <span class="nf">jacobian_sparsity</span><span class="p">():</span>
+</span><span id="jacobian_sparsity-152"><a href="#jacobian_sparsity-152"><span class="linenos">152</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="jacobian_sparsity-153"><a href="#jacobian_sparsity-153"><span class="linenos">153</span></a><span class="sd">    It turns out the the Jacobian sparsity matrix, as provided by</span>
+</span><span id="jacobian_sparsity-154"><a href="#jacobian_sparsity-154"><span class="linenos">154</span></a><span class="sd">    previous versions of this function was too strict. The diagonals</span>
+</span><span id="jacobian_sparsity-155"><a href="#jacobian_sparsity-155"><span class="linenos">155</span></a><span class="sd">    had a width of 1, this implicitly assumes no dependencies of the</span>
+</span><span id="jacobian_sparsity-156"><a href="#jacobian_sparsity-156"><span class="linenos">156</span></a><span class="sd">    Jacobian elements on fields at adjacent depths. A run with such</span>
+</span><span id="jacobian_sparsity-157"><a href="#jacobian_sparsity-157"><span class="linenos">157</span></a><span class="sd">    a Jacobian sparsity matrix took a lot of compute power and time and</span>
+</span><span id="jacobian_sparsity-158"><a href="#jacobian_sparsity-158"><span class="linenos">158</span></a><span class="sd">    ultimately halted without covering a single time step! A debugging </span>
+</span><span id="jacobian_sparsity-159"><a href="#jacobian_sparsity-159"><span class="linenos">159</span></a><span class="sd">    session with breakpoints inside solve_ivp showed that the Jacobian </span>
+</span><span id="jacobian_sparsity-160"><a href="#jacobian_sparsity-160"><span class="linenos">160</span></a><span class="sd">    matrix computed by `solve_ivp` (when neither the Jacobian nor the </span>
+</span><span id="jacobian_sparsity-161"><a href="#jacobian_sparsity-161"><span class="linenos">161</span></a><span class="sd">    Jacobian sparsity matrix was provided) has non-zero elements not </span>
+</span><span id="jacobian_sparsity-162"><a href="#jacobian_sparsity-162"><span class="linenos">162</span></a><span class="sd">    only on the diagonals but also on adjacent positions along the </span>
+</span><span id="jacobian_sparsity-163"><a href="#jacobian_sparsity-163"><span class="linenos">163</span></a><span class="sd">    diagonals. This was confirmed by ChatGPT:</span>
+</span><span id="jacobian_sparsity-164"><a href="#jacobian_sparsity-164"><span class="linenos">164</span></a><span class="sd">    &quot;It is indeed common for the Jacobian matrix of coupled partial </span>
+</span><span id="jacobian_sparsity-165"><a href="#jacobian_sparsity-165"><span class="linenos">165</span></a><span class="sd">    differential equations (PDEs), such as advection-diffusion equations, </span>
+</span><span id="jacobian_sparsity-166"><a href="#jacobian_sparsity-166"><span class="linenos">166</span></a><span class="sd">    to have non-zero elements beyond the main diagonal. This phenomenon, </span>
+</span><span id="jacobian_sparsity-167"><a href="#jacobian_sparsity-167"><span class="linenos">167</span></a><span class="sd">    where adjacent elements in the Jacobian are non-zero, is often due </span>
+</span><span id="jacobian_sparsity-168"><a href="#jacobian_sparsity-168"><span class="linenos">168</span></a><span class="sd">    to the spatial discretization of the differential equations.&quot;</span>
+</span><span id="jacobian_sparsity-169"><a href="#jacobian_sparsity-169"><span class="linenos">169</span></a><span class="sd">    Likewise computing a functional Jacobian is only feasible for the</span>
+</span><span id="jacobian_sparsity-170"><a href="#jacobian_sparsity-170"><span class="linenos">170</span></a><span class="sd">    diagonals, for positions near the diagonals it is very hard.</span>
+</span><span id="jacobian_sparsity-171"><a href="#jacobian_sparsity-171"><span class="linenos">171</span></a>
+</span><span id="jacobian_sparsity-172"><a href="#jacobian_sparsity-172"><span class="linenos">172</span></a><span class="sd">    Here we will choose diagonals of width 3.</span>
+</span><span id="jacobian_sparsity-173"><a href="#jacobian_sparsity-173"><span class="linenos">173</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="jacobian_sparsity-174"><a href="#jacobian_sparsity-174"><span class="linenos">174</span></a>
+</span><span id="jacobian_sparsity-175"><a href="#jacobian_sparsity-175"><span class="linenos">175</span></a>    <span class="n">no_depths</span> <span class="o">=</span> <span class="n">Map_Scenario</span><span class="p">()</span><span class="o">.</span><span class="n">N</span>
+</span><span id="jacobian_sparsity-176"><a href="#jacobian_sparsity-176"><span class="linenos">176</span></a>    <span class="c1"># Number of fields = 5, i.e. calcite, aragonite, concentrations of</span>
+</span><span id="jacobian_sparsity-177"><a href="#jacobian_sparsity-177"><span class="linenos">177</span></a>    <span class="c1"># calcium and carbonate ions and the porosity.</span>
+</span><span id="jacobian_sparsity-178"><a href="#jacobian_sparsity-178"><span class="linenos">178</span></a>    <span class="n">no_fields</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="jacobian_sparsity-179"><a href="#jacobian_sparsity-179"><span class="linenos">179</span></a>    <span class="n">n</span> <span class="o">=</span> <span class="n">no_fields</span> <span class="o">*</span> <span class="n">no_depths</span>
+</span><span id="jacobian_sparsity-180"><a href="#jacobian_sparsity-180"><span class="linenos">180</span></a>    
+</span><span id="jacobian_sparsity-181"><a href="#jacobian_sparsity-181"><span class="linenos">181</span></a>    <span class="n">diagonals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">no_fields</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="p">))</span>
+</span><span id="jacobian_sparsity-182"><a href="#jacobian_sparsity-182"><span class="linenos">182</span></a>
+</span><span id="jacobian_sparsity-183"><a href="#jacobian_sparsity-183"><span class="linenos">183</span></a>    <span class="c1"># Construct the offsets.</span>
+</span><span id="jacobian_sparsity-184"><a href="#jacobian_sparsity-184"><span class="linenos">184</span></a>    <span class="n">offsets</span> <span class="o">=</span> <span class="p">()</span>
+</span><span id="jacobian_sparsity-185"><a href="#jacobian_sparsity-185"><span class="linenos">185</span></a>    <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">n</span> <span class="o">+</span> <span class="n">no_depths</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">no_depths</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">no_depths</span><span class="p">):</span> 
+</span><span id="jacobian_sparsity-186"><a href="#jacobian_sparsity-186"><span class="linenos">186</span></a>        <span class="n">offsets</span> <span class="o">=</span> <span class="n">offsets</span> <span class="o">+</span> <span class="p">((</span><span class="n">offset</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),)</span>
+</span><span id="jacobian_sparsity-187"><a href="#jacobian_sparsity-187"><span class="linenos">187</span></a>    <span class="c1"># Turn offsets into a single tuple instead of a tuple of tuples.</span>
+</span><span id="jacobian_sparsity-188"><a href="#jacobian_sparsity-188"><span class="linenos">188</span></a>    <span class="n">offsets</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">offsets</span><span class="p">,</span> <span class="p">())</span>
+</span><span id="jacobian_sparsity-189"><a href="#jacobian_sparsity-189"><span class="linenos">189</span></a>    <span class="c1"># Check that we have as many offsets as diagonals:</span>
+</span><span id="jacobian_sparsity-190"><a href="#jacobian_sparsity-190"><span class="linenos">190</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="jacobian_sparsity-191"><a href="#jacobian_sparsity-191"><span class="linenos">191</span></a>        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">offsets</span><span class="p">)</span> <span class="o">==</span> <span class="n">diagonals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="jacobian_sparsity-192"><a href="#jacobian_sparsity-192"><span class="linenos">192</span></a>    <span class="k">except</span> <span class="ne">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="jacobian_sparsity-193"><a href="#jacobian_sparsity-193"><span class="linenos">193</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setup of diagonals incorrect.&#39;</span><span class="p">)</span>
+</span><span id="jacobian_sparsity-194"><a href="#jacobian_sparsity-194"><span class="linenos">194</span></a>    <span class="c1"># Construct the sparse matrix. </span>
+</span><span id="jacobian_sparsity-195"><a href="#jacobian_sparsity-195"><span class="linenos">195</span></a>    <span class="n">raw_matrix</span> <span class="o">=</span> <span class="n">lil_matrix</span><span class="p">(</span><span class="n">dia_matrix</span><span class="p">((</span><span class="n">diagonals</span><span class="p">,</span> <span class="n">offsets</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)))</span> 
+</span><span id="jacobian_sparsity-196"><a href="#jacobian_sparsity-196"><span class="linenos">196</span></a>    <span class="c1"># Set the Jacobian elements to zero that correspond with the derivatives</span>
+</span><span id="jacobian_sparsity-197"><a href="#jacobian_sparsity-197"><span class="linenos">197</span></a>    <span class="c1"># of the rhs of equations 40 and 41 wrt phi.</span>
+</span><span id="jacobian_sparsity-198"><a href="#jacobian_sparsity-198"><span class="linenos">198</span></a>    <span class="n">raw_matrix</span><span class="p">[:</span><span class="mi">2</span> <span class="o">*</span> <span class="n">no_depths</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">no_depths</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="jacobian_sparsity-199"><a href="#jacobian_sparsity-199"><span class="linenos">199</span></a>
+</span><span id="jacobian_sparsity-200"><a href="#jacobian_sparsity-200"><span class="linenos">200</span></a>    <span class="k">return</span> <span class="n">csr_matrix</span><span class="p">(</span><span class="n">raw_matrix</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>It turns out the the Jacobian sparsity matrix, as provided by
+previous versions of this function was too strict. The diagonals
+had a width of 1, this implicitly assumes no dependencies of the
+Jacobian elements on fields at adjacent depths. A run with such
+a Jacobian sparsity matrix took a lot of compute power and time and
+ultimately halted without covering a single time step! A debugging 
+session with breakpoints inside solve_ivp showed that the Jacobian 
+matrix computed by <code>solve_ivp</code> (when neither the Jacobian nor the 
+Jacobian sparsity matrix was provided) has non-zero elements not 
+only on the diagonals but also on adjacent positions along the 
+diagonals. This was confirmed by ChatGPT:
+"It is indeed common for the Jacobian matrix of coupled partial 
+differential equations (PDEs), such as advection-diffusion equations, 
+to have non-zero elements beyond the main diagonal. This phenomenon, 
+where adjacent elements in the Jacobian are non-zero, is often due 
+to the spatial discretization of the differential equations."
+Likewise computing a functional Jacobian is only feasible for the
+diagonals, for positions near the diagonals it is very hard.</p>
+
+<p>Here we will choose diagonals of width 3.</p>
+</div>
+
+
+                </section>
                 <section id="Solver">
                             <input id="Solver-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@dataclass</div>
+                    <div class="decorator">@no_init_docs</div>
+        <div class="decorator">@dataclass</div>
 
     <span class="def">class</span>
     <span class="name">Solver</span>:
@@ -1917,73 +2557,74 @@ retained.</p>
 
     </div>
     <a class="headerlink" href="#Solver"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Solver-197"><a href="#Solver-197"><span class="linenos">197</span></a><span class="nd">@dataclass</span>
-</span><span id="Solver-198"><a href="#Solver-198"><span class="linenos">198</span></a><span class="k">class</span> <span class="nc">Solver</span><span class="p">():</span>
-</span><span id="Solver-199"><a href="#Solver-199"><span class="linenos">199</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialises all the parameters for the solver, i.e. parameters like time</span>
-</span><span id="Solver-200"><a href="#Solver-200"><span class="linenos">200</span></a><span class="sd">    interval, time step and tolerance.</span>
-</span><span id="Solver-201"><a href="#Solver-201"><span class="linenos">201</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Solver-202"><a href="#Solver-202"><span class="linenos">202</span></a>    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.e-6</span>
-</span><span id="Solver-203"><a href="#Solver-203"><span class="linenos">203</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Initial time step for the integration, in units of T* (dimensionless).</span>
-</span><span id="Solver-204"><a href="#Solver-204"><span class="linenos">204</span></a><span class="sd">    If the time step is not adaptive, i.e. if &#39;adaptive = False&#39;, this time </span>
-</span><span id="Solver-205"><a href="#Solver-205"><span class="linenos">205</span></a><span class="sd">    step will be applied throughout the integration. If None, a default value</span>
-</span><span id="Solver-206"><a href="#Solver-206"><span class="linenos">206</span></a><span class="sd">    based on the stepper will be chosen.&quot;&quot;&quot;</span>
-</span><span id="Solver-207"><a href="#Solver-207"><span class="linenos">207</span></a>    <span class="n">t_range</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Solver-208"><a href="#Solver-208"><span class="linenos">208</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; The time interval that the integration should cover in units of T*</span>
-</span><span id="Solver-209"><a href="#Solver-209"><span class="linenos">209</span></a><span class="sd">    (dimensionless).&quot;&quot;&quot;</span>
-</span><span id="Solver-210"><a href="#Solver-210"><span class="linenos">210</span></a>    <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;scipy&quot;</span>
-</span><span id="Solver-211"><a href="#Solver-211"><span class="linenos">211</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of solver to use.&quot;&quot;&quot;</span>
-</span><span id="Solver-212"><a href="#Solver-212"><span class="linenos">212</span></a>    <span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;euler&quot;</span>
-</span><span id="Solver-213"><a href="#Solver-213"><span class="linenos">213</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of integration scheme to use. Beware that &#39;scheme&#39;</span>
-</span><span id="Solver-214"><a href="#Solver-214"><span class="linenos">214</span></a><span class="sd">    will only be propagated if you have chosen py-pde&#39;s native</span>
-</span><span id="Solver-215"><a href="#Solver-215"><span class="linenos">215</span></a><span class="sd">    &#39;explicit&#39; solver as &#39;solver&#39;.&quot;&quot;&quot;</span>
-</span><span id="Solver-216"><a href="#Solver-216"><span class="linenos">216</span></a>    <span class="n">adaptive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="Solver-217"><a href="#Solver-217"><span class="linenos">217</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether or not to use an adaptive time step. Beware that &#39;adaptive&#39; </span>
-</span><span id="Solver-218"><a href="#Solver-218"><span class="linenos">218</span></a><span class="sd">    will only be propagated if you have chosen py-pde&#39;s native</span>
-</span><span id="Solver-219"><a href="#Solver-219"><span class="linenos">219</span></a><span class="sd">    &#39;explicit&#39; solver as &#39;solver&#39;.&quot;&quot;&quot;</span>
-</span><span id="Solver-220"><a href="#Solver-220"><span class="linenos">220</span></a>    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LSODA&quot;</span>
-</span><span id="Solver-221"><a href="#Solver-221"><span class="linenos">221</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;solve_ivp from scipy.integrate offers six methods. </span>
-</span><span id="Solver-222"><a href="#Solver-222"><span class="linenos">222</span></a><span class="sd">    They can be set here.&quot;&quot;&quot;</span>
-</span><span id="Solver-223"><a href="#Solver-223"><span class="linenos">223</span></a>    <span class="n">lband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Solver-224"><a href="#Solver-224"><span class="linenos">224</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Setting lband and uband for method=&quot;LSODA&quot; leads to tremendous</span>
-</span><span id="Solver-225"><a href="#Solver-225"><span class="linenos">225</span></a><span class="sd">    performance increase. See Scipy&#39;s &#39;solve_ivp&#39; documentation for background.</span>
-</span><span id="Solver-226"><a href="#Solver-226"><span class="linenos">226</span></a><span class="sd">    Consider it equivalent to providing a sparsity matrix for the &quot;Radau&quot; </span>
-</span><span id="Solver-227"><a href="#Solver-227"><span class="linenos">227</span></a><span class="sd">    and &quot;BDF&quot; implicit methods.&quot;&quot;&quot;</span>
-</span><span id="Solver-228"><a href="#Solver-228"><span class="linenos">228</span></a>    <span class="n">uband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Solver-229"><a href="#Solver-229"><span class="linenos">229</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Setting lband and uband for method=&quot;LSODA&quot; leads to tremendous</span>
-</span><span id="Solver-230"><a href="#Solver-230"><span class="linenos">230</span></a><span class="sd">    performance increase. See Scipy&#39;s &#39;solve_ivp&#39; documentation for background.</span>
-</span><span id="Solver-231"><a href="#Solver-231"><span class="linenos">231</span></a><span class="sd">    Consider it equivalent to providing a sparsity matrix for the &quot;Radau&quot; </span>
-</span><span id="Solver-232"><a href="#Solver-232"><span class="linenos">232</span></a><span class="sd">    and &quot;BDF&quot; implicit methods.&quot;&quot;&quot;</span>
-</span><span id="Solver-233"><a href="#Solver-233"><span class="linenos">233</span></a>    <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;numba&quot;</span>
-</span><span id="Solver-234"><a href="#Solver-234"><span class="linenos">234</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Options are &#39;numpy and &#39;numba&#39;. Choosing &#39;numba&#39; means that the </span>
-</span><span id="Solver-235"><a href="#Solver-235"><span class="linenos">235</span></a><span class="sd">    computations of the right-hand sides of the partial differential equations</span>
-</span><span id="Solver-236"><a href="#Solver-236"><span class="linenos">236</span></a><span class="sd">    for the five fields that we are integrating are compiled. This option is </span>
-</span><span id="Solver-237"><a href="#Solver-237"><span class="linenos">237</span></a><span class="sd">    almost always faster than &#39;numpy&#39;, which uses the Python interpreter to </span>
-</span><span id="Solver-238"><a href="#Solver-238"><span class="linenos">238</span></a><span class="sd">    launch (compiled) Numpy routines. However, the &#39;numba&#39; option comes with</span>
-</span><span id="Solver-239"><a href="#Solver-239"><span class="linenos">239</span></a><span class="sd">    limitations with respect to the Python and Numpy routines that can be </span>
-</span><span id="Solver-240"><a href="#Solver-240"><span class="linenos">240</span></a><span class="sd">    deployed. See the Numba documentation for a list of supported Numpy </span>
-</span><span id="Solver-241"><a href="#Solver-241"><span class="linenos">241</span></a><span class="sd">    features.</span>
-</span><span id="Solver-242"><a href="#Solver-242"><span class="linenos">242</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Solver-243"><a href="#Solver-243"><span class="linenos">243</span></a>    <span class="n">ret_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="Solver-244"><a href="#Solver-244"><span class="linenos">244</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Flag determining whether diagnostic information about the solver </span>
-</span><span id="Solver-245"><a href="#Solver-245"><span class="linenos">245</span></a><span class="sd">    process should be returned. &quot;&quot;&quot;</span>
-</span><span id="Solver-246"><a href="#Solver-246"><span class="linenos">246</span></a>
-</span><span id="Solver-247"><a href="#Solver-247"><span class="linenos">247</span></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Solver-248"><a href="#Solver-248"><span class="linenos">248</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Solver-249"><a href="#Solver-249"><span class="linenos">249</span></a><span class="sd">        Filter out solver settings that are mutually incompatible.</span>
-</span><span id="Solver-250"><a href="#Solver-250"><span class="linenos">250</span></a><span class="sd">        &#39;&#39;&#39;</span>
-</span><span id="Solver-251"><a href="#Solver-251"><span class="linenos">251</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="Solver-252"><a href="#Solver-252"><span class="linenos">252</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">!=</span> <span class="s2">&quot;scipy&quot;</span><span class="p">:</span>
-</span><span id="Solver-253"><a href="#Solver-253"><span class="linenos">253</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span>
-</span><span id="Solver-254"><a href="#Solver-254"><span class="linenos">254</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;lband&quot;</span><span class="p">]</span>
-</span><span id="Solver-255"><a href="#Solver-255"><span class="linenos">255</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;uband&quot;</span><span class="p">]</span>
-</span><span id="Solver-256"><a href="#Solver-256"><span class="linenos">256</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="Solver-257"><a href="#Solver-257"><span class="linenos">257</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;scheme&quot;</span><span class="p">]</span>
-</span><span id="Solver-258"><a href="#Solver-258"><span class="linenos">258</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;adaptive&quot;</span><span class="p">]</span>
-</span><span id="Solver-259"><a href="#Solver-259"><span class="linenos">259</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;LSODA&quot;</span><span class="p">:</span>
-</span><span id="Solver-260"><a href="#Solver-260"><span class="linenos">260</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;lband&quot;</span><span class="p">]</span>
-</span><span id="Solver-261"><a href="#Solver-261"><span class="linenos">261</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;uband&quot;</span><span class="p">]</span>
-</span><span id="Solver-262"><a href="#Solver-262"><span class="linenos">262</span></a>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-</span><span id="Solver-263"><a href="#Solver-263"><span class="linenos">263</span></a>            <span class="k">pass</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Solver-203"><a href="#Solver-203"><span class="linenos">203</span></a><span class="nd">@no_init_docs</span>
+</span><span id="Solver-204"><a href="#Solver-204"><span class="linenos">204</span></a><span class="nd">@dataclass</span>
+</span><span id="Solver-205"><a href="#Solver-205"><span class="linenos">205</span></a><span class="k">class</span> <span class="nc">Solver</span><span class="p">():</span>
+</span><span id="Solver-206"><a href="#Solver-206"><span class="linenos">206</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialises all the parameters for the solver, i.e. parameters like time</span>
+</span><span id="Solver-207"><a href="#Solver-207"><span class="linenos">207</span></a><span class="sd">    interval, time step and tolerance.</span>
+</span><span id="Solver-208"><a href="#Solver-208"><span class="linenos">208</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Solver-209"><a href="#Solver-209"><span class="linenos">209</span></a>    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.e-6</span>
+</span><span id="Solver-210"><a href="#Solver-210"><span class="linenos">210</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Initial time step for the integration, in units of T* (dimensionless).</span>
+</span><span id="Solver-211"><a href="#Solver-211"><span class="linenos">211</span></a><span class="sd">    If the time step is not adaptive, i.e. if &#39;adaptive = False&#39;, this time </span>
+</span><span id="Solver-212"><a href="#Solver-212"><span class="linenos">212</span></a><span class="sd">    step will be applied throughout the integration. If None, a default value</span>
+</span><span id="Solver-213"><a href="#Solver-213"><span class="linenos">213</span></a><span class="sd">    based on the stepper will be chosen.&quot;&quot;&quot;</span>
+</span><span id="Solver-214"><a href="#Solver-214"><span class="linenos">214</span></a>    <span class="n">t_range</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Solver-215"><a href="#Solver-215"><span class="linenos">215</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; The time interval that the integration should cover in units of T*</span>
+</span><span id="Solver-216"><a href="#Solver-216"><span class="linenos">216</span></a><span class="sd">    (dimensionless).&quot;&quot;&quot;</span>
+</span><span id="Solver-217"><a href="#Solver-217"><span class="linenos">217</span></a>    <span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;scipy&quot;</span>
+</span><span id="Solver-218"><a href="#Solver-218"><span class="linenos">218</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of solver to use.&quot;&quot;&quot;</span>
+</span><span id="Solver-219"><a href="#Solver-219"><span class="linenos">219</span></a>    <span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;euler&quot;</span>
+</span><span id="Solver-220"><a href="#Solver-220"><span class="linenos">220</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of integration scheme to use. Beware that &#39;scheme&#39;</span>
+</span><span id="Solver-221"><a href="#Solver-221"><span class="linenos">221</span></a><span class="sd">    will only be propagated if you have chosen py-pde&#39;s native</span>
+</span><span id="Solver-222"><a href="#Solver-222"><span class="linenos">222</span></a><span class="sd">    &#39;explicit&#39; solver as &#39;solver&#39;.&quot;&quot;&quot;</span>
+</span><span id="Solver-223"><a href="#Solver-223"><span class="linenos">223</span></a>    <span class="n">adaptive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Solver-224"><a href="#Solver-224"><span class="linenos">224</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether or not to use an adaptive time step. Beware that &#39;adaptive&#39; </span>
+</span><span id="Solver-225"><a href="#Solver-225"><span class="linenos">225</span></a><span class="sd">    will only be propagated if you have chosen py-pde&#39;s native</span>
+</span><span id="Solver-226"><a href="#Solver-226"><span class="linenos">226</span></a><span class="sd">    &#39;explicit&#39; solver as &#39;solver&#39;.&quot;&quot;&quot;</span>
+</span><span id="Solver-227"><a href="#Solver-227"><span class="linenos">227</span></a>    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LSODA&quot;</span>
+</span><span id="Solver-228"><a href="#Solver-228"><span class="linenos">228</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;solve_ivp from scipy.integrate offers six methods. </span>
+</span><span id="Solver-229"><a href="#Solver-229"><span class="linenos">229</span></a><span class="sd">    They can be set here.&quot;&quot;&quot;</span>
+</span><span id="Solver-230"><a href="#Solver-230"><span class="linenos">230</span></a>    <span class="n">lband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Solver-231"><a href="#Solver-231"><span class="linenos">231</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Setting lband and uband for method=&quot;LSODA&quot; leads to tremendous</span>
+</span><span id="Solver-232"><a href="#Solver-232"><span class="linenos">232</span></a><span class="sd">    performance increase. See Scipy&#39;s &#39;solve_ivp&#39; documentation for background.</span>
+</span><span id="Solver-233"><a href="#Solver-233"><span class="linenos">233</span></a><span class="sd">    Consider it equivalent to providing a sparsity matrix for the &quot;Radau&quot; </span>
+</span><span id="Solver-234"><a href="#Solver-234"><span class="linenos">234</span></a><span class="sd">    and &quot;BDF&quot; implicit methods.&quot;&quot;&quot;</span>
+</span><span id="Solver-235"><a href="#Solver-235"><span class="linenos">235</span></a>    <span class="n">uband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Solver-236"><a href="#Solver-236"><span class="linenos">236</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Setting lband and uband for method=&quot;LSODA&quot; leads to tremendous</span>
+</span><span id="Solver-237"><a href="#Solver-237"><span class="linenos">237</span></a><span class="sd">    performance increase. See Scipy&#39;s &#39;solve_ivp&#39; documentation for background.</span>
+</span><span id="Solver-238"><a href="#Solver-238"><span class="linenos">238</span></a><span class="sd">    Consider it equivalent to providing a sparsity matrix for the &quot;Radau&quot; </span>
+</span><span id="Solver-239"><a href="#Solver-239"><span class="linenos">239</span></a><span class="sd">    and &quot;BDF&quot; implicit methods.&quot;&quot;&quot;</span>
+</span><span id="Solver-240"><a href="#Solver-240"><span class="linenos">240</span></a>    <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;numba&quot;</span>
+</span><span id="Solver-241"><a href="#Solver-241"><span class="linenos">241</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Options are &#39;numpy and &#39;numba&#39;. Choosing &#39;numba&#39; means that the </span>
+</span><span id="Solver-242"><a href="#Solver-242"><span class="linenos">242</span></a><span class="sd">    computations of the right-hand sides of the partial differential equations</span>
+</span><span id="Solver-243"><a href="#Solver-243"><span class="linenos">243</span></a><span class="sd">    for the five fields that we are integrating are compiled. This option is </span>
+</span><span id="Solver-244"><a href="#Solver-244"><span class="linenos">244</span></a><span class="sd">    almost always faster than &#39;numpy&#39;, which uses the Python interpreter to </span>
+</span><span id="Solver-245"><a href="#Solver-245"><span class="linenos">245</span></a><span class="sd">    launch (compiled) Numpy routines. However, the &#39;numba&#39; option comes with</span>
+</span><span id="Solver-246"><a href="#Solver-246"><span class="linenos">246</span></a><span class="sd">    limitations with respect to the Python and Numpy routines that can be </span>
+</span><span id="Solver-247"><a href="#Solver-247"><span class="linenos">247</span></a><span class="sd">    deployed. See the Numba documentation for a list of supported Numpy </span>
+</span><span id="Solver-248"><a href="#Solver-248"><span class="linenos">248</span></a><span class="sd">    features.</span>
+</span><span id="Solver-249"><a href="#Solver-249"><span class="linenos">249</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Solver-250"><a href="#Solver-250"><span class="linenos">250</span></a>    <span class="n">ret_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Solver-251"><a href="#Solver-251"><span class="linenos">251</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Flag determining whether diagnostic information about the solver </span>
+</span><span id="Solver-252"><a href="#Solver-252"><span class="linenos">252</span></a><span class="sd">    process should be returned. &quot;&quot;&quot;</span>
+</span><span id="Solver-253"><a href="#Solver-253"><span class="linenos">253</span></a>
+</span><span id="Solver-254"><a href="#Solver-254"><span class="linenos">254</span></a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Solver-255"><a href="#Solver-255"><span class="linenos">255</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Solver-256"><a href="#Solver-256"><span class="linenos">256</span></a><span class="sd">        Filter out solver settings that are mutually incompatible.</span>
+</span><span id="Solver-257"><a href="#Solver-257"><span class="linenos">257</span></a><span class="sd">        &#39;&#39;&#39;</span>
+</span><span id="Solver-258"><a href="#Solver-258"><span class="linenos">258</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="Solver-259"><a href="#Solver-259"><span class="linenos">259</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">!=</span> <span class="s2">&quot;scipy&quot;</span><span class="p">:</span>
+</span><span id="Solver-260"><a href="#Solver-260"><span class="linenos">260</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">]</span>
+</span><span id="Solver-261"><a href="#Solver-261"><span class="linenos">261</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;lband&quot;</span><span class="p">]</span>
+</span><span id="Solver-262"><a href="#Solver-262"><span class="linenos">262</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;uband&quot;</span><span class="p">]</span>
+</span><span id="Solver-263"><a href="#Solver-263"><span class="linenos">263</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="Solver-264"><a href="#Solver-264"><span class="linenos">264</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;scheme&quot;</span><span class="p">]</span>
+</span><span id="Solver-265"><a href="#Solver-265"><span class="linenos">265</span></a>                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;adaptive&quot;</span><span class="p">]</span>
+</span><span id="Solver-266"><a href="#Solver-266"><span class="linenos">266</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;LSODA&quot;</span><span class="p">:</span>
+</span><span id="Solver-267"><a href="#Solver-267"><span class="linenos">267</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;lband&quot;</span><span class="p">]</span>
+</span><span id="Solver-268"><a href="#Solver-268"><span class="linenos">268</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">[</span><span class="s2">&quot;uband&quot;</span><span class="p">]</span>
+</span><span id="Solver-269"><a href="#Solver-269"><span class="linenos">269</span></a>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+</span><span id="Solver-270"><a href="#Solver-270"><span class="linenos">270</span></a>            <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -1992,18 +2633,6 @@ interval, time step and tolerance.</p>
 </div>
 
 
-                            <div id="Solver.__init__" class="classattr">
-                                <div class="attr function">
-            
-        <span class="name">Solver</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-06</span>,</span><span class="param">	<span class="n">t_range</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>,</span><span class="param">	<span class="n">solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;scipy&#39;</span>,</span><span class="param">	<span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;euler&#39;</span>,</span><span class="param">	<span class="n">adaptive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>,</span><span class="param">	<span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;LSODA&#39;</span>,</span><span class="param">	<span class="n">lband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>,</span><span class="param">	<span class="n">uband</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>,</span><span class="param">	<span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;numba&#39;</span>,</span><span class="param">	<span class="n">ret_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></span>)</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Solver.__init__"></a>
-    
-    
-
-                            </div>
                             <div id="Solver.dt" class="classattr">
                                 <div class="attr variable">
             <span class="name">dt</span><span class="annotation">: float</span>        =
@@ -2180,35 +2809,35 @@ process should be returned.</p>
 
     </div>
     <a class="headerlink" href="#Tracker"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Tracker-266"><a href="#Tracker-266"><span class="linenos">266</span></a><span class="nd">@dataclass</span>
-</span><span id="Tracker-267"><a href="#Tracker-267"><span class="linenos">267</span></a><span class="k">class</span> <span class="nc">Tracker</span><span class="p">:</span>
-</span><span id="Tracker-268"><a href="#Tracker-268"><span class="linenos">268</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="Tracker-269"><a href="#Tracker-269"><span class="linenos">269</span></a><span class="sd">    Initialises all the tracking parameters, such as tracker interval.</span>
-</span><span id="Tracker-270"><a href="#Tracker-270"><span class="linenos">270</span></a><span class="sd">    Also indicates the quantities to be tracked, as boolean values.</span>
-</span><span id="Tracker-271"><a href="#Tracker-271"><span class="linenos">271</span></a><span class="sd">    &#39;&#39;&#39;</span>
-</span><span id="Tracker-272"><a href="#Tracker-272"><span class="linenos">272</span></a>    <span class="n">progress_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span><span class="o">.</span><span class="n">t_range</span> <span class="o">/</span> <span class="mi">1_000</span>
-</span><span id="Tracker-273"><a href="#Tracker-273"><span class="linenos">273</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;This determines how often the progress bar, showing the </span>
-</span><span id="Tracker-274"><a href="#Tracker-274"><span class="linenos">274</span></a><span class="sd">    integration progress, is updated. It is expressed in integration</span>
-</span><span id="Tracker-275"><a href="#Tracker-275"><span class="linenos">275</span></a><span class="sd">    units, i.e. in units of T*.&quot;&quot;&quot;</span>
-</span><span id="Tracker-276"><a href="#Tracker-276"><span class="linenos">276</span></a>    <span class="n">live_plotting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="Tracker-277"><a href="#Tracker-277"><span class="linenos">277</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;It is possible to see how the distributions over depth, of the five</span>
-</span><span id="Tracker-278"><a href="#Tracker-278"><span class="linenos">278</span></a><span class="sd">    fields that we are integrating, evolve as integration progresses.&quot;&quot;&quot;</span>
-</span><span id="Tracker-279"><a href="#Tracker-279"><span class="linenos">279</span></a>    <span class="n">plotting_interval</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;0:05&#39;</span>
-</span><span id="Tracker-280"><a href="#Tracker-280"><span class="linenos">280</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute of the LivePlotTracker class that determines the interruption</span>
-</span><span id="Tracker-281"><a href="#Tracker-281"><span class="linenos">281</span></a><span class="sd">    of the simulation. A single number determines an interval (measured in the </span>
-</span><span id="Tracker-282"><a href="#Tracker-282"><span class="linenos">282</span></a><span class="sd">    simulation time unit) of regular interruption. A string is interpreted as a</span>
-</span><span id="Tracker-283"><a href="#Tracker-283"><span class="linenos">283</span></a><span class="sd">    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is </span>
-</span><span id="Tracker-284"><a href="#Tracker-284"><span class="linenos">284</span></a><span class="sd">    taken as explicit simulation time points.&quot;&quot;&quot;</span>
-</span><span id="Tracker-285"><a href="#Tracker-285"><span class="linenos">285</span></a>    <span class="n">data_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
-</span><span id="Tracker-286"><a href="#Tracker-286"><span class="linenos">286</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute of the DataTracker class that determines the interruption</span>
-</span><span id="Tracker-287"><a href="#Tracker-287"><span class="linenos">287</span></a><span class="sd">    of the simulation. A single number determines an interval (measured in the </span>
-</span><span id="Tracker-288"><a href="#Tracker-288"><span class="linenos">288</span></a><span class="sd">    simulation time unit) of regular interruption. A string is interpreted as a</span>
-</span><span id="Tracker-289"><a href="#Tracker-289"><span class="linenos">289</span></a><span class="sd">    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is </span>
-</span><span id="Tracker-290"><a href="#Tracker-290"><span class="linenos">290</span></a><span class="sd">    taken as explicit simulation time points.&quot;&quot;&quot;</span>
-</span><span id="Tracker-291"><a href="#Tracker-291"><span class="linenos">291</span></a>    <span class="n">track_U_at_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-</span><span id="Tracker-292"><a href="#Tracker-292"><span class="linenos">292</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to track solid matrix advection velocity U at the bottom of the</span>
-</span><span id="Tracker-293"><a href="#Tracker-293"><span class="linenos">293</span></a><span class="sd">    grid and store it as a dataset &#39;U at bottom&#39; in a separate group &#39;U&#39; </span>
-</span><span id="Tracker-294"><a href="#Tracker-294"><span class="linenos">294</span></a><span class="sd">    within the hdf5 file containing all stored results.&quot;&quot;&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Tracker-273"><a href="#Tracker-273"><span class="linenos">273</span></a><span class="nd">@dataclass</span>
+</span><span id="Tracker-274"><a href="#Tracker-274"><span class="linenos">274</span></a><span class="k">class</span> <span class="nc">Tracker</span><span class="p">:</span>
+</span><span id="Tracker-275"><a href="#Tracker-275"><span class="linenos">275</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+</span><span id="Tracker-276"><a href="#Tracker-276"><span class="linenos">276</span></a><span class="sd">    Initialises all the tracking parameters, such as tracker interval.</span>
+</span><span id="Tracker-277"><a href="#Tracker-277"><span class="linenos">277</span></a><span class="sd">    Also indicates the quantities to be tracked, as boolean values.</span>
+</span><span id="Tracker-278"><a href="#Tracker-278"><span class="linenos">278</span></a><span class="sd">    &#39;&#39;&#39;</span>
+</span><span id="Tracker-279"><a href="#Tracker-279"><span class="linenos">279</span></a>    <span class="n">progress_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span><span class="o">.</span><span class="n">t_range</span> <span class="o">/</span> <span class="mi">1_000</span>
+</span><span id="Tracker-280"><a href="#Tracker-280"><span class="linenos">280</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;This determines how often the progress bar, showing the </span>
+</span><span id="Tracker-281"><a href="#Tracker-281"><span class="linenos">281</span></a><span class="sd">    integration progress, is updated. It is expressed in integration</span>
+</span><span id="Tracker-282"><a href="#Tracker-282"><span class="linenos">282</span></a><span class="sd">    units, i.e. in units of T*.&quot;&quot;&quot;</span>
+</span><span id="Tracker-283"><a href="#Tracker-283"><span class="linenos">283</span></a>    <span class="n">live_plotting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Tracker-284"><a href="#Tracker-284"><span class="linenos">284</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;It is possible to see how the distributions over depth, of the five</span>
+</span><span id="Tracker-285"><a href="#Tracker-285"><span class="linenos">285</span></a><span class="sd">    fields that we are integrating, evolve as integration progresses.&quot;&quot;&quot;</span>
+</span><span id="Tracker-286"><a href="#Tracker-286"><span class="linenos">286</span></a>    <span class="n">plotting_interval</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;0:05&#39;</span>
+</span><span id="Tracker-287"><a href="#Tracker-287"><span class="linenos">287</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute of the LivePlotTracker class that determines the interruption</span>
+</span><span id="Tracker-288"><a href="#Tracker-288"><span class="linenos">288</span></a><span class="sd">    of the simulation. A single number determines an interval (measured in the </span>
+</span><span id="Tracker-289"><a href="#Tracker-289"><span class="linenos">289</span></a><span class="sd">    simulation time unit) of regular interruption. A string is interpreted as a</span>
+</span><span id="Tracker-290"><a href="#Tracker-290"><span class="linenos">290</span></a><span class="sd">    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is </span>
+</span><span id="Tracker-291"><a href="#Tracker-291"><span class="linenos">291</span></a><span class="sd">    taken as explicit simulation time points.&quot;&quot;&quot;</span>
+</span><span id="Tracker-292"><a href="#Tracker-292"><span class="linenos">292</span></a>    <span class="n">data_tracker_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
+</span><span id="Tracker-293"><a href="#Tracker-293"><span class="linenos">293</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute of the DataTracker class that determines the interruption</span>
+</span><span id="Tracker-294"><a href="#Tracker-294"><span class="linenos">294</span></a><span class="sd">    of the simulation. A single number determines an interval (measured in the </span>
+</span><span id="Tracker-295"><a href="#Tracker-295"><span class="linenos">295</span></a><span class="sd">    simulation time unit) of regular interruption. A string is interpreted as a</span>
+</span><span id="Tracker-296"><a href="#Tracker-296"><span class="linenos">296</span></a><span class="sd">    duration in real time assuming the format ‘hh:mm:ss’. A list of numbers is </span>
+</span><span id="Tracker-297"><a href="#Tracker-297"><span class="linenos">297</span></a><span class="sd">    taken as explicit simulation time points.&quot;&quot;&quot;</span>
+</span><span id="Tracker-298"><a href="#Tracker-298"><span class="linenos">298</span></a>    <span class="n">track_U_at_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="Tracker-299"><a href="#Tracker-299"><span class="linenos">299</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to track solid matrix advection velocity U at the bottom of the</span>
+</span><span id="Tracker-300"><a href="#Tracker-300"><span class="linenos">300</span></a><span class="sd">    grid and store it as a dataset &#39;U at bottom&#39; in a separate group &#39;U&#39; </span>
+</span><span id="Tracker-301"><a href="#Tracker-301"><span class="linenos">301</span></a><span class="sd">    within the hdf5 file containing all stored results.&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
