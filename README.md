@@ -1,4 +1,4 @@
-# Integrating diagenetic equations using Python
+# Python implementation of the reactive-transport diagenetic model by L'Heureux (2018)
 
 This repo was created in an attempt to reproduce the plots shown at the kickoff of the AstroTOM ("Turing or Milankovitch") project by Niklas Hohmann, from his Matlab scripts (available at [github.com/MindTheGap-ERC/LMA-Matlab](https://github.com/MindTheGap-ERC/LMA-Matlab)). 
 
