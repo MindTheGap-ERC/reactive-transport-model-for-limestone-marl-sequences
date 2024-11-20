@@ -27,6 +27,7 @@ jobs:
       - run: pip install pipenv
       - run: pipenv install
       - run: pipenv shell
+      - run: git switch release_v1.0.0
       # build your documentation into docs/.
       - run: pdoc marlpde/*.py -o ./docs/
 
