@@ -1,4 +1,4 @@
-# Python implementation of the reactive-transport diagenetic model by L'Heureux (2018)
+# Reactive transport model for limestone-marl sequences
 
 This repo was forked off [Integrating-diagenetic-equations-using-Python](https://github.com/astro-turing/Integrating-diagenetic-equations-using-Python), which is part of the [Astro-turing organisation](https://github.com/astro-turing), created as part of the AstroToM ("Turing or Milankovitch") project, an OpenSSI 2021b project from the Netherlands eScience Center and Utrecht University (UU). 
 
