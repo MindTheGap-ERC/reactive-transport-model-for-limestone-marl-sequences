@@ -4,7 +4,7 @@ This repo was forked off [Integrating-diagenetic-equations-using-Python](https:/
 
 The diagenetic modelling efforts within AstoToM can be regarded as a precursor to this repo and to [rhythmite](https://github.com/MindTheGap-ERC/rhythmite), while [LMA_utils](https://github.com/MindTheGap-ERC/LMA_utils), [LHeureuxEqs](https://github.com/MindTheGap-ERC/LHeureuxEqs) and [Cross-comparison](https://github.com/MindTheGap-ERC/Cross-comparison) are auxiliary repos. 
 
-[LMA-Matlab](https://github.com/MindTheGap-ERC/LMA-Matlab) was the first attempt to reproduce the results from [L'Heureux (2018)](https://onlinelibrary.wiley.com/doi/10.1155/2018/4968315). That repo is coded in MATLAB, while the [original diagenetic model from L'Heureux](https://github.com/astro-turing/Diagenetic_model_LHeureux_2018) was written in FORTRAN. 
+[LMA-Matlab](https://github.com/MindTheGap-ERC/LMA-Matlab) was the first attempt to reproduce the results from [L'Heureux (2018)](https://onlinelibrary.wiley.com/doi/10.1155/2018/4968315). That repo is coded in MATLAB, while the [original diagenetic model from L'Heureux](https://github.com/astro-turing/Diagenetic_model_LHeureux_2018) was written in FORTRAN.  
 [Integrating-diagenetic-equations-using-Python](https://github.com/astro-turing/Integrating-diagenetic-equations-using-Python) was inspired by [LMA-Matlab](https://github.com/MindTheGap-ERC/LMA-Matlab).
 
 MindTheGap is led by dr. Emilia Jarochowska (UU). 
