@@ -278,7 +278,7 @@ class Tracker:
     """This determines how often the progress bar, showing the 
     integration progress, is updated. It is expressed in integration
     units, i.e. in units of T*."""
-    live_plotting: bool = True
+    live_plotting: bool = False
     """It is possible to see how the distributions over depth, of the five
     fields that we are integrating, evolve as integration progresses."""
     plotting_interval: str = '0:05'
