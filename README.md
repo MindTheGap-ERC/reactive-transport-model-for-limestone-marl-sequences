@@ -1,30 +1,31 @@
 # Python implementation of the reactive-transport diagenetic model by L'Heureux (2018)
 
-This repo was created in an attempt to reproduce the plots shown at the kickoff of the AstroTOM ("Turing or Milankovitch") project by Niklas Hohmann, from his Matlab scripts (available at [github.com/MindTheGap-ERC/LMA-Matlab](https://github.com/MindTheGap-ERC/LMA-Matlab)). 
+This repo was forked off [Integrating-diagenetic-equations-using-Python](https://github.com/astro-turing/Integrating-diagenetic-equations-using-Python), which is part of the [Astro-turing organisation](https://github.com/astro-turing), created as part of the AstroToM ("Turing or Milankovitch") project, an OpenSSI 2021b project from the Netherlands eScience Center and Utrecht University (UU). 
 
-AstroTOM is an OpenSSI 2021b project from the Netherlands eScience Center and Utrecht University (UU).
+The diagenetic modelling efforts within AstoToM can be regarded as a precursor to this repo and to [rhythmite](https://github.com/MindTheGap-ERC/rhythmite), while [LMA_utils](https://github.com/MindTheGap-ERC/LMA_utils), [LHeureuxEqs](https://github.com/MindTheGap-ERC/LHeureuxEqs) and [Cross-comparison](https://github.com/MindTheGap-ERC/Cross-comparison) are auxiliary repos. 
 
-Dr. Emilia Jarochowska (UU) is the lead applicant of this project.
+[LMA-Matlab](https://github.com/MindTheGap-ERC/LMA-Matlab) was the first attempt to reproduce the results from [L'Heureux (2018)](https://onlinelibrary.wiley.com/doi/10.1155/2018/4968315). That repo is coded in MATLAB, while the [original diagenetic model from L'Heureux](https://github.com/astro-turing/Diagenetic_model_LHeureux_2018) was written in FORTRAN. 
+[Integrating-diagenetic-equations-using-Python](https://github.com/astro-turing/Integrating-diagenetic-equations-using-Python) was inspired by [LMA-Matlab](https://github.com/MindTheGap-ERC/LMA-Matlab).
 
-After replacing central differencing for the gradients in the five diagenetic equations 40-43 from [L'Heureux (2018)](https://www.hindawi.com/journals/geofluids/2018/4968315/) by forward and backward differencing depending on the sign of U and W as a first step and a Fiadeiro-Veronis spatial difference scheme as a second step, it turns out that these equations can be integrated for more than 13.190 years (the full T*) with an implicit or explicit (in time) solver, but not with a simple Eulerian scheme. A Runge-Kutta solver, with an adaptive timestep will, however, suffice.
-After correcting the value of b (5-->5e-4) it turned out that a stable integration is also possible without a Fiadeiro-Veronis scheme. We currently make use of a constant porosity diffusion coefficient.
+MindTheGap is led by dr. Emilia Jarochowska (UU). 
 
-The implicit (in time) solvers that `solve_ivp` offers can be deployed with its numerically approximated Jacobians and a Jacobian sparsity matrix.
+Wide use is made of the [py-pde](https://py-pde.readthedocs.io/en/latest/) package.
 
-Wide use is made of the [py-pde](https://py-pde.readthedocs.io/en/latest/) package, especially `CartesianGrid` and `ScalarField`.
+The porosity diffusion coefficient is held constant.
 
 ## Installing and using
 To run this code, you need `git` and `conda` or `pip` to install .
 ```
-git clone git@github.com:astro-turing/Integrating-diagenetic-equations-using-Python.git
+git clone git@github.com:MindTheGap-ERC/reactive-transport-model-for-limestone-marl-sequences.git
 ```
 or 
 ```
-git clone https://github.com/astro-turing/Integrating-diagenetic-equations-using-Python.git
+git clone https://github.com/MindTheGap-ERC/reactive-transport-model-for-limestone-marl-sequences.git
 ```
 Next,
 ```
-cd Integrating-diagenetic-equations-using-Python
+cd reactive-transport-model-for-limestone-marl-sequences
+git switch release_v1.0.0
 pipenv install
 ```
 
