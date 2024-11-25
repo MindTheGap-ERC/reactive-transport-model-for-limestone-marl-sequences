@@ -126,7 +126,7 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     storage = FileStorage(stored_results, info=storage_parms)
 
     if tracker_parms["live_plotting"]:
-        live_plots = LivePlotTracker(interval=\
+        live_plots = LivePlotTracker(interrupts=\
                                      tracker_parms["plotting_interval"], \
                                      title="Integration results",
                                      show=True, max_fps=1, \
