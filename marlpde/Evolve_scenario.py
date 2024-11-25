@@ -5,12 +5,15 @@ import os
 from dataclasses import asdict
 import inspect
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use("AGG")
 import h5py
 from pde import CartesianGrid, ScalarField, FileStorage, LivePlotTracker
 from pde import DataTracker
 from pde.grids.operators.cartesian import _make_derivative
 from parameters import Map_Scenario, Solver, Tracker
 from LHeureux_model import LMAHeureuxPorosityDiff
+
 
 def integrate_equations(solver_parms, tracker_parms, pde_parms):
     '''Perform the integration and display and store the results.
