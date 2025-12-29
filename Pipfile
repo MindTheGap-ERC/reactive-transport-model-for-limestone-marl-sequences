@@ -4,18 +4,18 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-numpy = "*"
 ply = "*"
 networkx = "*"
 future = "*"
 matplotlib = "*"
 pytest = "*"
 scipy = "*"
-py-pde = "*"
 tqdm = "*"
 h5py = "*"
 pint = "*"
 pdoc = "*"
+numpy = "==1.23.5"
+py-pde = "==0.32.1"
 
 [dev-packages]
 pylint = "*"
