@@ -16,6 +16,8 @@ class LMAHeureuxPorosityDiff():
                  FV_switch):  
         self.no_fields = 5
         self.Depths = Depths    
+        # We will be needing forward and backward differencing for
+        # Fiadeiro-Veronis differentiation.
         self.Depths.register_operator("grad_back", \
             lambda grid: _make_derivative(grid, method="backward"))
         self.Depths.register_operator("grad_forw", \
