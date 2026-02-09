@@ -4,17 +4,18 @@ version = "0.1.0"
 description = "Integrator for L'Heureux Marl PDE in Python"
 authors = ["Hanno Spreeuw <h.spreeuw@esciencecenter.nl>", "Johan Hidding <j.hidding@esciencecenter.nl>"]
 license = "Apache-2"
+package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.15"
-py-pde = "^0.51.0"
+python = ">=3.11,<3.15"
+py-pde = "^0.50.0"
 tqdm = "^4.64.1"
-numpy = "^1.23.5"
+numpy = "^2.0.0"
 matplotlib = "^3.7.1"
-pint = "^0.22"
+pint = "^0.25.2"
 ipython = "^8.14.0"
 pytest = "^7.4.0"
-numba = "^0.57.1"
+numba = "^0.63.0"
 h5py = "^3.9.0"
 pandas = "^2.1.0"
 
