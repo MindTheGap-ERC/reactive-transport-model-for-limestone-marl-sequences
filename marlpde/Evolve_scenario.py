@@ -9,7 +9,6 @@ import h5py
 from LHeureux_model import LMAHeureuxPorosityDiff
 from parameters import Map_Scenario, Solver, Tracker
 from pde import CartesianGrid, ScalarField
-from pde.grids.operators.cartesian import _make_derivative
 from scipy.integrate import solve_ivp
 from tqdm import tqdm
 import matplotlib
