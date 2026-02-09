@@ -34,7 +34,8 @@ using either
 `pipx install pipenv`
 or
 `conda install -c conda-forge pipenv`
-or install it via `uv`:
+or install it via `uv`
+`uvx pipenv`, which installs `pipenv` or
 `uvx pipenv install`, which installs `pipenv` and subsequently runs `pipenv install`.
 
 Now you may be running into certain Python version requirements, i.e. the Pipfile requires a Python version that you do not have installed. For this conda can help, e.g.:
