@@ -9,6 +9,8 @@ import h5py
 from LHeureux_model import LMAHeureuxPorosityDiff
 from parameters import Map_Scenario, Solver, Tracker
 from pde import CartesianGrid, ScalarField
+from pde.backends.numba.operators.common import make_derivative
+from pde.backends.numba import numba_backend
 from scipy.integrate import solve_ivp
 from tqdm import tqdm
 import matplotlib
@@ -80,6 +82,12 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     Number_of_depths = pde_parms["N"]
 
     depths = CartesianGrid([[0, max_depth/Xstar]], [Number_of_depths], periodic=False)
+    # We will be needing forward and backward differencing for
+    # Fiadeiro-Veronis differentiation.
+    numba_backend.register_operator(CartesianGrid, "grad_back",
+        lambda grid: make_derivative(grid, method="backward"))
+    numba_backend.register_operator(CartesianGrid, "grad_forw",
+        lambda grid: make_derivative(grid, method="forward"))
     
     # I need those two fields for computing coA, which is rather involved.
     # There may be a simpler way of selecting these depths, but I haven't
