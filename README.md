@@ -28,12 +28,14 @@ cd reactive-transport-model-for-limestone-marl-sequences
 git switch release_v1.0.0
 pipenv install
 ```
-
 For the latter command you need `pipenv` which you can install
 using either
-`pip install pipenv`
-or
-`conda install -c conda-forge pipenv`.
+`pipx install pipenv`
+or something similar or equal to
+`conda install -c conda-forge pipenv`
+or install it via `uv`
+`uvx pipenv`, which installs `pipenv` or
+`uvx pipenv install`, which installs `pipenv` and subsequently runs `pipenv install`.
 
 Now you may be running into certain Python version requirements, i.e. the Pipfile requires a Python version that you do not have installed. For this conda can help, e.g.:
 `conda create -n py311 python=3.11 anaconda` to create a Conda Python 3.11 environment. 
