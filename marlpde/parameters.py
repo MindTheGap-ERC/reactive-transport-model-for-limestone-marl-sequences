@@ -1,10 +1,9 @@
 from dataclasses import (dataclass, make_dataclass, fields)
-from pint import UnitRegistry
+from pint import UnitRegistry, Quantity
 import numpy as np
 from scipy.sparse import lil_matrix, dia_matrix, csr_matrix
 
 u = UnitRegistry()
-quantity = u.Quantity
 
 def no_init_docs(cls):
     cls.__init__.__doc__ = "@private"
@@ -18,39 +17,39 @@ class Scenario:
     L'Heureux (2018). Strictly, the initial and boundary porosities are not
     part of the Scenario parameters, but they are included here.
     """
-    mua: quantity    = 100.09 * u.g/u.mol
-    rhoa: quantity   = 2.95 * u.g/u.cm**3
-    rhoc: quantity   = 2.71 * u.g/u.cm**3
-    rhot: quantity   = 2.8 * u.g/u.cm**3
-    rhow: quantity   = 1.023 * u.g/u.cm**3
-    D0ca: quantity   = 131.9 * u.cm**2/u.a
-    D0co3: quantity  = 272.6 * u.cm**2/u.a
-    Ka: quantity     = 10**(-6.19) * u.M**2
-    Kc: quantity     = 10**(-6.37) * u.M**2
-    beta: quantity   = 0.1 * u.cm / u.a
-    b: quantity      = 5.0 / u.kPa
-    k1: quantity     = 1.0 / u.a
-    k2: quantity     = 1.0 / u.a
-    k3: quantity     = 0.1 / u.a
-    k4: quantity     = 0.1 / u.a
-    nn: quantity     = 2.8 * u.dimensionless
-    m: quantity      = 2.48 * u.dimensionless
-    S: quantity      = 0.1 * u.cm / u.a
-    # cAthy: quantity  = 0.1 * u.dimensionless
-    phiinf: quantity = 0.01 * u.dimensionless
-    phi0: quantity   = 0.8 * u.dimensionless
-    ca0: quantity    = 0.326e-3 * u.M
-    co30: quantity   = 0.326e-3 * u.M
-    ccal0: quantity  = 0.3 * u.dimensionless
-    cara0: quantity  = 0.6 * u.dimensionless
-    xdis: quantity   = 50.0 * u.cm       # x_d   (start of dissolution zone)
-    length: quantity = 500.0 * u.cm
-    Th: quantity     = 100.0 * u.cm      # h_d   (height of dissolution zone)
-    phi00: quantity  = 0.8 * u.dimensionless
-    ca00: quantity   = 0.326e-3 * u.M    # sqrt(Kc) / 2
-    co300: quantity  = 0.326e-3 * u.M    # sqrt(Kc) / 2
-    ccal00: quantity = 0.3 * u.dimensionless
-    cara00: quantity = 0.6 * u.dimensionless
+    mua: Quantity    = 100.09 * u.g/u.mol
+    rhoa: Quantity   = 2.95 * u.g/u.cm**3
+    rhoc: Quantity   = 2.71 * u.g/u.cm**3
+    rhot: Quantity   = 2.8 * u.g/u.cm**3
+    rhow: Quantity   = 1.023 * u.g/u.cm**3
+    D0ca: Quantity   = 131.9 * u.cm**2/u.a
+    D0co3: Quantity  = 272.6 * u.cm**2/u.a
+    Ka: Quantity     = 10**(-6.19) * u.M**2
+    Kc: Quantity     = 10**(-6.37) * u.M**2
+    beta: Quantity   = 0.1 * u.cm / u.a
+    b: Quantity      = 5.0 / u.kPa
+    k1: Quantity     = 1.0 / u.a
+    k2: Quantity     = 1.0 / u.a
+    k3: Quantity     = 0.1 / u.a
+    k4: Quantity     = 0.1 / u.a
+    nn: Quantity     = 2.8 * u.dimensionless
+    m: Quantity      = 2.48 * u.dimensionless
+    S: Quantity      = 0.1 * u.cm / u.a
+    # cAthy: Quantity  = 0.1 * u.dimensionless
+    phiinf: Quantity = 0.01 * u.dimensionless
+    phi0: Quantity   = 0.8 * u.dimensionless
+    ca0: Quantity    = 0.326e-3 * u.M
+    co30: Quantity   = 0.326e-3 * u.M
+    ccal0: Quantity  = 0.3 * u.dimensionless
+    cara0: Quantity  = 0.6 * u.dimensionless
+    xdis: Quantity   = 50.0 * u.cm       # x_d   (start of dissolution zone)
+    length: Quantity = 500.0 * u.cm
+    Th: Quantity     = 100.0 * u.cm      # h_d   (height of dissolution zone)
+    phi00: Quantity  = 0.8 * u.dimensionless
+    ca00: Quantity   = 0.326e-3 * u.M    # sqrt(Kc) / 2
+    co300: Quantity  = 0.326e-3 * u.M    # sqrt(Kc) / 2
+    ccal00: Quantity = 0.3 * u.dimensionless
+    cara00: Quantity = 0.6 * u.dimensionless
 
 def Map_Scenario():
     '''
