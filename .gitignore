@@ -5,4 +5,5 @@ __pycache__
 Results
 .vscode/*.json
 *.lock
+!poetry.lock
 docs/*
