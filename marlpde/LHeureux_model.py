@@ -1,4 +1,3 @@
-from pde.grids.operators.cartesian import _make_derivative
 from pde import FieldCollection, ScalarField
 import numpy as np
 from numba import njit
@@ -16,10 +15,6 @@ class LMAHeureuxPorosityDiff():
                  FV_switch):  
         self.no_fields = 5
         self.Depths = Depths    
-        self.Depths.register_operator("grad_back", \
-            lambda grid: _make_derivative(grid, method="backward"))
-        self.Depths.register_operator("grad_forw", \
-            lambda grid: _make_derivative(grid, method="forward"))
         self.delta_x = self.Depths._axes_coords[0][1] - \
                        self.Depths._axes_coords[0][0]
         self.slices_all_fields = slices_all_fields
