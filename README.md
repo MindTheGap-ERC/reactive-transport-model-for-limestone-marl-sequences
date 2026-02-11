@@ -65,7 +65,7 @@ poetry run python marlpde/Evolve_scenario.py
 or
 
 ```
-poetry shell
+poetry env activate
 python marlpde/Evolve_scenario.py
 ```
 
