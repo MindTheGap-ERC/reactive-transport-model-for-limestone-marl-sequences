@@ -78,16 +78,27 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     cCaIni = pde_parms["cCaIni"]
     cCO3Ini = pde_parms["cCO3Ini"]
     PhiIni = pde_parms["PhiIni"]
+    # The backend parameter determines which function should be called to 
+    # determine the right-hand sides of the five pdes. It can be either
+    # a Numpy-based function or a Numba-based function. The latter is 
+    # faster.
+    backend = solver_parms["backend"]
+    # "backend" is not an argument for solve_ivp, so remove it now.
+    del solver_parms["backend"]
+
 
     Number_of_depths = pde_parms["N"]
 
-    depths = CartesianGrid([[0, max_depth/Xstar]], [Number_of_depths], periodic=False)
+    depths = CartesianGrid([[0, max_depth/Xstar]], [Number_of_depths], 
+        periodic=False)
     # We will be needing forward and backward differencing for
     # Fiadeiro-Veronis differentiation.
     numba_backend.register_operator(CartesianGrid, "grad_back",
-        lambda grid: make_derivative(grid, method="backward"))
+        lambda grid, backend=None: make_derivative(grid, method="backward", 
+        backend=backend))
     numba_backend.register_operator(CartesianGrid, "grad_forw",
-        lambda grid: make_derivative(grid, method="forward"))
+        lambda grid, backend=None: make_derivative(grid, method="forward", 
+        backend=backend))
     
     # I need those two fields for computing coA, which is rather involved.
     # There may be a simpler way of selecting these depths, but I haven't
@@ -136,14 +147,6 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
         t0 = solver_parms["t_span"][0]
         end_time = solver_parms["t_span"][1]
         progress_bar_args = [pbar, (end_time - t0) / no_progress_updates, t0]
-
-        # The backend parameter determines which function should be called to 
-        # determine the right-hand sides of the five pdes. It can be either
-        # a Numpy-based function or a Numba-based function. The latter is 
-        # faster.
-        backend = solver_parms["backend"]
-        # "backend" is not an argument for solve_ivp, so remove it now.
-        del solver_parms["backend"]
 
         sol = solve_ivp(eq.fun if backend=="numpy" else eq.fun_numba, 
                         y0=y0, **solver_parms,
