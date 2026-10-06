@@ -6,9 +6,10 @@ import os
 import time
 from datetime import datetime
 import h5py
+import numpy as np
 from LHeureux_model import LMAHeureuxPorosityDiff
 from parameters import Map_Scenario, Solver, Tracker
-from pde import CartesianGrid, ScalarField
+from pde import CartesianGrid, ScalarField, FileStorage
 from pde.backends.numba.operators.common import make_derivative
 from pde.backends.numba import numba_backend
 from scipy.integrate import solve_ivp
@@ -16,6 +17,36 @@ from tqdm import tqdm
 import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use("AGG")
+
+def store_solution(filename, sol, state, equation, parameters):
+    """Write release-compatible fields, metadata, and bottom velocity.
+
+    Times are dimensionless (multiply by Tstar for years). U is reconstructed
+    from bottom porosity at each saved time, not from RHS calls or zero events.
+    Solver event times are retained as additional datasets.
+    """
+    stored_parameters = {k: v for k, v in parameters.items() if k != "jac_sparsity"}
+    stored_parameters.update(
+        successful=bool(sol.success), solver_message=sol.message,
+        backend=parameters["backend"],
+    )
+    storage = FileStorage(filename, info=stored_parameters)
+    snapshot = state.copy()
+    storage.start_writing(snapshot)
+    u_values = np.empty(len(sol.t))
+    try:
+        for index, time_value in enumerate(sol.t):
+            snapshot.data[:] = sol.y[:, index].reshape(snapshot.data.shape)
+            storage.append(snapshot, time=float(time_value))
+            u_values[index] = equation.U_at_bottom(sol.y[:, index])
+    finally:
+        storage.end_writing()
+
+    with h5py.File(filename, "a") as stored:
+        stored.create_dataset("U/U_at_bottom", data=np.column_stack((sol.t, u_values)))
+        for index, event_times in enumerate(sol.t_events):
+            stored.create_dataset(f"event_{index}", data=event_times)
+
 
 def integrate_equations(solver_parms, tracker_parms, pde_parms):
     '''Perform the integration and display and store the results.
@@ -78,16 +109,27 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     cCaIni = pde_parms["cCaIni"]
     cCO3Ini = pde_parms["cCO3Ini"]
     PhiIni = pde_parms["PhiIni"]
+    # The backend parameter determines which function should be called to 
+    # determine the right-hand sides of the five pdes. It can be either
+    # a Numpy-based function or a Numba-based function. The latter is 
+    # faster.
+    backend = solver_parms["backend"]
+    # "backend" is not an argument for solve_ivp, so remove it now.
+    solve_options = {k: v for k, v in solver_parms.items() if k != "backend"}
+
 
     Number_of_depths = pde_parms["N"]
 
-    depths = CartesianGrid([[0, max_depth/Xstar]], [Number_of_depths], periodic=False)
+    depths = CartesianGrid([[0, max_depth/Xstar]], [Number_of_depths], 
+        periodic=False)
     # We will be needing forward and backward differencing for
     # Fiadeiro-Veronis differentiation.
     numba_backend.register_operator(CartesianGrid, "grad_back",
-        lambda grid: make_derivative(grid, method="backward"))
+        lambda grid, backend=None: make_derivative(grid, method="backward", 
+        backend=backend))
     numba_backend.register_operator(CartesianGrid, "grad_forw",
-        lambda grid: make_derivative(grid, method="forward"))
+        lambda grid, backend=None: make_derivative(grid, method="forward", 
+        backend=backend))
     
     # I need those two fields for computing coA, which is rather involved.
     # There may be a simpler way of selecting these depths, but I haven't
@@ -137,16 +179,8 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
         end_time = solver_parms["t_span"][1]
         progress_bar_args = [pbar, (end_time - t0) / no_progress_updates, t0]
 
-        # The backend parameter determines which function should be called to 
-        # determine the right-hand sides of the five pdes. It can be either
-        # a Numpy-based function or a Numba-based function. The latter is 
-        # faster.
-        backend = solver_parms["backend"]
-        # "backend" is not an argument for solve_ivp, so remove it now.
-        del solver_parms["backend"]
-
         sol = solve_ivp(eq.fun if backend=="numpy" else eq.fun_numba, 
-                        y0=y0, **solver_parms,
+                        y0=y0, **solve_options,
                         t_eval= tracker_parms["t_eval"], 
                         events = [eq.zeros, eq.zeros_CA, eq.zeros_CC, \
                         eq.ones_CA_plus_CC, eq.ones_Phi, eq.zeros_U, \
@@ -213,13 +247,7 @@ def integrate_equations(solver_parms, tracker_parms, pde_parms):
     # The third axis, i.e.the time axis, can remain unchanged.
     field_solutions = sol.y.reshape(5, Number_of_depths, sol.y.shape[-1])
 
-    with h5py.File(stored_results, "w") as stored:
-        stored.create_dataset("solutions", data=field_solutions)
-        stored.create_dataset("times", data=sol.t)
-        for event_index, _ in enumerate(sol.t_events):
-            stored.create_dataset("event_" + str(event_index), 
-                                  data=sol.t_events[event_index])
-        stored.attrs.update(stored_parms)
+    store_solution(stored_results, sol, state, eq, stored_parms)
 
     # We will be plotting only the distributions corresponding to the last time.
     # Thus no point in returning all data. Moreover, all data have been saved.

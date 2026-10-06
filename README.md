@@ -69,6 +69,27 @@ poetry env activate
 python marlpde/Evolve_scenario.py
 ```
 
+## HDF5 output
+
+The `Fix_unexpected_keyword_argument_backend` branch writes the same field
+layout as `release_v1.0.0`: `data[time, field, depth]`, with fields ordered as
+CA, CC, cCa, cCO3, Phi, and a separate `times` dataset. Output uses py-pde
+`FileStorage`, including its field metadata and JSON-encoded parameter
+attributes. `Tstar` converts stored dimensionless times to years.
+
+`U/U_at_bottom` contains two columns: dimensionless time and dimensionless
+solid velocity at the deepest grid node. U is calculated from the saved bottom
+porosity using the same expression as the model and the release tracker.
+The `event_0` through `event_6` datasets retain the solver's event times.
+
+`Tracker.no_t_eval` defaults to 1001 snapshots, including the initial and final
+states. U is sampled at these same times; unlike the release tracker, it does
+not have a separate, finer sampling interval. Increase `no_t_eval` when finer
+sampling is needed, especially for U zero crossings and minima. This increases
+memory and output size because all five fields are also sampled more often.
+The solver tolerances and model parameters are independent of this setting.
+Existing result files are not converted; the new layout applies to new runs.
+
 ## Running tests
 
 From the root folder, i.e. the folder you enter after `cd Integrating-diagenetic-equations-using-Python`, either run

@@ -250,8 +250,9 @@ class Tracker:
     no_progress_updates: int = 100_000
 
     # Number of times to evaluate, for storage.
-    # 2 means only initial and end values.
-    no_t_eval: int = 2
+    # 1001 matches the release field sampling: 1000 intervals plus endpoints.
+    # U at the bottom is saved at the same times. Increase this for finer U sampling.
+    no_t_eval: int = 1001
 
 
     # Array with all times that solutions from solve_ivp should be recorded.

@@ -516,6 +516,12 @@ class LMAHeureuxPorosityDiff():
 
         return rate
 
+    def U_at_bottom(self, y):
+        """Dimensionless solid velocity at the deepest node of a flat state."""
+        Phi = y[self.Phi_sl][-1]
+        F = 1 - np.exp(10 - 10 / Phi)
+        return self.presum + self.rhorat * Phi ** 3 * F / (1 - Phi)
+
     def zeros(self, t, y, progress_proxy, progress_dt, t0):
         """ solve_ivp demands that I add these two extra aguments, i.e.
         pbar and state, as in jac, where I need them for 
